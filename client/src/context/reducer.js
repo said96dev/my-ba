@@ -1,4 +1,3 @@
-import React from 'react'
 import { initialState } from "./appContext";
 import {LOGOUT_USER ,TOGGLE_SIDEBAR, CLEAR_ALERT, DISPLAY_ALERT , LOGIN_USER_BEGIN , LOGIN_USER_ERROR , LOGIN_USER_SUCCESS } from './action'
 function AlertReducer(state , action) {

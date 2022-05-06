@@ -16,6 +16,7 @@ const createUser = async (req , res ) => {
     res.status(StatusCodes.CREATED).json({ user , token })
 }
 const getAllUsers = async (req , res ) => {
+    console.log(req.user);
     res.status(201).send("getAllUser")
 }
 const getSingleUser = async (req , res ) => {

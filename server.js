@@ -4,7 +4,6 @@ dotenv.config()
 import express from "express"
 import 'express-async-errors'
 //Middleware
-
 //Error MiddleWare 
 import notFoundMiddleware from "./middleware/not-found.js";
 import errorHandler from "./middleware/error-handler.js";

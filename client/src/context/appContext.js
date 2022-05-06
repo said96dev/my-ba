@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useReducer } from "react";
 import { LOGOUT_USER ,TOGGLE_SIDEBAR,DISPLAY_ALERT , CLEAR_ALERT ,  LOGIN_USER_BEGIN , LOGIN_USER_ERROR , LOGIN_USER_SUCCESS  } from "./action";
 import AlertReducer from "./reducer";
 import axios from "axios";

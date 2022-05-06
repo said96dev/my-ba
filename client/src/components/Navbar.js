@@ -3,7 +3,7 @@ import Wrapper from '../assets/wrappers/Navbar'
 import { FaAlignLeft, FaUserCircle, FaCaretDown  } from "react-icons/fa";
 import { AppContext } from '../context/appContext';
 import Logo from "./Logo";
-
+import {IoIosNotifications} from "react-icons/io"
 function Navbar() {
   const {user , toggleSidebar,logoutUser} = useContext(AppContext)
   const [showLogout, setShowLogout] = useState(false)
@@ -17,7 +17,11 @@ function Navbar() {
       <Logo/>
       <h3 className="logo-text">dashboard</h3>
     </div>
+    
     <div className="btn-container">
+    <div onClick={() => {console.log("Notifications")}} className="notifications">
+      <IoIosNotifications />
+      </div>
       <button className="btn" onClick={() =>setShowLogout(!showLogout)}>
         <FaUserCircle/>
           {user && user.name}

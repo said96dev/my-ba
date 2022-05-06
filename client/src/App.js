@@ -27,7 +27,7 @@ function App() {
             <Route path="add-user" element={<AddUser />} />
             <Route path="all-tasks" element={<AllTasks />} />
             <Route path="profile" element={<Profile />} />
-            <Route path="attendance" element={<Attendance />}/>
+            <Route path="my-attendance" element={<Attendance />}/>
         </Route>
         <Route path ="landing" element={<Landing/>} />
         <Route path ="login" element={ <Login/>} />

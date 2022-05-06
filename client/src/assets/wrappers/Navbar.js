@@ -12,10 +12,11 @@ const Wrapper = styled.nav`
     width: 100px;
   }
   .nav-center {
-    display: flex;
+    display: grid;
     width: 90vw;
     align-items: center;
-    justify-content: space-between;
+    grid-template-columns:1fr 1fr auto ;
+    gap:1rem
   }
   .toggle-btn {
     background: transparent;
@@ -29,17 +30,10 @@ const Wrapper = styled.nav`
   background: var(--white);
   .btn-container {
     position: relative;
-  }
-  .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0 0.5rem;
-    position: relative;
-    box-shadow: var(--shadow-2);
-  }
-
-  .dropdown {
+    display: grid ;
+    grid-template-columns:auto 1fr ;
+    gap: 1rem ;
+    .dropdown {
     position: absolute;
     top: 40px;
     left: 0;
@@ -50,9 +44,12 @@ const Wrapper = styled.nav`
     text-align: center;
     visibility: hidden;
     border-radius: var(--borderRadius);
+    
   }
   .show-dropdown {
     visibility: visible;
+    grid-column-start:2 ;
+    grid-column-end:3 ;
   }
   .dropdown-btn {
     background: transparent;
@@ -62,9 +59,27 @@ const Wrapper = styled.nav`
     text-transform: capitalize;
     cursor: pointer;
   }
+  }
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0 0.5rem;
+    position: relative;
+    box-shadow: var(--shadow-2);
+  }
   .logo-text {
     display: none;
     margin: 0;
+  }
+  .notifications{
+    background: transparent;
+    border-color: transparent;
+    font-size: 1.75rem;
+    color: var(--primary-500);
+    cursor: pointer;
+    display: flex;
+    justify-self: end;
   }
   @media (min-width: 992px) {
     position: sticky;

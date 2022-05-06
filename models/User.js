@@ -52,7 +52,7 @@ const UserSchema = new mongoose.Schema({
   })
   
   UserSchema.methods.createJWT = function () {
-    return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
+    return jwt.sign({ userId: this._id , role:this.role , name:this.name}, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_LIFETIME,
     })
   }
