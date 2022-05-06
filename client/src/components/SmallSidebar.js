@@ -18,7 +18,11 @@ export const SmallSidebar = () => {
           <header>
             <Logo />
           </header>
-          <NavLinks />
+          {
+            showSidebar && 
+            <NavLinks toggleSidebar={toggleSidebar} />
+          }
+          
         </div>
       </div>
     </Wrapper>
