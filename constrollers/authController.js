@@ -1,6 +1,7 @@
 import User from "../models/User.js"
 import {StatusCodes} from "http-status-codes"
 import {BadRequestError , NotFoundError , UnauthenticatedError } from "../errors/index.js"
+import createTokenUser from "../utils/createTokenUser.js"
 
 const login = async (req , res) => {
     const {email , password } = req.body
@@ -15,11 +16,10 @@ const login = async (req , res) => {
     if(!isPasswordCorrect){
         throw new UnauthenticatedError ("Invalid Credentials")
     }
-    const token = user.createJWT()
+    const tokenUser = createTokenUser(user)
+    const token = user.createJWT(tokenUser);
     user.password = undefined
-    res.status(StatusCodes.OK).json({user , token })
+    res.status(StatusCodes.CREATED).json({ user , token })
 }
-const logout  = async (req , res) => {
-    res.json({msg:"logout"})
-}
-export {login , logout}
+
+export {login }

@@ -5,6 +5,7 @@ const Wrapper = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index:10;
   box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0.1);
   .logo {
     display: flex;
@@ -12,11 +13,10 @@ const Wrapper = styled.nav`
     width: 100px;
   }
   .nav-center {
-    display: grid;
+    display: flex;
     width: 90vw;
     align-items: center;
-    grid-template-columns:1fr 1fr auto ;
-    gap:1rem
+    justify-content: space-between;
   }
   .toggle-btn {
     background: transparent;
@@ -30,10 +30,24 @@ const Wrapper = styled.nav`
   background: var(--white);
   .btn-container {
     position: relative;
-    display: grid ;
-    grid-template-columns:auto 1fr ;
+    display:grid ;
+    grid-template-columns:auto auto ;
+    font-size:1.75rem ;
+    align-items:center ;
     gap: 1rem ;
-    .dropdown {
+  }
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0 0.5rem;
+    position: relative;
+    box-shadow: var(--shadow-2);
+    border-radius:1rem ;
+
+  }
+
+  .dropdown {
     position: absolute;
     top: 40px;
     left: 0;
@@ -44,12 +58,9 @@ const Wrapper = styled.nav`
     text-align: center;
     visibility: hidden;
     border-radius: var(--borderRadius);
-    
   }
   .show-dropdown {
     visibility: visible;
-    grid-column-start:2 ;
-    grid-column-end:3 ;
   }
   .dropdown-btn {
     background: transparent;
@@ -59,27 +70,18 @@ const Wrapper = styled.nav`
     text-transform: capitalize;
     cursor: pointer;
   }
-  }
-  .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0 0.5rem;
-    position: relative;
-    box-shadow: var(--shadow-2);
-  }
   .logo-text {
     display: none;
     margin: 0;
   }
-  .notifications{
+  .notifications {
     background: transparent;
     border-color: transparent;
     font-size: 1.75rem;
     color: var(--primary-500);
     cursor: pointer;
     display: flex;
-    justify-self: end;
+    align-items: center;
   }
   @media (min-width: 992px) {
     position: sticky;

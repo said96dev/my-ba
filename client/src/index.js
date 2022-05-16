@@ -6,14 +6,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AppProvider from './context/appContext';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <AppProvider>
-        <App />
-    </AppProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+
+ReactDOM.render(<AppProvider>
+  <App />
+</AppProvider>, document.getElementById('root'))
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

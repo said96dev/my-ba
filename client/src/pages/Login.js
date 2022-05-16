@@ -10,12 +10,13 @@ const initialState = {
 }
 
 function Login() {
-  const  {user , isLoading , showAlert , displayAlert , loginUser } = useContext(AppContext)
+  const  {user , isLoading , showAlert , displayAlert , loginUser, getUsers } = useContext(AppContext)
   const [values , setValues] = useState(initialState)
   const navigate = useNavigate();
   // global state and useNavigate
   useEffect (() => {
     if(user){
+      
       setTimeout(()=>{
         navigate("/")
       } , 3000)
@@ -50,8 +51,10 @@ function Login() {
           Login
         </h3>
         {showAlert && <Alert/>}
+        <div className='form-row'>
         <FormRow type="email" name = "email"  value={values.email} handleChange={handleChange} />
         <FormRow type="password" name = "password"  value={values.password} handleChange={handleChange} />
+        </div>
         <button type='submit' className='btn btn-block' disabled={isLoading}>submit</button>
       </form>
     </Wrapper>

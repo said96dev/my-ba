@@ -1,6 +1,7 @@
 import React  , {useContext , useState} from 'react'
 import Wrapper from '../assets/wrappers/Navbar'
-import { FaAlignLeft, FaUserCircle, FaCaretDown  } from "react-icons/fa";
+import { FaAlignLeft, FaUserCircle} from "react-icons/fa";
+import {FiSettings} from "react-icons/fi"
 import { AppContext } from '../context/appContext';
 import Logo from "./Logo";
 import {IoIosNotifications} from "react-icons/io"
@@ -23,9 +24,8 @@ function Navbar() {
       <IoIosNotifications />
       </div>
       <button className="btn" onClick={() =>setShowLogout(!showLogout)}>
-        <FaUserCircle/>
-          {user && user.name}
-        <FaCaretDown/>
+        <FaUserCircle />
+        <FiSettings />
       </button>
       <div className={showLogout? "dropdown show-dropdown" : "dropdown"}>
         <button onClick={logoutUser} className="dropdown-btn">

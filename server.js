@@ -12,14 +12,17 @@ import connectDB from "./db/connect.js"
 
 //Router
 import authRouter from "./routes/authRouter.js"
-import userRouter from "./routes/usreRouter.js"
+import userRouter from "./routes/userRouter.js"
+import taskRouter from "./routes/taskRouter.js"
 
+//authentication
+import { authentication } from "./middleware/authentication.js";
 
 const app = express () ; 
 app.use(express.json())
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/users", userRouter)
-
+app.use("/api/v1/tasks" ,authentication ,taskRouter)
 app.get("/" , (req , res ) => {
     res.send("Welcome")
 })

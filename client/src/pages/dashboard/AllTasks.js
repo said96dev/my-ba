@@ -1,8 +1,22 @@
-import React from 'react'
+import React , {useState} from 'react'
+import {PageHeader , TasksTable , Popup , AddTask} from "../../components"
 
 function AllTasks() {
+  const [openPopup, setOpenPopup] = useState(false)
+
   return (
-    <div>AllTasks</div>
+    <>
+    <PageHeader name={"Tasks"} openPopup={openPopup} setOpenPopup = {setOpenPopup}/>
+    <TasksTable/>
+    <Popup
+    openPopup={openPopup}
+    setOpenPopup={setOpenPopup}
+    title="Add Task"
+    width = "md"
+    >
+      <AddTask/>
+    </Popup>
+    </>
   )
 }
 

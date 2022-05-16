@@ -19,30 +19,24 @@ const links = [
     },
     {
       id: 3,
-      text: "add task",
-      path: "add-task",
-      icon: <MdAddTask />,
-    },
-    {
-      id: 4,
       text: "Employee List  ",
       path: "all-users",
       icon: <FaUsers />,
     },
     {
-      id: 5,
+      id: 4,
       text: "add Employee ",
       path: "add-user",
       icon: <RiUserAddFill />,
     },
     {
-      id: 6,
+      id: 5,
       text: "My attendance",
       path: "my-attendance",
       icon: <MdOutlineMoreTime />,
     },
     {
-      id: 7,
+      id: 6,
       text: "profile",
       path: "profile",
       icon: <ImProfile />,

@@ -2,7 +2,7 @@ import React from "react";
 import {Landing , Error , Login , ProtectedRoute } from "./pages"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
-  AddTask,
+
   AddUser,
   AllTasks,
   AllUsers,
@@ -22,7 +22,6 @@ function App() {
           </ProtectedRoute>
           }>
             <Route index  element={<Stats />} />
-            <Route path="add-task" element={<AddTask />} />
             <Route path="all-users" element={<AllUsers />} />
             <Route path="add-user" element={<AddUser />} />
             <Route path="all-tasks" element={<AllTasks />} />
