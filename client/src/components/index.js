@@ -21,4 +21,5 @@ import AddTask from "./AddTask"
 import ActionButton from "./ActionButton"
 import DeletePopup from "./DeletePopup"
 import EditPopup from "./EditPopup"
-export {Logo , FormRow , Alert , Navbar, SmallSidebar,SearchContainer, BigSidebar,FormRowSelect , UsersContainer , PageBtnContainer , PageHeader , TasksTable, Date , Loading , Popup , SelectUser , Checkbox , RadioGroup ,AddTask , DatePicker , ActionButton , DeletePopup , EditPopup}
+import AvatarImg from "./AvatarImg"
+export {Logo , FormRow , Alert , Navbar, SmallSidebar,SearchContainer, BigSidebar,FormRowSelect , UsersContainer , PageBtnContainer , PageHeader , TasksTable, Date , Loading , Popup , SelectUser , Checkbox , RadioGroup ,AddTask , DatePicker , ActionButton , DeletePopup , EditPopup , AvatarImg}

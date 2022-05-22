@@ -1,8 +1,9 @@
 import React, { useReducer } from "react";
 import { LOGOUT_USER ,TOGGLE_SIDEBAR,DISPLAY_ALERT , CLEAR_ALERT ,  LOGIN_USER_BEGIN , LOGIN_USER_ERROR , LOGIN_USER_SUCCESS, UPDATE_USER_BEGIN , UPDATE_USER_SUCCESS , UPDATE_USER_ERROR, HANDLE_CHANGE, CLEAR_FILTERS,
   ADD_USER_BEGIN , ADD_USER_SUCCESS , ADD_USER_ERROR, CLEAR_VALUES, GET_ALL_USERS_BEGIN,GET_ALL_USERS_SUCCESS , CHANGE_PAGE,GET_ALL_TASKS_SUCCESS, GET_ALL_TASKS_BEGIN,
-  ADD_TASK_BEGIN , ADD_TASK_ERROR , ADD_TASK_SUCCESS
-  ,DELETE_TASK_BEGIN } from "./action";
+  ADD_TASK_BEGIN , ADD_TASK_ERROR , ADD_TASK_SUCCESS ,EDIT_TASK_BEGIN
+  ,DELETE_TASK_BEGIN, ADD_COMMENT_BEGIN, DELETE_COMMENT_BEGIN , UPDATE_COMMENT_BEGIN ,
+  GET_TASK_BEGIN ,GET_TASK_ERROR , GET_TASK_SUCCESS } from "./action";
 import AlertReducer from "./reducer";
 import axios from "axios";
 
@@ -47,9 +48,10 @@ export const initialState = {
     description: "", 
     taskStatus:"fresh",
     deadline: Date.now(),
-    remark:[],
     assignedTo: "" ,
-    assignedToOptionen:[]
+    assignedToOptionen:[] , 
+    oneTask : {} , 
+    totalComments : 0 ,
 
 };
 
@@ -81,7 +83,8 @@ const AppProvider = ({children}) => {
       (error) => {
         // console.log(error.response)
         if (error.response.status === 401) {
-          logoutUser()
+          //logoutUser()
+          console.log("error")
         }
         return Promise.reject(error)
       }
@@ -252,7 +255,7 @@ const AppProvider = ({children}) => {
           }
         })
       } catch (error) {
-        loginUser()
+        //logoutUser()
       }
       clearAlert()
     }
@@ -277,6 +280,26 @@ const AppProvider = ({children}) => {
       }
       clearAlert()
     }
+    //Single Task 
+    const singleTask = async (taskId) => {
+      dispatch({type: GET_TASK_BEGIN})
+      try {
+        const {data}  =  await authFetch(`tasks/${taskId}`)
+        const {task , totalComments} = data
+      dispatch({type: GET_TASK_SUCCESS , 
+      payload:{
+        task , 
+        totalComments
+      }
+      })
+
+      } catch (error) {
+        dispatch({
+          type : GET_TASK_ERROR,
+          payload: {msg:error.response.data.msg}
+        })
+      } 
+    }
 
     //delete Task 
     const deleteTask = async (taskId) => {
@@ -285,14 +308,44 @@ const AppProvider = ({children}) => {
         await authFetch.delete(`tasks/${taskId}`)
         getTasks()
       } catch (error) {
-        loginUser();
+        //logoutUser();
       }
     }
 
     //edit Task 
-    const editTask = async (taskId) => {
-      console.log(`edit : ${taskId}`)
+    const editTask = async (taskId , currentTask ) => {
+      dispatch({type: EDIT_TASK_BEGIN})
+      try{
+        await authFetch.patch(`tasks/${taskId}` , currentTask)
+        getTasks()
+      }
+      catch (error){
+        //logoutUser()
+      }
     }
+
+    //add Commnet
+    const createComment = async (newComment) => {
+      dispatch({type: ADD_COMMENT_BEGIN})
+      try {
+        await authFetch.post("comments" , newComment)
+        singleTask(newComment.taskId)
+      } catch (error) {
+        //logoutUser()
+      }
+    }
+
+    //Delete Commnet
+    const deleteComment = async (commentId , taskId) => {
+      dispatch({type: DELETE_COMMENT_BEGIN})
+      try {
+        await authFetch.delete(`comments/${commentId}`)
+        singleTask(taskId)
+      } catch (error) {
+        //logoutUser()
+      }
+    }
+
 
 
     return (
@@ -313,6 +366,9 @@ const AppProvider = ({children}) => {
         addTask , 
         deleteTask ,
         editTask ,
+        singleTask,
+        createComment,
+        deleteComment
         }}>
             {children}
         </AppContext.Provider>

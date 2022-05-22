@@ -1,10 +1,10 @@
 import { FormControl, InputLabel, Select as MuiSelect, MenuItem } from '@material-ui/core';
 
 
-const FormRowSelect = ({ labelText, name, value, handleChange, list }) => {
+const FormRowSelect = ({ labelText, name, value, handleChange, list , className }) => {
   return (
     <>
-      <FormControl variant="outlined">
+      <FormControl variant="outlined" className= {`form-input ${className}`} >
           <InputLabel>{labelText || name}</InputLabel>
           <MuiSelect
               label={labelText || name}
@@ -23,11 +23,9 @@ const FormRowSelect = ({ labelText, name, value, handleChange, list }) => {
             getContentAnchorEl: null
           }}
               >
-              
-              <MenuItem value="">None</MenuItem>
+
               {list.map((itemValue, index) => {
-                return (
-                  
+                return (               
                   (<MenuItem key={index} value={itemValue}>
                       {itemValue}
                   </MenuItem>)

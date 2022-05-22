@@ -16,8 +16,8 @@ const Wrapper = styled.section`
   .form-center {
     display: grid;
     grid-template-columns: 1fr;
-    column-gap: 2rem;
-    row-gap: 0.5rem;
+    column-gap: 1rem;
+    row-gap: 2rem;
   }
   h5 {
     font-weight: 700;
@@ -25,6 +25,10 @@ const Wrapper = styled.section`
   .btn-block {
     align-self: end;
     margin-top: 1rem;
+  }
+  .btn-container {
+    display:flex ;
+    gap:1rem ;
   }
   @media (min-width: 768px) {
     .form-center {

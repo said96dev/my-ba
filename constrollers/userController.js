@@ -55,10 +55,14 @@ const getAllUsers = async (req , res ) => {
 const updateUser = async (req , res ) => {
     const { name ,email,lastName,position,role,street ,
     state ,zipCode,city} = req.body
-    if(!name ||!email) {
+ if(!name ||!email) {
         throw new BadRequestError("Plesae provide all values")
-    }
+    } 
     const user = await User.findOne({_id:req.user.userId})
+
+  if (!user) {
+    throw new NotFoundError(`Please Try again`)
+  }
     user.email = email 
     user.name = name 
     user.lastName = lastName

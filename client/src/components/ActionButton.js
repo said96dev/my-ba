@@ -23,13 +23,14 @@ const useStyles = makeStyles(theme => ({
 
 function ActionButton(props) {
 
-    const { color, children, onClick } = props;
+    const { color, children, onClick , textAlign } = props;
     const classes = useStyles();
 
     return (
         <Button
             className={`${classes.root} ${classes[color]}`}
-            onClick={onClick}>
+            onClick={onClick}
+            >
             {children}
         </Button>
     )

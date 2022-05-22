@@ -1,3 +1,4 @@
+import morgan from "morgan";
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -14,15 +15,21 @@ import connectDB from "./db/connect.js"
 import authRouter from "./routes/authRouter.js"
 import userRouter from "./routes/userRouter.js"
 import taskRouter from "./routes/taskRouter.js"
-
+import commentRouter from "./routes/commentRouter.js"
 //authentication
 import { authentication } from "./middleware/authentication.js";
 
 const app = express () ; 
 app.use(express.json())
+
+if (process.env.NODE_ENV !== "production") {
+    app.use(morgan("dev"));
+  }
+
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/tasks" ,authentication ,taskRouter)
+app.use("/api/v1/comments" ,authentication ,commentRouter)
 app.get("/" , (req , res ) => {
     res.send("Welcome")
 })

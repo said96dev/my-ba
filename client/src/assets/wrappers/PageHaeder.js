@@ -27,5 +27,18 @@ const Wrapper = styled.section`
   .icon {
       font-size:1.5rem ;
   }
+  @media (max-width: 600px) {
+    .btn{
+      font-size:1rem ;
+      padding: 0rem .8rem  ;
+    }
+    .icon{
+      display:none ;
+    }
+    h3{
+      font-size:1.3rem ;
+    }
+  }
+
   `
 export default Wrapper

@@ -11,18 +11,9 @@ const TaskSchema = new mongoose.Schema({
         ref: 'User',
         required: [true, 'Please provide Employee']
     },
-    /* project: {
-        type: mongoose.Types.ObjectId,
-        ref: 'Project',
-        //required: [true, 'Please provide Project']
-    }, */
     deadline:{
         type:Date,
         default:Date.now()
-    },
-    remark:{
-        type: String,
-        default:""
     },
     taskStatus:{
         type : String ,
@@ -48,5 +39,15 @@ const TaskSchema = new mongoose.Schema({
     }
     
 }, 
-{ timestamps: true })
+{ timestamps: true , toJSON: { virtuals: true }, toObject: { virtuals: true } })
+
+
+TaskSchema.virtual('comment', {
+    ref: 'Comment',
+    localField: '_id',
+    foreignField: 'taskId',
+    justOne: false,
+});
+
+
 export default mongoose.model('Task', TaskSchema)

@@ -1,6 +1,6 @@
 import { useState , useContext } from 'react'
-import { FormRow, Alert } from '../../components'
-import { AppContext, initialState } from '../../context/appContext'
+import { FormRow, Alert ,PageHeader } from '../../components'
+import { AppContext } from '../../context/appContext'
 import Wrapper from '../../assets/wrappers/ProfilePage'
 const Profile = () => {
   const { user, showAlert, displayAlert, isLoading , updateUser } =useContext(AppContext)
@@ -32,9 +32,10 @@ const Profile = () => {
     setValues({...values , [e.target.name] : e.target.value})
   }
   return (
+    <>
+    <PageHeader name={"Profile"}/>
     <Wrapper>
       <form className='form' onSubmit={handleSubmit}>
-        <h3>profile</h3>
         {showAlert && <Alert />}
         <h5 className='section-title'>Personal Details</h5>
         <div className='form-center'>     
@@ -65,6 +66,7 @@ const Profile = () => {
             value={values.position}
             handleChange={handleChange}
             labelText='Position'
+            readOnly={true}
           />
           <FormRow
             type='text'
@@ -72,6 +74,7 @@ const Profile = () => {
             labelText='Role'
             value={values.role}
             handleChange={handleChange}
+            readOnly={true}
           />
         </div>
         <hr />
@@ -111,6 +114,7 @@ const Profile = () => {
         </div>
       </form>
     </Wrapper>
+    </>
   )
 }
 

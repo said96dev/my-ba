@@ -35,13 +35,6 @@ function AddTask() {
             value={title}
             handleChange={handleCreateTaskInput}
           />
-          <FormRow
-            type='text'
-            name='remark'
-            labelText='remark'
-            value={remark}
-            handleChange={handleCreateTaskInput}
-          />
           <FormRowSelect
             labelText='Priority'
             name='taskPriority'
@@ -74,6 +67,7 @@ function AddTask() {
       name='deadline'
       value={deadline}
       handleChange={handleCreateTaskInput}
+      disablePast = {true}
       />
       </div>
       <div>

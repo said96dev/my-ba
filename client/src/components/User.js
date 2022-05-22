@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import Wrapper from "../assets/wrappers/User";
 import { AppContext } from "../context/appContext";
 import UserInfo from "./UserInfon";
-const Job = ({
+const User = ({
   _id,
   name,
   position,
@@ -59,4 +59,4 @@ const Job = ({
   );
 };
 
-export default Job;
+export default User;

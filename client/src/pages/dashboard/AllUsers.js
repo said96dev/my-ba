@@ -4,7 +4,7 @@ import {SearchContainer , UsersContainer , PageHeader} from "../../components"
 function AllUsers() {
   return (
     <div>
-      <PageHeader name={"Users"}/>
+      <PageHeader name={"Employee"}/>
       <SearchContainer/>
       <UsersContainer/>
     </div>

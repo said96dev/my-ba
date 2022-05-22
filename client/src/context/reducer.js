@@ -1,7 +1,7 @@
 import { initialState } from "./appContext";
 import {LOGOUT_USER ,TOGGLE_SIDEBAR, CLEAR_ALERT, DISPLAY_ALERT , LOGIN_USER_BEGIN , LOGIN_USER_ERROR , LOGIN_USER_SUCCESS ,HANDLE_CHANGE,
-UPDATE_USER_BEGIN , UPDATE_USER_SUCCESS , UPDATE_USER_ERROR , ADD_USER_BEGIN , ADD_USER_ERROR , ADD_USER_SUCCESS ,  CLEAR_VALUES , CLEAR_FILTERS , GET_ALL_USERS_BEGIN , GET_ALL_USERS_SUCCESS , CHANGE_PAGE , GET_ALL_TASKS_SUCCESS, GET_ALL_TASKS_BEGIN,
-ADD_TASK_BEGIN , ADD_TASK_ERROR , ADD_TASK_SUCCESS 
+UPDATE_USER_BEGIN , UPDATE_USER_SUCCESS , UPDATE_USER_ERROR , ADD_USER_BEGIN , ADD_USER_ERROR , ADD_USER_SUCCESS ,  CLEAR_VALUES , CLEAR_FILTERS , GET_ALL_USERS_BEGIN , GET_ALL_USERS_SUCCESS , CHANGE_PAGE , GET_ALL_TASKS_SUCCESS, GET_ALL_TASKS_BEGIN,ADD_COMMENT_BEGIN , DELETE_COMMENT_BEGIN , UPDATE_COMMENT_BEGIN,
+ADD_TASK_BEGIN , ADD_TASK_ERROR , ADD_TASK_SUCCESS , GET_TASK_BEGIN ,GET_TASK_ERROR , GET_TASK_SUCCESS , EDIT_TASK_BEGIN
 ,DELETE_TASK_BEGIN 
 } from './action'
 function AlertReducer(state , action) {
@@ -192,7 +192,47 @@ function AlertReducer(state , action) {
       isLoading:true
     }
   }
-
+  if(action.type === EDIT_TASK_BEGIN){
+    return{
+      ...state , 
+      isLoading:true
+    }
+  }
+  if(action.type === GET_TASK_BEGIN){
+    return{
+      ...state , 
+      isLoading:true
+    }
+  }
+  if(action.type === GET_TASK_SUCCESS){
+    return{
+      ...state , 
+      isLoading:false , 
+      oneTask : action.payload.task,
+      totalComments : action.payload.totalComments
+    }
+  }
+  if(action.type === GET_TASK_ERROR) {
+    return {
+      ...state , 
+      isLoading : false , 
+      alertType : "danger", 
+      alertText : action.payload.msg,
+      showAlert : true
+    }
+  }
+  if(action.type === ADD_COMMENT_BEGIN){
+    return {
+      ...state , 
+      isLoading:true
+    }
+  }
+  if(action.type === DELETE_COMMENT_BEGIN){
+    return {
+      ...state , 
+      isLoading:true
+    }
+  }
 }
 
 export default AlertReducer

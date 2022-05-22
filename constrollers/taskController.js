@@ -7,7 +7,7 @@ import checkPermissions from "../utils/checkPermissions.js"
 const createTask = async (req , res ) => {
     req.body.createdBy = req.user.userId
     const task = await Task.create(req.body)
-    res.status(StatusCodes.OK).json({task})
+    res.status(StatusCodes.CREATED).json({task})
 }
 const deleteTask = async (req  , res ) => {
     const {id: taskId} = req.params ; 
@@ -25,27 +25,38 @@ const deleteTask = async (req  , res ) => {
 
 const getSingleTask = async (req , res) =>{
     const {id: taskId} = req.params ; 
-    const task = await Task.findOne({_id:taskId})
+    const task = await Task.findOne({_id:taskId}).populate('comment').populate({
+        path:"createdBy" ,
+        select: "name"
+    }).populate({
+        path:"assignedTo" ,
+        select: "name"
+    });
+
     if(!task){
         throw new NotFoundError(`No Task with id : ${taskId}`)
     }
-    checkPermissions(req.user , task.createdBy)
-    res.status(StatusCodes.OK).json({task})
+    checkPermissions(req.user , task.assignedTo.id)
+    const totalComments = task.comment.length 
+    res.status(StatusCodes.OK).json({totalComments , task })
 }
 
 
 const updateTask = async (req , res ) => {
-    const {id: taskId } = req.params;
+    const {id : taskId} = req.params ; 
     const temp = await Task.findOne({_id:taskId})
-    if(!temp){
-        throw new NotFoundError(`No Task with id : ${taskId}`)
-    }
-    checkPermissions(req.user , temp.createdBy)
+    checkPermissions(req.user , temp.assignedTo)
     const task = await Task.findOneAndUpdate({ _id: taskId }, req.body, {
         new: true,
         runValidators: true,
     });
-    res.status(StatusCodes.OK).json({task})}
+    if(!task) {
+        throw new NotFoundError (`No Task with id ${taskId}`)
+    }
+    res.status(StatusCodes.OK).json({task})
+
+
+}
 
 const getAllTasks = async (req , res) => {
     const users = await User.find({}).select("name , lastName").sort("+ name ")
@@ -66,7 +77,7 @@ const getAllTasks = async (req , res) => {
             select: "name -_id"
         }).populate({
             path:"assignedTo" ,
-            select: "name-_id"
+            select: "name -_id"
         })
         const totalTasks = await Task.countDocuments({assignedTo:req.user.userId});
         res.status(StatusCodes.OK).json({totalTasks , task , users})

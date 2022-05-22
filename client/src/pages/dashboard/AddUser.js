@@ -1,7 +1,7 @@
 import React , {useContext} from 'react'
 import { AppContext } from '../../context/appContext'
-import Wrapper from '../../assets/wrappers/ProfilePage'
-import { FormRow, Alert ,FormRowSelect } from '../../components'
+import Wrapper from '../../assets/wrappers/SearchContainer'
+import { FormRow, Alert ,FormRowSelect,PageHeader } from '../../components'
 function AddUser() {
   const {showAlert , isLoading , handleChange , addUser , name , role , position, email, lastName, positionOptions, roleOptions, password,type,typeOptions,gender,department,departmentOptions,clearValues} = useContext(AppContext)
 
@@ -15,9 +15,10 @@ function AddUser() {
     handleChange({ name, value })
   }
   return (
+    <>
+    <PageHeader name={"Add Employee"}/>
     <Wrapper>
       <form className='form'  onSubmit={handleSubmit}>
-        <h3>Add Employee</h3>
         {showAlert && <Alert />}
         <div className="form-center">
           <FormRow
@@ -86,13 +87,14 @@ function AddUser() {
           <div className="btn-container">
               <button disabled={isLoading} className="btn btn-block submit-btn" type='submit' onClick={handleSubmit}>{isLoading ? 'Please Wait...' : 'submit'}
               </button>
-              <button className="btn btn-block clear-btn" onClick={(e) => {
+              <button className="btn btn-block btn-danger" onClick={(e) => {
               e.preventDefault();
               clearValues();}}>clear</button>
           </div>
         </div>
       </form>  
     </Wrapper>
+    </>
   )
 }
 
