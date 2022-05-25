@@ -63,14 +63,14 @@ function EditPopup({ taskId ,setOpenEditPopup }) {
           type='text'
           name='createdBy'
           labelText='Task Owner'
-          value={values.createdBy.name}
+          value={`${values.createdBy.name } ${values.createdBy.lastName}` } 
           readOnly={true}
         />
         <FormRow
           type='text'
           name='assignedTo'
           labelText='Responsible User'
-          value={values.assignedTo.name}
+          value={`${values.assignedTo.name} ${values.assignedTo.lastName}`}
           readOnly={true}
           className="full-row"
         />
@@ -80,7 +80,7 @@ function EditPopup({ taskId ,setOpenEditPopup }) {
           value={values.deadline}
           readOnly={false}
           handleChange={handleChange}
-
+          disablePast = {true}
         />
         <DatePicker
           labelText='Start Date'

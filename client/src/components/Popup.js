@@ -3,10 +3,11 @@ import { Dialog, DialogTitle, DialogContent, makeStyles, Typography } from '@mat
 import CloseIcon from '@material-ui/icons/Close';
 import ActionButton from "./ActionButton"
 
-const useStyles = makeStyles(theme => ({
+const useStyles = props => makeStyles(theme => ({
     dialogWrapper: {
         padding: theme.spacing(2),
         position: 'absolute',
+        top:theme.spacing(props.top || 0) 
     },
     dialogTitle: {
         paddingRight: '0px'
@@ -15,8 +16,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function Popup(props) {
 
-    const { title, children, openPopup, setOpenPopup ,width ,  } = props;
-    const classes = useStyles();
+    const { title, children, openPopup, setOpenPopup ,width , date  } = props;
+
+
+    const classes = useStyles(props)();
 
     return (
         <Dialog open={openPopup} maxWidth={width || "sm"}  fullWidth
@@ -24,7 +27,7 @@ export default function Popup(props) {
             <DialogTitle className={classes.dialogTitle}>
             <div style={{ display: 'flex' }}>
                     <Typography variant="h4" component="div" style={{ flexGrow: 1 }}>
-                        {title}
+                        {title}  {date}
                     </Typography>
                     <ActionButton color="secondary" className="btn-danger"
                         onClick={()=>{setOpenPopup(false)}}>

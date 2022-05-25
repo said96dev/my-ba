@@ -10,7 +10,6 @@ function FormRow({type , name , value , handleChange ,labelText, fullWidth, rows
       <TextField
           variant="outlined"
           label={labelText || name}
-          
           name={name}
           value={value || ""}
           type={type}

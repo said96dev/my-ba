@@ -103,8 +103,8 @@ function TasksTable() {
               {task.title}
             </TableCell>
             <TableCell align="left">{task.taskType}</TableCell>
-            <TableCell align="left">{task.assignedTo.name}</TableCell>
-            <TableCell align="left">{task.createdBy.name}</TableCell>
+            <TableCell align="left">{task.assignedTo.name} {task.assignedTo.lastName}</TableCell>
+            <TableCell align="left">{task.createdBy.name} {task.createdBy.lastName}</TableCell>
             <TableCell align="left"><Date createdAt={task.createdAt}/></TableCell>
             <TableCell align="left">
               <Date createdAt={task.deadline}/></TableCell>

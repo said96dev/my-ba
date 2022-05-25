@@ -40,9 +40,11 @@ html {
   --white: #fff;
   --red-light: #f8d7da;
   --red-dark: #842029;
-  --green-light: #d1e7dd;
+  --green-light: #b1dcc9;
   --green-dark: #0f5132;
-
+  --yellow-dark: #ff9800;
+  --yellow-light: #ead6b7;
+  
   /* fonts  */
   --headingFont: 'Roboto Condensed', Sans-Serif;
   --bodyFont: 'Cabin', Sans-Serif;
@@ -192,7 +194,22 @@ ul {
 .colse-btn{
   border-radius: 50%;
   border: 0;
-
+}
+.btn-warning {
+  background: var(--yellow-light);
+  color: var(--red-dark);
+}
+.btn-warning:hover {
+  background: var(--yellow-dark);
+  color: var(--white);
+}
+.btn-active {
+  background: var(--green-light);
+  color: var(--red-dark);
+}
+.btn-active:hover {
+  background: var(--green-dark);
+  color: var(--white);
 }
 /* alerts */
 .alert {

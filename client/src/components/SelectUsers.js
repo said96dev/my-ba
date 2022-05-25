@@ -15,7 +15,7 @@ const SelectUser = ({ labelText, name, value, handleChange, list  , className}) 
                 return (
                   
                   (<MenuItem key={index} value={itemValue}>
-                      {itemValue.name}
+                      {itemValue.name} {itemValue.lastName}
                   </MenuItem>)
                 );
               })}

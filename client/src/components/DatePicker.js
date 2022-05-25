@@ -1,5 +1,5 @@
 import React from 'react'
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
+import { MuiPickersUtilsProvider, KeyboardDatePicker , KeyboardDateTimePicker } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 
 export default function DatePicker(props) {
@@ -26,6 +26,7 @@ export default function DatePicker(props) {
                 disablePast ={disablePast}
                 disableFuture = {disableFuture}
                 disabled = {disabled}
+                InputProps={{ readOnly: true }}
             />
         </MuiPickersUtilsProvider>
     )

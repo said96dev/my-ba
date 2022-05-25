@@ -1,4 +1,0 @@
-/*
-addWorkHours
-deleteWorkHours
-*/

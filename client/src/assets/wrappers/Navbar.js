@@ -5,7 +5,7 @@ const Wrapper = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index:10000;
+  z-index:1000;
   box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0.1);
   .logo {
     display: flex;

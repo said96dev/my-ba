@@ -27,10 +27,10 @@ const getSingleTask = async (req , res) =>{
     const {id: taskId} = req.params ; 
     const task = await Task.findOne({_id:taskId}).populate('comment').populate({
         path:"createdBy" ,
-        select: "name"
+        select: "name lastName"
     }).populate({
         path:"assignedTo" ,
-        select: "name"
+        select: "name lastName"
     });
 
     if(!task){
@@ -63,10 +63,10 @@ const getAllTasks = async (req , res) => {
     if(req.user.userRole === "admin"){
         const task = await Task.find({}).populate({
             path:"createdBy" ,
-            select: "name -_id"
+            select: "name lastName -_id"
         }).populate({
             path:"assignedTo" ,
-            select: "name -_id"
+            select: "name lastName -_id"
         })
         const totalTasks = await Task.countDocuments({});
         res.status(StatusCodes.OK).json({totalTasks , task , users})
@@ -74,10 +74,10 @@ const getAllTasks = async (req , res) => {
     if(req.user.userRole === "user"){
         const task = await Task.find({assignedTo:req.user.userId}).populate({
             path:"createdBy" ,
-            select: "name -_id"
+            select: "name lastName -_id"
         }).populate({
             path:"assignedTo" ,
-            select: "name -_id"
+            select: "name lastName -_id"
         })
         const totalTasks = await Task.countDocuments({assignedTo:req.user.userId});
         res.status(StatusCodes.OK).json({totalTasks , task , users})
