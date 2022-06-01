@@ -17,6 +17,9 @@ import userRouter from "./routes/userRouter.js"
 import taskRouter from "./routes/taskRouter.js"
 import commentRouter from "./routes/commentRouter.js"
 import recordRouter from "./routes/recordingsRouter.js"
+import clientRouter from "./routes/clientRouter.js"
+import projectRouter from "./routes/projectRouter.js"
+
 //authentication
 import { authentication } from "./middleware/authentication.js";
 
@@ -31,7 +34,9 @@ app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/users", userRouter)
 app.use("/api/v1/tasks" ,authentication ,taskRouter)
 app.use("/api/v1/comments" ,authentication ,commentRouter)
-app.use("/api/v1/records", recordRouter)
+app.use("/api/v1/records",authentication, recordRouter)
+app.use("/api/v1/client" , authentication , clientRouter)
+app.use("/api/v1/projects" , authentication , projectRouter)
 app.get("/" , (req , res ) => {
     res.send("Welcome")
 })

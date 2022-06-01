@@ -1,204 +1,98 @@
 import React, { useState , useContext } from 'react'
 import { Divider} from "@material-ui/core";
-import { FormRow, DatePicker, FormRowSelect , TimePicker , SelectUser} from "./index"
+import { FormRow, DatePicker, FormRowSelect ,  TimePicker, Alert , SelectUser , Checkbox} from "./index"
 import Wrapper from '../assets/wrappers/RecordPopup';
-import {MdOutlineWork , MdFreeBreakfast , MdHolidayVillage, MdUmbrella} from "react-icons/md"
+import {MdOutlineWork , MdFreeBreakfast} from "react-icons/md"
 import moment from "moment";
-import { AppContext } from '../context/appContext';
+import { AppContext  } from '../context/appContext';
 
-function RecordPopup({whichDay}) {
+function RecordPopup({date}) {
+
+    const {addRecord , isLoading , showAlert , deadline } = useContext(AppContext)
 
     const initialState = {
-        recordTypOptionen : ["presence" , "vacation" , "absence" ],
-        recordType : "",
-        startRecord : new Date() ,
-        endRecord: new Date(),
-        substitute : "" , 
-        recordComment : "" , 
-        taskTicket : "" , 
-        taskTicketOptionen : [],
-        startBreak : new Date() , 
-        endBreak : new Date(), 
-        error : false
-    }
-    const {assignedToOptionen} = useContext(AppContext)
-    const [values , setValues] = useState(initialState)
-    const [error , setError] = useState(false)
+      recordType : "presence",
+      startRecord : date ,
+      endRecord:date,
+      substitute : "" , 
+      recordComment : "" , 
+      startBreak : date , 
+      endBreak: date, 
+  }
+  const [values , setValues] = useState(initialState)
+    const [pause , setPause] = useState(false)
+    const [error , setError] = useState (false)
+    
     const handleChange = (e) => {
-      if(e.target.maxTime ||e.target.minTime){
-        e.target.value = moment(e.target.value);
-        e.target.value =  e.target.value.format("HH:mm ")
-        selectedTime(e.target.maxTime , e.target.minTime , e.target.value , e.target.name)
-        return 
-      }
-        setValues({...values , [e.target.name] : e.target.value})
+      setValues({...values , [e.target.name] : e.target.value})
     }
 
-
-    const selectedTime = (maxTime , minTime , value , name) => {
-      minTime = moment(minTime, "HH:mm");
-      maxTime = moment(maxTime, "HH:mm");
-      value = moment(value, "HH:mm");
-      if(minTime.isBefore(value) && maxTime.isAfter(value)){
-        setValues({...values , [name] : value})
-        setError(false)
-      }
-      else {
-        setError(true)
-    }
-    } 
     return (
       <Wrapper>
-    <div className='form' >
-    <FormRowSelect
-          labelText='Record Type'
-          name='recordType'
-          value={values.recordType}
-          handleChange={handleChange}
-          list={[...values.recordTypOptionen]}
-        />
-    </div>
-    <Divider variant="fullWidth" style={{ margin: "10px 0px 20px 0px" }} />
-    {
-        values.recordType === "presence" ?  (
-            <>
-            <div className='form work-form form-center' >
-    <h4 className='form-title'><MdOutlineWork className='mr-1'/>Work</h4>
-        <TimePicker
-          labelText='From'
-          name='startRecord'
-          readOnly={false}
-          handleChange={handleChange}
-          value={values.startRecord}
-          maxTime = "21:01"
-          minTime = "8:01"
-          errorMessage={error}
-
-        />
-        <TimePicker
-          labelText='To'
-          name='endRecord'
-          readOnly={false}
-          handleChange={handleChange}
-          value={values.endRecord}
-          minTime = {moment(values.startRecord).format("HH:mm")} 
-          maxTime = "21:01"
-          errorMessage={error}
-
-        />
-        
-    </div>
-    <div className='form break-form form-center' >
-    <h4 className='form-title'><MdFreeBreakfast className='mr-1'/>Break</h4>
-        <TimePicker
-          labelText='From'
-          name='startBreak'
-          readOnly={false}
-          handleChange={handleChange}
-          value={values.startBreak}
-          maxTime = "21:01"
-          minTime = "8:01"
-          errorMessage={error}
-
-        />
-        <TimePicker
-          labelText='To'
-          name='endBreak'
-          readOnly={false}
-          handleChange={handleChange}
-          value={values.endBreak}
-          minTime = { moment(values.startBreak).format("HH:mm") }
-          maxTime = "21:01"
-          errorMessage={error}
-
-        />
-    </div>
-    </>
-    ) : <> </>
-    }
-    {
-        values.recordType === "absence" ? (
-            <div className='form Absence-form form-center' >
-    <h4 className='form-title'><MdHolidayVillage className='mr-1'/>Request Absence</h4>
-        <DatePicker
-          labelText='From'
-          name='recordStart'
-          handleChange={handleChange}
-          readOnly={false}
-          disablePast = {true}
-        />
-        <DatePicker
-          labelText='To'
-          name='recordEnd'
-          readOnly={false}
-          handleChange={handleChange}
-          disablePast = {true}
-        />
-        <FormRow
-          type='text'
-          name='comment'
-          labelText='comment'
-          value={values.recordComment}
-          handleChange={handleChange}
-          multiline={true}
-          rows={5}
-          rowsMax={10}
-          fullWidth={true}
-          className="full-row"
-        />
-    </div>
-        ) : <></>
-    }
-    {
-        values.recordType === "vacation" ? (<div className='form vacation-form form-center' >
-        <h4 className='form-title'><MdUmbrella className='mr-1'/>Request Vacation</h4>
-            <DatePicker
+        {showAlert && <Alert />}    
+          <div className="form work-form">
+            <h4 className='form-title'><MdOutlineWork className='mr-1'/>Work</h4>
+            <TimePicker
               labelText='From'
-              name='recordStart'
-              readOnly={false}
+              name='startRecord'
+              value={values.startRecord}
               handleChange={handleChange}
               disablePast = {true}
-            />
-            <DatePicker
+              minTime = {moment(values.startRecord).format("dddd, MMMM Do YYYY, 08:00 ")}
+              maxTime = {values.endRecord === date ? moment(date).format("dddd, MMMM Do YYYY, 21:00 ") : moment(values.endRecord).format("dddd, MMMM Do YYYY, HH:mm ")}
+      />
+      <TimePicker
               labelText='To'
-              name='recordEnd'
-              readOnly={false}
+              name='endRecord'
+              value={values.endRecord}
               handleChange={handleChange}
               disablePast = {true}
+              minTime = { values.startRecord=== date ? moment(values.startRecord).format("dddd, MMMM Do YYYY, 08:00 "): moment(values.startRecord).format("dddd, MMMM Do YYYY, HH:mm ")}
+              maxTime = { moment(values.startRecord).format("dddd, MMMM Do YYYY, 21:00 ")}
+              date  ={values.startRecord}
+
+      />
+            <Checkbox
+            name = "brack"
+            value = {pause}
+            setPause = {setPause}
+            label = "did you have a break?"
             />
-            <SelectUser
-              labelText='substitute'
-              name='substitute'
-              value={values.substitute}
-              handleChange={handleChange}
-              list= {[...assignedToOptionen]}
-              className="full-row"
-              />
-            <FormRow
-              type='text'
-              name='comment'
-              labelText='comment'
-              value={values.recordComment}
-              handleChange={handleChange}
-              multiline={true}
-              rows={5}
-              rowsMax={10}
-              fullWidth={true}
-              className="full-row"
+          </div>
+          {pause && (
+            
+          <div className=' form  work-form' >
+          <h4 className='form-title'><MdFreeBreakfast className='mr-1'/>Break</h4>
+            <TimePicker
+            labelText='From'
+            name='startBreak'
+            value={values.startBreak}
+            handleChange={handleChange}
+            disablePast = {true}
+            minTime = {moment(values.startBreak).format("dddd, MMMM Do YYYY, 08:00 ")}
+            maxTime = {values.endBreak === date ? moment(date).format("dddd, MMMM Do YYYY, 08:00 ") : moment(values.endBreak).format("dddd, MMMM Do YYYY, HH:mm ")}
             />
-        </div>) : <></>
-    }
-    {
-      values.recordType && (
+            <TimePicker
+              labelText='To'
+              name='endBreak'
+              value={values.endBreak}
+              handleChange={handleChange}
+              disablePast = {true}
+              minTime = {values.startBreak=== date? moment(date).format("dddd, MMMM Do YYYY, 08:00 ") : moment(values.startBreak).format("dddd, MMMM Do YYYY, HH:mm ")}
+              maxTime = { moment(values.startBreak).format("dddd, MMMM Do YYYY, 21:00 ")}
+              date  ={values.startBreak}
+
+      />
+          </div>
+          )}
+        <Divider variant="fullWidth" style={{ margin: "10px 0px 20px 0px" }} />
         <div className="popup-btn-container">
-          <button className="btn" onClick={() =>console.log("save")} >Save
+          <button disabled={error} className="btn" onClick={() => addRecord(values)} >Save
           </button>
           <button className="btn" onClick={() => console.log("cancel")}>
             Cancel
           </button>
         </div>
-      )
-    }
     </Wrapper>
   )
 }

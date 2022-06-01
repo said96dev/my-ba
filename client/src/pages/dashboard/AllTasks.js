@@ -6,7 +6,7 @@ function AllTasks() {
 
   return (
     <>
-    <PageHeader name={"Tasks"} openPopup={openPopup} setOpenPopup = {setOpenPopup}/>
+    <PageHeader name={"Tasks"} openPopup={openPopup} setOpenPopup = {setOpenPopup}  btn={"Add Task"}/>
     <TasksTable/>
     <Popup
     openPopup={openPopup}

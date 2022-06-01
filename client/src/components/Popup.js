@@ -16,7 +16,7 @@ const useStyles = props => makeStyles(theme => ({
 
 export default function Popup(props) {
 
-    const { title, children, openPopup, setOpenPopup ,width , date  } = props;
+    const { title, children, openPopup, setOpenPopup ,width  } = props;
 
 
     const classes = useStyles(props)();
@@ -27,7 +27,7 @@ export default function Popup(props) {
             <DialogTitle className={classes.dialogTitle}>
             <div style={{ display: 'flex' }}>
                     <Typography variant="h4" component="div" style={{ flexGrow: 1 }}>
-                        {title}  {date}
+                        {title}
                     </Typography>
                     <ActionButton color="secondary" className="btn-danger"
                         onClick={()=>{setOpenPopup(false)}}>

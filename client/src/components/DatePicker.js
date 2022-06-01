@@ -1,12 +1,10 @@
-import React from 'react'
-import { MuiPickersUtilsProvider, KeyboardDatePicker , KeyboardDateTimePicker } from "@material-ui/pickers";
+import React , {useEffect} from 'react'
+import { MuiPickersUtilsProvider, KeyboardDatePicker} from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 
 export default function DatePicker(props) {
 
-    const { name, labelText, value, handleChange, readOnly, disablePast , disableFuture,disabled} = props
-
-
+    const { name, labelText, value, handleChange, readOnly, disablePast , disableFuture,disabled , fullWidth , className} = props
     const convertToDefEventPara = (name, value) => ({
         target: {
             name, value
@@ -27,6 +25,8 @@ export default function DatePicker(props) {
                 disableFuture = {disableFuture}
                 disabled = {disabled}
                 InputProps={{ readOnly: true }}
+                fullWidth = {fullWidth}
+                className= {`form-input ${className}`} 
             />
         </MuiPickersUtilsProvider>
     )

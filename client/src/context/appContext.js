@@ -2,7 +2,8 @@ import React, { useReducer } from "react";
 import { LOGOUT_USER ,TOGGLE_SIDEBAR,DISPLAY_ALERT , CLEAR_ALERT ,  LOGIN_USER_BEGIN , LOGIN_USER_ERROR , LOGIN_USER_SUCCESS, UPDATE_USER_BEGIN , UPDATE_USER_SUCCESS , UPDATE_USER_ERROR, HANDLE_CHANGE, CLEAR_FILTERS,
   ADD_USER_BEGIN , ADD_USER_SUCCESS , ADD_USER_ERROR, CLEAR_VALUES, GET_ALL_USERS_BEGIN,GET_ALL_USERS_SUCCESS , CHANGE_PAGE,GET_ALL_TASKS_SUCCESS, GET_ALL_TASKS_BEGIN,
   ADD_TASK_BEGIN , ADD_TASK_ERROR , ADD_TASK_SUCCESS ,EDIT_TASK_BEGIN
-  ,DELETE_TASK_BEGIN, ADD_COMMENT_BEGIN, DELETE_COMMENT_BEGIN , UPDATE_COMMENT_BEGIN ,
+  ,DELETE_TASK_BEGIN, ADD_COMMENT_BEGIN, DELETE_COMMENT_BEGIN , 
+  ADD_RECORD_BEGIN, ADD_RECORD_SUCCESS , ADD_RECORD_ERROR,
   GET_TASK_BEGIN ,GET_TASK_ERROR , GET_TASK_SUCCESS } from "./action";
 import AlertReducer from "./reducer";
 import axios from "axios";
@@ -49,7 +50,7 @@ export const initialState = {
     taskStatus:"fresh",
     deadline: Date.now(),
     assignedTo: "" ,
-    assignedToOptionen:[] , 
+    employeeOptionen:[] , 
     oneTask : {} , 
     totalComments : 0 ,
 
@@ -346,6 +347,23 @@ const AppProvider = ({children}) => {
       }
     }
 
+    //Add record 
+    const addRecord = async (record) => {
+      dispatch({type : ADD_RECORD_BEGIN})
+      try {
+        await authFetch.post("records" , record)
+        dispatch({
+          type:ADD_RECORD_SUCCESS
+        })
+        //getRecords
+      } catch (error) {
+        dispatch({
+          type:ADD_RECORD_ERROR , 
+          payload: {msg:error.response.data.msg}
+        })
+      }
+      clearAlert()
+    }
 
 
     return (
@@ -368,7 +386,8 @@ const AppProvider = ({children}) => {
         editTask ,
         singleTask,
         createComment,
-        deleteComment
+        deleteComment,
+        addRecord
         }}>
             {children}
         </AppContext.Provider>

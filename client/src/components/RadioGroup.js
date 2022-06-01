@@ -3,19 +3,19 @@ import { FormControl, FormLabel, RadioGroup as MuiRadioGroup, FormControlLabel, 
 
 function RadioGroup(props) {
 
-    const { name, label, value, onChange, items } = props;
+    const { name, label, value, handleChange, items , className} = props;
 
     return (
-        <FormControl>
+        <FormControl className={className}>
             <FormLabel>{label}</FormLabel>
             <MuiRadioGroup row
                 name={name}
                 value={value}
-                onChange={onChange}>
+                onChange={handleChange}>
                 {
                     items.map(
                         item => (
-                            <FormControlLabel key={item.id} value={item.id} control={<Radio />} label={item.title} />
+                            <FormControlLabel key={item} value={item} control={<Radio  color ="primary"/>} label={item} />
                         )
                     )
                 }

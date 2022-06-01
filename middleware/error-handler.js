@@ -15,6 +15,10 @@ const errorHandler = (err, req , res , next) => {
         defaultError.statusCode = StatusCodes.BAD_REQUEST
         defaultError.msg = `${Object.keys(err.keyValue)} field hat to be unique`
     }
+    if (err.name === 'CastError') {
+        defaultError.msg = `No item found with id : ${err.value}`;
+        defaultError.statusCode = 404;
+    }
     res.status(defaultError.statusCode).json({msg : defaultError.msg})
 }
 

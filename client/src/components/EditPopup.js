@@ -7,7 +7,7 @@ import { Divider, Avatar, Grid , Typography} from "@material-ui/core";
 
 
 function EditPopup({ taskId ,setOpenEditPopup }) {
-  const { deleteComment , oneTask, totalComments, assignedToOptionen, taskStatusOptionen, taskTypeOptionen, createComment , taskPriorityOptionen , editTask } = useContext(AppContext)
+  const { deleteComment , oneTask, totalComments, employeeOptionen, taskStatusOptionen, taskTypeOptionen, createComment , taskPriorityOptionen , editTask } = useContext(AppContext)
   const convertDate = (createdAt) => {
     let date = moment(createdAt);
     date = date.format("dddd ,HH:mm ");
@@ -149,7 +149,7 @@ function EditPopup({ taskId ,setOpenEditPopup }) {
               </h5>
               {
                 oneTask.comment.map((comment) => {
-                  let index = assignedToOptionen.find((item) => item._id === comment.createdBy)
+                  let index = employeeOptionen.find((item) => item._id === comment.createdBy)
                   return(
                     <div key={comment._id} >
                     <Grid    container wrap="nowrap" spacing={2}>

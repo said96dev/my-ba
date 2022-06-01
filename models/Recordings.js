@@ -19,7 +19,7 @@ const RecordingsSchema = new mongoose.Schema({
     },
     endRecord:{
         type:Date,
-        required: [true, 'Please provide Start'],
+        required: [true, 'Please provide End'],
     },
     startBreak:{
         type:Date,
@@ -28,10 +28,6 @@ const RecordingsSchema = new mongoose.Schema({
     endBreak:{
         type:Date,
         default:Date.now()
-    },
-    taskTicket: {
-        type: mongoose.Types.ObjectId,
-        ref: 'Task',
     },
     recordType: {
         type : String ,

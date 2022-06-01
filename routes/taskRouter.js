@@ -5,7 +5,7 @@ import {
     getSingleTask,
     updateTask,
     getAllTasks
-}  from "../constrollers/taskController.js"
+}  from "../controllers/taskController.js"
 
 import {authorizePermissions } from "../middleware/authentication.js";
 

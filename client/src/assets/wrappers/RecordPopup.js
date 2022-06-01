@@ -11,10 +11,15 @@ const Wrapper = styled.div`
         align-items:center ;
         width: 100%;
     }
-.work-form , .break-form {
+.work-form  {
     display:grid ;
     grid-template-columns:1fr 1fr ;
     column-gap:1rem ;
+    .work{
+        display:flex ;
+        flex-direction:column ;
+        row-gap:1rem
+    }
     
 }
 .full-row {

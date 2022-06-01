@@ -2,7 +2,9 @@ import { initialState } from "./appContext";
 import {LOGOUT_USER ,TOGGLE_SIDEBAR, CLEAR_ALERT, DISPLAY_ALERT , LOGIN_USER_BEGIN , LOGIN_USER_ERROR , LOGIN_USER_SUCCESS ,HANDLE_CHANGE,
 UPDATE_USER_BEGIN , UPDATE_USER_SUCCESS , UPDATE_USER_ERROR , ADD_USER_BEGIN , ADD_USER_ERROR , ADD_USER_SUCCESS ,  CLEAR_VALUES , CLEAR_FILTERS , GET_ALL_USERS_BEGIN , GET_ALL_USERS_SUCCESS , CHANGE_PAGE , GET_ALL_TASKS_SUCCESS, GET_ALL_TASKS_BEGIN,ADD_COMMENT_BEGIN , DELETE_COMMENT_BEGIN , UPDATE_COMMENT_BEGIN,
 ADD_TASK_BEGIN , ADD_TASK_ERROR , ADD_TASK_SUCCESS , GET_TASK_BEGIN ,GET_TASK_ERROR , GET_TASK_SUCCESS , EDIT_TASK_BEGIN
-,DELETE_TASK_BEGIN 
+,DELETE_TASK_BEGIN ,
+ADD_RECORD_BEGIN, ADD_RECORD_SUCCESS , ADD_RECORD_ERROR,
+
 } from './action'
 function AlertReducer(state , action) {
  if(action.type === DISPLAY_ALERT ){
@@ -158,7 +160,7 @@ function AlertReducer(state , action) {
       isLoading:false ,
       tasks:action.payload.task,
       totalTask:action.payload.totalTasks,
-      assignedToOptionen:action.payload.users
+      employeeOptionen:action.payload.users
     }
   }
 
@@ -231,6 +233,30 @@ function AlertReducer(state , action) {
     return {
       ...state , 
       isLoading:true
+    }
+  }
+  if(action.type === ADD_RECORD_BEGIN) {
+    return {
+    ...state , 
+    isLoading: true
+    }
+  }
+  if(action.type === ADD_RECORD_SUCCESS) {
+    return {
+      ...state , 
+      isLoading : false ,
+      alertType : "success" ,
+      alertText: "New Record Created!",
+      showAlert:true
+    }
+  }
+  if(action.type === ADD_RECORD_ERROR) {
+    return {
+      ...state , 
+      isLoading : false , 
+      alertType : "danger", 
+      alertText : action.payload.msg,
+      showAlert : true
     }
   }
 }

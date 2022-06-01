@@ -6,6 +6,10 @@ import checkPermissions from "../utils/checkPermissions.js"
 
 const createTask = async (req , res ) => {
     req.body.createdBy = req.user.userId
+    const user = await User.findOne({_id : req.body.assignedTo})
+    if(!user) {
+        throw new NotFoundError (`No user with id : ${req.body.assignedTo}`)
+    }
     const task = await Task.create(req.body)
     res.status(StatusCodes.CREATED).json({task})
 }
@@ -36,7 +40,7 @@ const getSingleTask = async (req , res) =>{
     if(!task){
         throw new NotFoundError(`No Task with id : ${taskId}`)
     }
-    checkPermissions(req.user , task.assignedTo.id)
+    checkPermissions(req.user , task.assignedTo)
     const totalComments = task.comment.length 
     res.status(StatusCodes.OK).json({totalComments , task })
 }

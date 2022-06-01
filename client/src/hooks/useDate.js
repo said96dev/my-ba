@@ -18,7 +18,7 @@ export const useDate = (recorded, nav) => {
   useEffect(() => {
     const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const dt = new Date();
-
+    
     if (nav !== 0) {
       dt.setMonth(new Date().getMonth() + nav);
     }

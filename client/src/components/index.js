@@ -26,5 +26,5 @@ import Day from "./Day"
 import CalendarHeader from "./CalendarHeader"
 import RecordPopup from "./RecordPopup"
 import TimePicker from "./TimePicker"
-
-export {Logo , FormRow , Alert , Navbar, SmallSidebar,SearchContainer, BigSidebar,FormRowSelect , UsersContainer , PageBtnContainer , PageHeader , TasksTable, Date , Loading , Popup , SelectUser , Checkbox , RadioGroup ,AddTask , DatePicker , CalendarHeader, ActionButton , DeletePopup , EditPopup , AvatarImg , Day , RecordPopup, TimePicker}
+import AddAvailability from "./AddAvailability"
+export {Logo , FormRow , Alert , Navbar, SmallSidebar,SearchContainer, BigSidebar,FormRowSelect , UsersContainer , PageBtnContainer , PageHeader , TasksTable, Date , Loading , Popup , SelectUser , Checkbox , RadioGroup ,AddTask , DatePicker , CalendarHeader, ActionButton , DeletePopup , EditPopup , AvatarImg , Day , RecordPopup, TimePicker , AddAvailability}

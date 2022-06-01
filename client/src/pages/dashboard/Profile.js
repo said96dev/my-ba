@@ -15,6 +15,7 @@ const Profile = () => {
     state : user.state || "",
     zipCode:user.zipCode || "",
     city:user.city || "",
+    password : ""
   }
   const [values , setValues] = useState(initialState)
   
@@ -59,6 +60,7 @@ const Profile = () => {
             labelText='Email'
             value={values.email}
             handleChange={handleChange}
+            readOnly={true}
           />
           <FormRow
             type='text'
@@ -68,6 +70,7 @@ const Profile = () => {
             labelText='Position'
             readOnly={true}
           />
+          
           <FormRow
             type='text'
             name='role'
@@ -75,6 +78,13 @@ const Profile = () => {
             value={values.role}
             handleChange={handleChange}
             readOnly={true}
+          />
+          <FormRow
+            type='password'
+            name='password'
+            value={values.password}
+            handleChange={handleChange}
+            labelText='password'
           />
         </div>
         <hr />

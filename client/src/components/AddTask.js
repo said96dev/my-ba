@@ -5,7 +5,7 @@ import {FormRow , FormRowSelect , Alert,DatePicker, SelectUser  } from "./index"
 
 
 function AddTask() {
-  const {taskStatusOptionen, taskTypeOptionen , isLoading , showAlert , handleChange , clearValues ,taskType,taskPriority ,title,description,taskStatus,deadline , remark , taskPriorityOptionen , assignedToOptionen , addTask
+  const {taskStatusOptionen, taskTypeOptionen , isLoading , showAlert , handleChange , clearValues ,taskType,taskPriority ,title,description,taskStatus,deadline  , taskPriorityOptionen , employeeOptionen , addTask
   } = useContext(AppContext)
   const [assigend , setAssigend] = useState(" ")
   const handleSubmit =(e) => {
@@ -25,7 +25,7 @@ function AddTask() {
   }
   return (
     <Wrapper>
-             {showAlert && <Alert />}
+            {showAlert && <Alert />}
       <form className='add-Task-form'  onSubmit={handleSubmit}>
         <div className="add-task-inputs">
           <FormRow
@@ -60,7 +60,7 @@ function AddTask() {
       name='assignedTo'
       value={assigend}
       handleChange={assignedToIdHandle}
-      list= {[...assignedToOptionen]}
+      list= {[...employeeOptionen]}
       />
       <DatePicker
       labelText='Deadline'
