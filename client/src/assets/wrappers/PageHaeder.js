@@ -27,6 +27,9 @@ const Wrapper = styled.section`
   .icon {
       font-size:1.5rem ;
   }
+  a {
+    line-height:none ;
+  }
   @media (max-width: 600px) {
     .btn{
       font-size:1rem ;

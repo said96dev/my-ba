@@ -15,7 +15,12 @@ margin: 3rem auto ;
    border-color: transparent;
    color: var(--primary-500);
    }
+   .operating {
+
+  color: green;
+  //padding: 0.3em 0.5em;
    
+}
 `
 
 export default Wrapper

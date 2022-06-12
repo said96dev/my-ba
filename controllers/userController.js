@@ -110,11 +110,17 @@ const updatePassword = async (req , res ) => {
     await user.save();
     res.status(StatusCodes.OK).json({ msg: 'Success! Password Updated.' });
 }
+const getEmployee = async (req , res) => {
+    const users = await User.find({}).select("name , lastName").sort("+ name ")
+    res.status(StatusCodes.OK).json({users})
+
+}
 
 export {
     getAllUsers,
     createUser,
     updateUser,
     getSingleUser , 
-    updatePassword
+    updatePassword,
+    getEmployee
 }

@@ -4,9 +4,10 @@ import { authentication , authorizePermissions } from "../middleware/authenticat
 import{
     getAllRecording , 
     getSingleUserRecording ,
-    createRecording
+    createRecording , 
+    deleteRecording
 } from "../controllers/RecordingsController.js"
 Router.route("/").post(authentication ,createRecording).get(authentication , getAllRecording)
-Router.route("/:id").get(authentication ,authorizePermissions("admin") , getSingleUserRecording)
+Router.route("/:id").get(authentication ,authorizePermissions("admin") , getSingleUserRecording).delete(authentication , deleteRecording)
 
 export default Router

@@ -1,12 +1,12 @@
 import React , {useEffect , useState, useContext} from 'react'
 import {Paper ,TableRow ,TableHead,TableContainer,TableCell ,TableBody,Table , TableSortLabel} from "@mui/material"
 import SearchBar from "material-ui-search-bar";
+import {MdEdit} from "react-icons/md"
 
-import {FaRegEdit} from "react-icons/fa"
-import {RiDeleteBin5Fill} from "react-icons/ri"
+import {RiDeleteBin5Fill } from "react-icons/ri"
 import Wrapper from '../assets/wrappers/TasksTable';
 import { AppContext } from '../context/appContext';
-import {Loading , Date , Popup , ActionButton , DeletePopup , EditPopup} from './index';
+import {Loading , Date , Popup  , DeletePopup , EditPopup} from './index';
 
 function TasksTable() {
     const {tasks , getTasks , isLoading  , deleteTask ,singleTask } = useContext(AppContext)
@@ -20,6 +20,7 @@ function TasksTable() {
     useEffect(() => {
       getTasks()
       setRows(tasks)
+      // eslint-disable-next-line 
   }, [])
   // with any change an the tasks , will the rows state also changeing
     useEffect(() => {
@@ -55,19 +56,13 @@ function TasksTable() {
   };
   
   const handleSortRequest = (e) => {
-
+    console.log("date filter")
   }
 
     if (isLoading) {
         return <Loading center />;
       }
-      if(rows.length === 0 ) {
-        return(
-        <Wrapper>
-          <h2>No tasks to display...</h2>
-        </Wrapper>
-        )
-      }
+
     return (
       <Wrapper>
         <SearchBar
@@ -78,6 +73,11 @@ function TasksTable() {
           onCancelSearch={() => cancelSearch()} 
           placeholder = "Enter Task Title"
         />
+        {
+          rows.length === 0 ?
+            <h2>No tasks to display...</h2> :
+          
+        
     <TableContainer component={Paper} className="taskTable">
     <Table sx={{ minWidth: 650 }} aria-label="simple table">
       <TableHead>
@@ -105,21 +105,22 @@ function TasksTable() {
             <TableCell align="left">{task.taskType}</TableCell>
             <TableCell align="left">{task.assignedTo.name} {task.assignedTo.lastName}</TableCell>
             <TableCell align="left">{task.createdBy.name} {task.createdBy.lastName}</TableCell>
-            <TableCell align="left"><Date createdAt={task.createdAt}/></TableCell>
+            <TableCell align="left"><Date date={task.createdAt}/></TableCell>
             <TableCell align="left">
-              <Date createdAt={task.deadline}/></TableCell>
-            <TableCell align="left">{task.taskStatus}</TableCell>
+              <Date date={task.deadline}/></TableCell>
+            <TableCell align="left" className={`status operating ${task.taskStatus}`}>{task.taskStatus}</TableCell>
             <TableCell align="left">{task.taskPriority}</TableCell>
             <TableCell align="center" >
               <div  className='action'>
-                <ActionButton onClick={() => editPopup(task._id)} color="primary"  >
-                <FaRegEdit/>
-                </ActionButton>
-                <ActionButton  onClick={() => deletePopup(task._id)}
-                color="secondary" 
+                <div onClick={() => editPopup(task._id)}  className = "divIcon divIcon-Edit" >
+                <MdEdit/>
+                </div>
+                <div onClick={() => deletePopup(task._id)}
+                color="secondary"
+                className = "divIcon divIcon-Delete" 
                 >
                 <RiDeleteBin5Fill/>
-                </ActionButton>
+                </div>
               </div>
             </TableCell>
           </TableRow>
@@ -127,6 +128,7 @@ function TasksTable() {
       </TableBody>
     </Table>
   </TableContainer>
+  }
     <Popup
       openPopup={openEditPopup}
       setOpenPopup={setOpenEditPopup}
@@ -139,8 +141,9 @@ function TasksTable() {
       openPopup={openDeletePopup}
       setOpenPopup={setOpenDeletePopup}
       title="Delete Task">
-        <DeletePopup taskId={taskId} deleteHandle={deleteHandle} setOpenDeletePopu={setOpenDeletePopup} />
+        <DeletePopup Id={taskId} deleteHandle={deleteHandle} setOpenDeletePopu={setOpenDeletePopup} />
     </Popup>
+    
   </Wrapper>
   )
 }

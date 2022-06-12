@@ -1,9 +1,10 @@
 import { initialState } from "./appContext";
 import {LOGOUT_USER ,TOGGLE_SIDEBAR, CLEAR_ALERT, DISPLAY_ALERT , LOGIN_USER_BEGIN , LOGIN_USER_ERROR , LOGIN_USER_SUCCESS ,HANDLE_CHANGE,
-UPDATE_USER_BEGIN , UPDATE_USER_SUCCESS , UPDATE_USER_ERROR , ADD_USER_BEGIN , ADD_USER_ERROR , ADD_USER_SUCCESS ,  CLEAR_VALUES , CLEAR_FILTERS , GET_ALL_USERS_BEGIN , GET_ALL_USERS_SUCCESS , CHANGE_PAGE , GET_ALL_TASKS_SUCCESS, GET_ALL_TASKS_BEGIN,ADD_COMMENT_BEGIN , DELETE_COMMENT_BEGIN , UPDATE_COMMENT_BEGIN,
+UPDATE_USER_BEGIN , UPDATE_USER_SUCCESS , UPDATE_USER_ERROR , ADD_USER_BEGIN , ADD_USER_ERROR , ADD_USER_SUCCESS ,  CLEAR_VALUES , CLEAR_FILTERS , GET_ALL_USERS_BEGIN , GET_ALL_USERS_SUCCESS , CHANGE_PAGE , GET_ALL_TASKS_SUCCESS, GET_ALL_TASKS_BEGIN,ADD_COMMENT_BEGIN , DELETE_COMMENT_BEGIN ,
 ADD_TASK_BEGIN , ADD_TASK_ERROR , ADD_TASK_SUCCESS , GET_TASK_BEGIN ,GET_TASK_ERROR , GET_TASK_SUCCESS , EDIT_TASK_BEGIN
-,DELETE_TASK_BEGIN ,
-ADD_RECORD_BEGIN, ADD_RECORD_SUCCESS , ADD_RECORD_ERROR,
+,DELETE_TASK_BEGIN ,GET_ALL_RECORDS_BEGIN , GET_ALL_RECORDS_SUCCESS, 
+ADD_RECORD_BEGIN, ADD_RECORD_SUCCESS , ADD_RECORD_ERROR, DELETE_RECORD_BEGIN ,GET_ALL_CLIENTS_BEGIN , GET_ALL_CLIENTS_SUCCESS , ADD_CLIENT_BEGIN , ADD_CLIENT_SUCCESS , ADD_CLIENT_ERROR, GET_ALL_EMPLOYE_SUCCESS , GET_ALL_EMPLOYE_BEGIN, ADD_PROJECT_BEGIN , ADD_PROJECT_SUCCESS , ADD_PROJECT_ERROR , 
+GET_ALL_PROJECT_BEGIN , GET_ALL_PROJECT_SUCCESS
 
 } from './action'
 function AlertReducer(state , action) {
@@ -160,7 +161,8 @@ function AlertReducer(state , action) {
       isLoading:false ,
       tasks:action.payload.task,
       totalTask:action.payload.totalTasks,
-      employeeOptionen:action.payload.users
+      employeeOptionen:action.payload.users,
+      projects:action.payload.projects
     }
   }
 
@@ -259,6 +261,106 @@ function AlertReducer(state , action) {
       showAlert : true
     }
   }
+  if(action.type === GET_ALL_RECORDS_BEGIN){
+    return {...state, isLoading:true }
+  }
+  if(action.type === GET_ALL_RECORDS_SUCCESS){
+    return {
+      ...state , 
+      isLoading:false ,
+      records:action.payload.record,
+      totalRecords :action.payload.totalRecords ,
+      employeeOptionen:action.payload.users
+    }
+  }
+  if(action.type === DELETE_RECORD_BEGIN){
+    return{
+      ...state , 
+      isLoading:true
+    }
+  }
+  if(action.type === GET_ALL_CLIENTS_BEGIN){
+    return {...state, isLoading:true}
+  }
+  if(action.type === GET_ALL_CLIENTS_SUCCESS){
+    return {
+      ...state , 
+      isLoading:false ,
+      clients : action.payload.clients ,
+      totalClients : action.payload.totalClients, 
+      employeeOptionen:action.payload.users
+
+    }
+  }
+  if(action.type === ADD_CLIENT_BEGIN) {
+    return  {
+      ...state , 
+      isLoading:true
+    }
+  }
+  if(action.type === ADD_CLIENT_SUCCESS){
+    return {
+      ...state , 
+      isLoading:false,
+      alertType:"success", 
+      alertText:"New Client Created!",
+      showAlert:true
+    }
+  }
+  if(action.type === ADD_CLIENT_ERROR) {
+    return {
+      ...state , 
+      isLoading : false , 
+      alertType : "danger", 
+      alertText : action.payload.msg,
+      showAlert : true
+    }
+  }
+  if(action.type === GET_ALL_EMPLOYE_BEGIN){
+    return {...state, isLoading:true}
+  }
+  if(action.type === GET_ALL_EMPLOYE_SUCCESS){
+    return {
+      ...state , 
+      isLoading:false ,
+      employeeOptionen:action.payload.users
+    }
+  }
+  if(action.type === ADD_PROJECT_BEGIN) {
+    return  {
+      ...state , 
+      isLoading:true
+    }
+  }
+  if(action.type === ADD_PROJECT_SUCCESS){
+    return {
+      ...state , 
+      isLoading:false,
+      alertType:"success", 
+      alertText:"New Project Created!",
+      showAlert:true
+    }
+  }
+  if(action.type === ADD_PROJECT_ERROR) {
+    return {
+      ...state , 
+      isLoading : false , 
+      alertType : "danger", 
+      alertText : action.payload.msg,
+      showAlert : true
+    }
+  }
+  if(action.type === GET_ALL_PROJECT_BEGIN){
+    return {...state, isLoading:true}
+  }
+  if(action.type === GET_ALL_PROJECT_SUCCESS){
+    return {
+      ...state , 
+      isLoading:false ,
+      projects : action.payload.project ,
+      totalProjects : action.payload.totalProject, 
+      }
+    }
 }
 
 export default AlertReducer

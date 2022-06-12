@@ -1,12 +1,14 @@
-import React   from 'react'
+import React  from 'react'
 import { TimePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import TextField from '@mui/material/TextField';
+import { FormControl } from '@material-ui/core';
+
 
 export default function DatePicker(props) {
 
-    const { name, labelText, handleChange, maxTime , minTime, value , date , error } = props
+    const { name, labelText, handleChange, maxTime , minTime, value  , error , className} = props
     const handleDateTimeRangePickerChange = (_value) => {
         handleChange({target: {name, value: _value , maxTime , minTime }})
     }
@@ -14,9 +16,12 @@ export default function DatePicker(props) {
         return date.getDay() === 0 || date.getDay() === 6;
     }
 
+
     return (
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <TimePicker     
+        <FormControl variant="outlined" className={className}>
+        <LocalizationProvider dateAdapter={AdapterDateFns} >
+        <TimePicker  
+          
         value={value}
         onChange={handleDateTimeRangePickerChange}
         type='timepicker'
@@ -34,12 +39,11 @@ export default function DatePicker(props) {
         maxTime ={ new Date(0, 0, 0, 21 , 0) }
         shouldDisableDate={disableWeekends}
         shouldDisableTime={(timeValue, clockType) => {
-        return clockType === "hours" && 
-        new Date(date).getHours() === 0 || date === undefined ?
-        timeValue <= 7 : timeValue <=  new Date(date).getHours()
+        return clockType === "hours" && timeValue <= 7 
 
         }}
         />
     </LocalizationProvider>
+    </FormControl>
     )
 }

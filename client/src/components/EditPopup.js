@@ -4,10 +4,11 @@ import Wrapper from '../assets/wrappers/EditPopup'
 import { AppContext } from '../context/appContext'
 import { FormRow, DatePicker, FormRowSelect} from "./index"
 import { Divider, Avatar, Grid , Typography} from "@material-ui/core";
-
+import {FiSend} from "react-icons/fi"
 
 function EditPopup({ taskId ,setOpenEditPopup }) {
   const { deleteComment , oneTask, totalComments, employeeOptionen, taskStatusOptionen, taskTypeOptionen, createComment , taskPriorityOptionen , editTask } = useContext(AppContext)
+  
   const convertDate = (createdAt) => {
     let date = moment(createdAt);
     date = date.format("dddd ,HH:mm ");
@@ -181,6 +182,7 @@ function EditPopup({ taskId ,setOpenEditPopup }) {
               }
             </div>
         }
+
         <FormRow
                 type='text'
                 name='comment'
@@ -188,15 +190,12 @@ function EditPopup({ taskId ,setOpenEditPopup }) {
                 value={values.comment}
                 handleChange={handleChange}
                 multiline={true}
-                rows={5}
-                rowsMax={5}
-                fullWidth={true}
-                className="full-row"
+                rows={1.5}
+                rowsMax={1.5}
                 placeholder="Add a comment..."
+                onClick={createCommentHandle}
               />
-              <div className="popup-btn-container">
-                <button className='btn mt-3 p-1' style={{ fontSize:"1.3rem" }} onClick={createCommentHandle}>post Comment</button>
-              </div>
+
       </div>
       <hr />
       <div className="popup-btn-container">

@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import uniqid from 'uniqid';
 
-export const useDate = (recorded, nav) => {
+export const useDate = (records, nav) => {
   const [dateDisplay, setDateDisplay] = useState('');
   const [days, setDays] = useState([]);
-
-  const recordForDate = date => recorded.find(e => e.date === date);
   var is_weekend =  function(date){
     var dt = new Date(date);
-     
-    if(dt.getDay() == 6 || dt.getDay() == 0)
-       {
+    if(dt.getDay() === 6 || dt.getDay() === 0)
+      {
         return true;
         } 
 }
@@ -48,30 +45,29 @@ export const useDate = (recorded, nav) => {
       if (i > paddingDays) {
         daysArr.push({
           value: i - paddingDays,
-          record: recordForDate(dayString),
           isCurrentDay: i - paddingDays === day && nav === 0,
           date: dayString,
           isWeekend : is_weekend(dayString),
           id: uniqid(),
-          whichDay: whichDay
+          whichDay: whichDay,
         });
       }
       else {
         daysArr.push({
           value:  daysInPreviousMonth - paddingDays + i,
-          record: null,
+          /* record: undefined, */
           isCurrentDay: false,
           date: "",
           padding: true,
           id: uniqid(),
           whichDay: whichDay
-
+          
         });
       }
     }
 
     setDays(daysArr);
-  }, [recorded, nav]);
+  }, [records, nav]);
 
   return {
     days,

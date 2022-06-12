@@ -1,8 +1,11 @@
 import React from 'react'
 import { TextField  } from '@material-ui/core';
-
-function FormRow({type , name , value , handleChange ,labelText, fullWidth, rows , rowsMax , multiline , placeholder , readOnly  , className }) {
-
+import {FiSend} from "react-icons/fi"
+function FormRow({type , name , value , handleChange ,labelText, fullWidth, rows , rowsMax , multiline , placeholder , readOnly  , className  , onClick}) {
+  let icon = null; 
+  if (name === "comment") {
+    icon = <FiSend size={25}  className='sendIcon ' onClick={onClick}/>;
+  }
 
 
   return (
@@ -19,10 +22,10 @@ function FormRow({type , name , value , handleChange ,labelText, fullWidth, rows
           minRows={rows}
           maxRows={rowsMax}
           fullWidth = {fullWidth}
-          inputProps={
-            { readOnly: readOnly,}
-            
-          }
+          InputProps={{
+            endAdornment: icon , 
+            readOnly : readOnly
+          }}
           placeholder ={placeholder}
     />
 </>

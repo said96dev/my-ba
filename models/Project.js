@@ -3,8 +3,9 @@ import mongoose from "mongoose";
 const ProjectSchema = new mongoose.Schema({
     name : {
         type : String , 
+        required: [true, 'Please provide Project Name']
     } , 
-    clientId : {
+    client : {
         type : mongoose.Types.ObjectId ,
         ref : "Client",
         required: [true, 'Please provide Client']
@@ -16,7 +17,7 @@ const ProjectSchema = new mongoose.Schema({
     },
     projectStatus : {
         type : String,
-        enum: ['in process ', 'new' ,"open" , "completed" , "cancelled" ],
+        enum: ['in process ', 'paused' ,"closed" , "new" , "cancelled" , "open" ],
         default: 'new',
     },
     projectLeader: 
@@ -28,7 +29,25 @@ const ProjectSchema = new mongoose.Schema({
     dueDate: {
         type:Date,
         required: [true, 'Please provide Due Date']
+    },
+    team: {
+        type : String,
+        enum: ['T1', 'T2' ,"T3" , "T4" , "T5" ],
+        default: 'T1',
+    },
+    description: {
+        type:String
+    },
+    priority:{
+        type : String ,
+        enum: ['low', 'medium' ,"high"],
+        default: 'low',
+    }, 
+    progress: {
+        type:Number ,
+        default: 0
     }
+
 })
 
 export default mongoose.model('Project', ProjectSchema);

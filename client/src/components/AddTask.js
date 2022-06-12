@@ -38,7 +38,8 @@ function AddTask() {
           <FormRowSelect
             labelText='Priority'
             name='taskPriority'
-            value={taskPriority}            handleChange={handleCreateTaskInput}
+            value={taskPriority}            h
+            andleChange={handleCreateTaskInput}
             list={[...taskPriorityOptionen]}
           />
           <FormRowSelect
@@ -70,7 +71,14 @@ function AddTask() {
       disablePast = {true}
       />
       </div>
-      <div>
+      <div className='description'>
+      <FormRowSelect
+            labelText='Priority'
+            name='taskPriority'
+            value={taskPriority}            h
+            andleChange={handleCreateTaskInput}
+            list={[...taskPriorityOptionen]}
+          />
       <FormRow
             type='text'
             name='description'
@@ -84,9 +92,9 @@ function AddTask() {
           />
       </div>
       <div className="btn-container">
-          <button disabled={isLoading} className="btn submit-btn" type='submit' onClick={handleSubmit}>{isLoading ? 'Please Wait...' : 'submit'}
+          <button disabled={isLoading} className="btn btn-block " type='submit' onClick={handleSubmit}>{isLoading ? 'Please Wait...' : 'submit'}
           </button>
-          <button className="btn clear-btn" onClick={(e) => {
+          <button className="btn btn-block btn-danger" onClick={(e) => {
           e.preventDefault();
           clearValues();}}>clear</button>
       </div>

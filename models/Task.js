@@ -11,6 +11,10 @@ const TaskSchema = new mongoose.Schema({
         ref: 'User',
         required: [true, 'Please provide Employee']
     },
+    project: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Project',
+    },
     deadline:{
         type:Date,
         default:Date.now()

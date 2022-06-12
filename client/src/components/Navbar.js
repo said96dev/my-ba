@@ -6,7 +6,7 @@ import { AppContext } from '../context/appContext';
 import Logo from "./Logo";
 import {IoIosNotifications} from "react-icons/io"
 function Navbar() {
-  const {user , toggleSidebar,logoutUser} = useContext(AppContext)
+  const { toggleSidebar,logoutUser} = useContext(AppContext)
   const [showLogout, setShowLogout] = useState(false)
   return (
     <Wrapper>
@@ -20,7 +20,7 @@ function Navbar() {
     </div>
     
     <div className="btn-container">
-    <div onClick={() => {console.log("Notifications")}} className="notifications">
+    <div onClick={() => {console.log("Notifications")}} className=" divIcon divIcon-Primary">
       <IoIosNotifications />
       </div>
       <button className="btn" onClick={() =>setShowLogout(!showLogout)}>

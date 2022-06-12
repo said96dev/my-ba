@@ -10,7 +10,7 @@ const initialState = {
 }
 
 function Login() {
-  const  {user , isLoading , showAlert , displayAlert , loginUser, getUsers } = useContext(AppContext)
+  const  {user , isLoading , showAlert , displayAlert , loginUser } = useContext(AppContext)
   const [values , setValues] = useState(initialState)
   const navigate = useNavigate();
   // global state and useNavigate

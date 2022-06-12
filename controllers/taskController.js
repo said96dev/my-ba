@@ -3,6 +3,7 @@ import User from "../models/User.js"
 import { StatusCodes } from "http-status-codes";
 import {NotFoundError, UnauthenticatedError} from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js"
+import Project from "../models/Project.js"
 
 const createTask = async (req , res ) => {
     req.body.createdBy = req.user.userId
@@ -14,20 +15,20 @@ const createTask = async (req , res ) => {
     res.status(StatusCodes.CREATED).json({task})
 }
 const deleteTask = async (req  , res ) => {
+    console.log(req.params)
     const {id: taskId} = req.params ; 
     const task = await Task.findOne({_id: taskId})
     if(!task) {
         throw new NotFoundError(`No Task with id : ${taskId}`)
     }
-    if(req.user.userId === task.createdBy._id.toString()){
-        await task.remove();
+    checkPermissions(req.user , task.assignedTo)
+    await task.remove();
         res.status(StatusCodes.OK).json({ msg : "Success! Task removed"})
-    }    
-    else 
-    throw new UnauthenticatedError('Not authorized to delete this Task')
+    
 }
 
 const getSingleTask = async (req , res) =>{
+
     const {id: taskId} = req.params ; 
     const task = await Task.findOne({_id:taskId}).populate('comment').populate({
         path:"createdBy" ,
@@ -35,12 +36,15 @@ const getSingleTask = async (req , res) =>{
     }).populate({
         path:"assignedTo" ,
         select: "name lastName"
+    }).populate({
+        path:"project" ,
+        select: "name"
     });
 
     if(!task){
         throw new NotFoundError(`No Task with id : ${taskId}`)
     }
-    checkPermissions(req.user , task.assignedTo)
+    checkPermissions(req.user , task.assignedTo._id)
     const totalComments = task.comment.length 
     res.status(StatusCodes.OK).json({totalComments , task })
 }
@@ -64,6 +68,7 @@ const updateTask = async (req , res ) => {
 
 const getAllTasks = async (req , res) => {
     const users = await User.find({}).select("name , lastName").sort("+ name ")
+    const projects = await Project.find({}).select("name").sort("+ name ")
     if(req.user.userRole === "admin"){
         const task = await Task.find({}).populate({
             path:"createdBy" ,
@@ -71,9 +76,12 @@ const getAllTasks = async (req , res) => {
         }).populate({
             path:"assignedTo" ,
             select: "name lastName -_id"
-        })
+        }).populate({
+            path:"project" ,
+            select: "name"
+        });
         const totalTasks = await Task.countDocuments({});
-        res.status(StatusCodes.OK).json({totalTasks , task , users})
+        res.status(StatusCodes.OK).json({projects , totalTasks , task , users})
     }
     if(req.user.userRole === "user"){
         const task = await Task.find({assignedTo:req.user.userId}).populate({
@@ -82,9 +90,12 @@ const getAllTasks = async (req , res) => {
         }).populate({
             path:"assignedTo" ,
             select: "name lastName -_id"
-        })
+        }).populate({
+            path:"project" ,
+            select: "name"
+        });
         const totalTasks = await Task.countDocuments({assignedTo:req.user.userId});
-        res.status(StatusCodes.OK).json({totalTasks , task , users})
+        res.status(StatusCodes.OK).json({ projects, totalTasks , task , users  })
     }
 
 }

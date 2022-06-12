@@ -8,6 +8,7 @@ function UsersContainer() {
   const {isLoading , users , search , sort, position, role, page, numOfPages , totalUsers, getUsers} = useContext(AppContext)
   useEffect(()=>{
     getUsers()
+    // eslint-disable-next-line 
   } , [
     search , 
     sort , 

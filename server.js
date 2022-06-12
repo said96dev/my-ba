@@ -35,7 +35,7 @@ app.use("/api/v1/users", userRouter)
 app.use("/api/v1/tasks" ,authentication ,taskRouter)
 app.use("/api/v1/comments" ,authentication ,commentRouter)
 app.use("/api/v1/records",authentication, recordRouter)
-app.use("/api/v1/client" , authentication , clientRouter)
+app.use("/api/v1/clients" , authentication , clientRouter)
 app.use("/api/v1/projects" , authentication , projectRouter)
 app.get("/" , (req , res ) => {
     res.send("Welcome")

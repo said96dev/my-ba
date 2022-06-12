@@ -21,7 +21,12 @@ const Wrapper = styled.section`
     height: 3px;
     background-color: var(--grey-200) ;
     margin:2rem 0 2rem 0  ;
-
+}
+.submit-btn {
+  width:50% ;
+  justify-self:end ;
+  grid-column-start:3 ;
+  grid-row-start:3 ;
 }
   }
   .form-row {

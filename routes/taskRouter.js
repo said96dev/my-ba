@@ -13,7 +13,7 @@ const router = express.Router()
 
 router.route("/").get(getAllTasks) //users can see there Task, admin can see all Tasks
 router.route("/addTask").post( authorizePermissions("admin") ,createTask)
-router.route("/:id").get(getSingleTask).delete( authorizePermissions("admin"),deleteTask).patch(updateTask)
+router.route("/:id").get(getSingleTask).delete(deleteTask).patch(updateTask)
 
 //weiterleiten
 

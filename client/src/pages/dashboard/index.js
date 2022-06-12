@@ -5,6 +5,9 @@ import SharedLayout from "./SharedLayout"
 import Stats from "./Stats"
 import Attendance from "./Attendance"
 import Profile from "./Profile"
+import Client from "./Client"
+import Project from "./Project"
+import AddClient from "../../components/AddClient"
 export {
     AddUser,
     AllTasks,
@@ -12,5 +15,8 @@ export {
     SharedLayout,
     Stats, 
     Attendance,
-    Profile 
+    Profile ,
+    Client , 
+    Project,
+    AddClient ,
 }

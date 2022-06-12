@@ -1,10 +1,13 @@
-import React, { useReducer } from "react";
+import React, {  useReducer } from "react";
 import { LOGOUT_USER ,TOGGLE_SIDEBAR,DISPLAY_ALERT , CLEAR_ALERT ,  LOGIN_USER_BEGIN , LOGIN_USER_ERROR , LOGIN_USER_SUCCESS, UPDATE_USER_BEGIN , UPDATE_USER_SUCCESS , UPDATE_USER_ERROR, HANDLE_CHANGE, CLEAR_FILTERS,
   ADD_USER_BEGIN , ADD_USER_SUCCESS , ADD_USER_ERROR, CLEAR_VALUES, GET_ALL_USERS_BEGIN,GET_ALL_USERS_SUCCESS , CHANGE_PAGE,GET_ALL_TASKS_SUCCESS, GET_ALL_TASKS_BEGIN,
-  ADD_TASK_BEGIN , ADD_TASK_ERROR , ADD_TASK_SUCCESS ,EDIT_TASK_BEGIN
-  ,DELETE_TASK_BEGIN, ADD_COMMENT_BEGIN, DELETE_COMMENT_BEGIN , 
-  ADD_RECORD_BEGIN, ADD_RECORD_SUCCESS , ADD_RECORD_ERROR,
-  GET_TASK_BEGIN ,GET_TASK_ERROR , GET_TASK_SUCCESS } from "./action";
+  ADD_TASK_BEGIN , ADD_TASK_ERROR , ADD_TASK_SUCCESS ,EDIT_TASK_BEGIN ,GET_ALL_RECORDS_BEGIN , GET_ALL_RECORDS_SUCCESS
+  ,DELETE_TASK_BEGIN, ADD_COMMENT_BEGIN, DELETE_COMMENT_BEGIN ,  ADD_CLIENT_BEGIN , ADD_CLIENT_SUCCESS , ADD_CLIENT_ERROR ,
+  ADD_RECORD_BEGIN, ADD_RECORD_SUCCESS , ADD_RECORD_ERROR, GET_ALL_CLIENTS_BEGIN , GET_ALL_CLIENTS_SUCCESS,
+  GET_TASK_BEGIN ,GET_TASK_ERROR , GET_TASK_SUCCESS , DELETE_RECORD_BEGIN, 
+  GET_ALL_EMPLOYE_SUCCESS , GET_ALL_EMPLOYE_BEGIN , 
+ADD_PROJECT_BEGIN , ADD_PROJECT_SUCCESS , ADD_PROJECT_ERROR,
+GET_ALL_PROJECT_BEGIN , GET_ALL_PROJECT_SUCCESS} from "./action";
 import AlertReducer from "./reducer";
 import axios from "axios";
 
@@ -40,6 +43,7 @@ export const initialState = {
     department: "",
     departmentOptions: ["development" , "design" , "accounting", "secretariat" , "administration"],
     tasks:[],
+    projects:[] ,
     taskStatusOptionen:['in process ', 'paused' ,"closed" , "fresh" , "cancelled" ],
     taskTypeOptionen:['internal ', 'external' ,"other"],
     taskPriorityOptionen:['low', 'medium' ,"high"],
@@ -53,6 +57,9 @@ export const initialState = {
     employeeOptionen:[] , 
     oneTask : {} , 
     totalComments : 0 ,
+    records : [] ,
+    clients: []
+
 
 };
 
@@ -90,7 +97,8 @@ const AppProvider = ({children}) => {
         return Promise.reject(error)
       }
     )
-    
+
+
     // Add User Login Info to Local Storage
     const addUserToLocalStorage = ({user , token }) => {
       localStorage.setItem("user" , JSON.stringify(user))
@@ -194,8 +202,23 @@ const AppProvider = ({children}) => {
       }
       clearAlert();
       };
+      
+    //Get All employee 
+    const getEmployee = async () => {
+      dispatch({type:GET_ALL_EMPLOYE_BEGIN})
+      try {
+        const {data} = await authFetch("users/getEmployee")
+        const {users} = data
+        dispatch({type : GET_ALL_EMPLOYE_SUCCESS , 
+          payload:{
+            users , 
+          }})
+      } catch (error) {
+        //logoutUser()
+      }
+    }
 
-    // Add New User 
+    // Add New User  
     const addUser = async () => {
       dispatch({type : ADD_USER_BEGIN })
       try {
@@ -247,12 +270,13 @@ const AppProvider = ({children}) => {
       dispatch({type: GET_ALL_TASKS_BEGIN})
       try {
         const {data} = await authFetch("tasks")
-        const {totalTasks , task , users} = data
+        const {totalTasks , task , users , projects} = data
         dispatch({ type:GET_ALL_TASKS_SUCCESS,
           payload:{ 
             task , 
             totalTasks,
-            users
+            users,
+            projects
           }
         })
       } catch (error) {
@@ -355,7 +379,7 @@ const AppProvider = ({children}) => {
         dispatch({
           type:ADD_RECORD_SUCCESS
         })
-        //getRecords
+        getRecords()
       } catch (error) {
         dispatch({
           type:ADD_RECORD_ERROR , 
@@ -364,8 +388,107 @@ const AppProvider = ({children}) => {
       }
       clearAlert()
     }
+    //Get all record 
+    const getRecords = async () => {
+      dispatch({type: GET_ALL_RECORDS_BEGIN})
+      try {
+        const {data} = await authFetch("records")
+        const {record , totalRecords , users} = data
+        dispatch({ type:GET_ALL_RECORDS_SUCCESS,
+          payload:{ 
+            record , 
+            totalRecords ,
+            users
+          }
+        })
+      } catch (error) {
+        //logoutUser()
+      }
+      clearAlert()
+    }
+    //delete Record 
+    const deleteRecord = async (reocrdId) => {
+      dispatch({type: DELETE_RECORD_BEGIN})
+      try {
+        await authFetch.delete(`records/${reocrdId}`)
+        getRecords()
+      } catch (error) {
+        //logoutUser();
+      }
+    }
+    //get All Client
+    const getClients = async () => {
+      dispatch({type: GET_ALL_CLIENTS_BEGIN})
+      try {
+        const {data} = await authFetch("clients")
+        const {clients , totalClients , users} = data
+        dispatch({ type:GET_ALL_CLIENTS_SUCCESS,
+          payload:{ 
+            clients , 
+            totalClients , 
+            users
+          }
+        })
+      } catch (error) {
+        //logoutUser()
+      }
+      clearAlert()
+    }
+    // add new Client
+    const addClient = async (client) => {
+      dispatch({type : ADD_CLIENT_BEGIN })
+      try {
+      
+        await authFetch.post("clients" , client)
+        dispatch ({
+          type : ADD_CLIENT_SUCCESS
+        })
+        getClients()
+      } catch (error) {
+        dispatch({
+          type: ADD_CLIENT_ERROR , 
+          payload: {msg:error.response.data.msg}
+        })
+      }
+      clearAlert()
+    }
+    
+    // Create Project
+    const addProject = async (project) => {
+      dispatch({type: ADD_PROJECT_BEGIN})
+      try {        
+        await authFetch.post("projects" , project)
+        dispatch({
+          type:ADD_PROJECT_SUCCESS
+        })
+        getProjects()
+      } catch (error) {
+        dispatch({
+          type : ADD_PROJECT_ERROR,
+          payload: {msg:error.response.data.msg}
+        })
+      }
+      clearAlert()
+    }
 
-
+    //get ll Prjects 
+    const getProjects = async () => {
+      dispatch({type: GET_ALL_PROJECT_BEGIN})
+      try {
+        const {data} = await authFetch("projects")
+        const {totalProject , project} = data
+        dispatch({ type:GET_ALL_PROJECT_SUCCESS,
+          payload:{ 
+            project ,
+            totalProject
+          }
+        })
+        getClients()
+      } catch (error) {
+        //logoutUser()
+      }
+      clearAlert()
+    }
     return (
         <AppContext.Provider value={{...state ,
         displayAlert,
@@ -387,7 +510,14 @@ const AppProvider = ({children}) => {
         singleTask,
         createComment,
         deleteComment,
-        addRecord
+        addRecord,
+        getRecords,
+        deleteRecord,
+        getClients,
+        addClient,
+        getEmployee , 
+        addProject ,
+        getProjects
         }}>
             {children}
         </AppContext.Provider>

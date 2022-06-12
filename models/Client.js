@@ -8,6 +8,10 @@ const ClientSchema = new mongoose.Schema({
       minlength: 3,
       maxlength: 50,
     },
+    lastName: {
+      type: String ,
+      required: [true, 'Please provide last Name']
+    },
     email: {
       type: String,
       unique: true,
@@ -32,8 +36,14 @@ const ClientSchema = new mongoose.Schema({
         enum: ['active', "inactive"],
         default : "active"
     },
-    Phone : {
+    phone : {
         type : String ,
+    },
+    company : {
+      type : String
+    },
+    position : {
+      type:String
     }
   },{ timestamps: true , toJSON: { virtuals: true }, toObject: { virtuals: true } }
   );

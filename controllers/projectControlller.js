@@ -1,7 +1,7 @@
 import User from "../models/User.js"
 import Project from "../models/Project.js"
 import { StatusCodes } from "http-status-codes"
-import {NotFoundError} from "../errors/index.js"
+import {NotFoundError , BadRequestError} from "../errors/index.js"
 import checkPermissions from "../utils/checkPermissions.js"
 
 
@@ -15,7 +15,7 @@ const getAllProjects = async (req , res) => {
             path : "projectLeader" , 
             select : "name lastName"
         }).populate({
-            path:"clientId",
+            path:"client",
             select : "name lastName"
         })
         const totalProject = await Project.countDocuments({})
@@ -29,7 +29,7 @@ const getAllProjects = async (req , res) => {
             path : "projectLeader" , 
             select : "name lastName _id"
         }).populate({
-            path:"clientId",
+            path:"client",
             select : "name lastName"})
 
         const totalProject = await Project.countDocuments({projectLeader:req.user.userId})
@@ -62,6 +62,10 @@ const updateProject = async (req ,res) => {
 }
 
 const createProject = async (req , res) => {
+    const {client ,projectLeader  } = req.body
+    if(!client ||!projectLeader) {
+        throw new BadRequestError("Plesae provide all values")
+    } 
     req.body.createdBy = req.user.userId 
     const user = await User.findOne({_id : req.body.projectLeader})
     if(!user) {

@@ -1,38 +1,69 @@
-import React from 'react';
-import {FiMoreVertical , FiArrowRight} from "react-icons/fi"
+import React , { useState , useEffect , useContext} from 'react';
+import { FiArrowRight} from "react-icons/fi"
 import {VscDebugBreakpointDataUnverified} from "react-icons/vsc"
 import {AiOutlineLine} from "react-icons/ai"
-const Day = ({ day, onClick }) => {
-  const className = `day ${day.padding === true ? 'padding' : ''} ${day.isCurrentDay ? 'currentDay' : ''} ${day.isWeekend ? 'padding' : ''}`;
+import {RiDeleteBin5Fill} from "react-icons/ri"
+import moment from 'moment';
+import { AppContext } from '../context/appContext';
+const Day = ({ day, onClick, records }) => {
+  const {deleteRecord} = useContext(AppContext)
+  const className = `day ${day.padding === true ? 'padding disable':''} ${day.isCurrentDay && !day.isWeekend  ? 'currentDay' : ''} ${day.isWeekend ? 'padding disable' : ''}`;
+  const [state , setState] = useState()
+  useEffect(() => { 
+    const record = records.find((r) => {
+      const nowDate = new Date(r.startRecord) ;
+            return nowDate.getMonth()+1+'/'+nowDate.getDate()+'/'+nowDate.getFullYear()=== day.date
+    })
+    setState(record)
+  }, [records , day])
+  const getTimeHandler = (date) => {
+    return moment(date).utc().format("HH:mm")
+  }
   return (
-    <div onClick={onClick} className={className}>
-      <div className='dayValue'>
+    <div onClick={ state ?() => deleteRecord(state._id) : onClick}  className={`${className}${state? "disable":""}`}>
+      <div className='dayValue '>
       {day.value}
-      {
-        day.isWeekend || day.padding ?  "" :  <FiMoreVertical className='icon'/>
+      
+      {state?
+      <div className='divIcon divIcon-Delete' onClick={() => console.log("hi")}>
+      <RiDeleteBin5Fill className='Deleteicon  '/>
+      </div> :<></>
       }
-      </div>
 
-      {day.isCurrentDay && <div className='record'>
+      </div>
+      { state && <div className='record'>
         <header className='recordHeader'>
-        <span className='recordTitly'>
-        <VscDebugBreakpointDataUnverified className='statusIcon'/>
-        Presence
+        <span className={ `recordTitel  ${state.recordType}`} >
+          <VscDebugBreakpointDataUnverified className={`statusIcon ${state.recordType}`}/>    
+        {state.recordType}
         </span>
         </header>
-        <div className='recordDetails'>
-          <p>7h30 + 0h30 Break</p>
-          <span className='start'>08:00 <FiArrowRight/> 12:00 </span>
+        {
+          state.recordType === "presence" ? <div className='recordDetails'>
+          <span className='start'>{getTimeHandler(state.startRecord)}
+          <FiArrowRight/> {getTimeHandler(state.endRecord)} </span>
           <span className='break'>
-            <AiOutlineLine/>0h30<AiOutlineLine/>
+            <AiOutlineLine/>{state.workingTimeDuration}<AiOutlineLine/>
           </span>
-          <span className='start'>08:00 <FiArrowRight/> 12:00 </span>
+          {
+          state.breakTimeDuration &&
+          <>
+          <span className='start'>{getTimeHandler(state.startBreak)} <FiArrowRight/> {getTimeHandler(state.endBreak)} </span>
           <span className='break'>
-            <AiOutlineLine/>0h30<AiOutlineLine/>
+            <AiOutlineLine/>{state.breakTimeDuration}<AiOutlineLine/>
           </span>
-          
+          </>
+        }
+        </div>:
+        <div className='substitute'>
+          <span>substituted by:</span>
+        <span>{state.substitute.name} {state.substitute.lastName}</span>
         </div>
-        </div>}
+        }
+        <div className='border'>
+          <div className={`${state.recordType}`}></div>
+        </div>
+        </div>  } 
     </div>
   );
 };

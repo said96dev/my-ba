@@ -1,12 +1,13 @@
 import moment from "moment";
-import { useContext } from "react";
 import { FaLocationArrow, FaBriefcase, FaCalendarAlt  } from "react-icons/fa";
 import {BsFillPinAngleFill} from "react-icons/bs"
 import {MdExpandMore} from "react-icons/md"
 import { Link } from "react-router-dom";
 import Wrapper from "../assets/wrappers/User";
-import { AppContext } from "../context/appContext";
 import UserInfo from "./UserInfon";
+import React , {useContext} from 'react'
+import { AppContext } from "../context/appContext";
+
 const User = ({
   _id,
   name,
@@ -17,10 +18,9 @@ const User = ({
   createdAt,
 
 }) => {
-    const {} = useContext(AppContext)
-
   let date = moment(createdAt);
   date = date.format("MMM Do, YYYY");
+  const {user} = useContext(AppContext)
 
   return (
     <Wrapper>
@@ -40,7 +40,10 @@ const User = ({
 
 {/*         <div className={`status ${status}`}>{status}</div> */}
     </div>
-        <footer>
+    {
+      user.role ==="admin" &&
+      <footer>
+          
           <div className="actions">
             <Link
               to="/add-job"
@@ -54,6 +57,8 @@ const User = ({
             
           </div>
         </footer>
+    }
+        
       </div>
     </Wrapper>
   );

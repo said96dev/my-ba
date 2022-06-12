@@ -17,5 +17,9 @@ const Wrapper = styled.div`
 .delete-btn:hover {
     color: #842029;
 }
+.sendIcon {
+    cursor: pointer;
+    color: var(--primary-700); 
+}
 `
 export default Wrapper

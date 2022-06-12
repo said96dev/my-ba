@@ -118,7 +118,7 @@ const Profile = () => {
             value={values.zipCode}
             handleChange={handleChange}
           />
-          <button className='btn btn-block' type='submit' disabled={isLoading}>
+          <button className='btn submit-btn' type='submit' disabled={isLoading}>
             {isLoading ? 'Please Wait...' : 'save changes'}
           </button>
         </div>

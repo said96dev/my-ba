@@ -25,10 +25,16 @@ const Wrapper = styled.section`
   .btn-block {
     align-self: end;
     margin-top: 1rem;
+    width:50% ;
   }
   .btn-container {
     display:flex ;
     gap:1rem ;
+  }
+  .client-search {
+    display:grid ;
+    grid-template-columns:repeat(3 , 1fr) ;
+    column-gap:1.2rem ;
   }
   @media (min-width: 768px) {
     .form-center {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-function DeletePopup({taskId , deleteHandle , setOpenDeletePopup}) {
+function DeletePopup({Id , deleteHandle ,setOpenDeletePopup }) {
   return (
     <div>
           <h3>
@@ -8,7 +8,7 @@ function DeletePopup({taskId , deleteHandle , setOpenDeletePopup}) {
           </h3>
           <div className="popup-btn-container">
             <button className="btn" onClick={() => 
-            deleteHandle(taskId)
+            deleteHandle(Id)
             } >Delete
             </button>
             <button className="btn" onClick={() => setOpenDeletePopup(false)}>

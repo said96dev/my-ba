@@ -9,6 +9,7 @@ const RecordingsSchema = new mongoose.Schema({
     substitute: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
+        required: [true, 'Please provide substitute']
     },
     recordComment: {
         type: String,
@@ -33,7 +34,14 @@ const RecordingsSchema = new mongoose.Schema({
         type : String ,
         enum: ["presence" , "vacation" , "absence" ],
         required: [true, 'Please provide Type']  
+    },
+    workingTimeDuration:{
+        type: String
+    },
+    breakTimeDuration:{
+        type:String
     }
+
 },
 { timestamps: true })
 

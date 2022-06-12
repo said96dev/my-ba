@@ -11,6 +11,11 @@ const Wrapper = styled.div`
         align-items:center ;
         width: 100%;
     }
+.vacation-form {
+    display:grid ;
+    grid-template-columns:1fr 1fr ;
+    gap:1rem ;
+}
 .work-form  {
     display:grid ;
     grid-template-columns:1fr 1fr ;
@@ -33,6 +38,17 @@ const Wrapper = styled.div`
 }
 .delete-btn:hover {
     color: #842029;
+}
+
+@media (max-width: 880px) { 
+    .work-form{
+        grid-template-columns:repeat(1 , 1fr);
+        row-gap:1rem ;
+        .res-fullRow {
+            grid-column:1/3 ;
+        }
+    }
+    
 }
 `
 export default Wrapper

@@ -9,6 +9,11 @@ width:100% ;
     grid-template-columns:1fr 1fr ;
     grid-gap:2rem ;
     margin: 0;
+    .description{
+      display:flex ;
+      flex-direction: column ;
+      row-gap:2rem ;
+    }
     .add-task-inputs {
         display:grid ;
         row-gap:2rem ;
@@ -34,10 +39,8 @@ width:100% ;
       display: flex ;
       gap:1rem ;
       font-size: 1.3rem;
-      .btn{
-          height:40px ;
-          width:50% ;
-      }
+      justify-content:end ;
+      
   }
 }
 @media (max-width: 892px) {

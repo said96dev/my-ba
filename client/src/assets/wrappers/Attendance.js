@@ -87,8 +87,15 @@ button {
   justify-items: center ;
   
 }
+.disable{
+    pointer-events:none;
+    &:hover {
+    background-color: #FFFFFF !important;
+    } 
+  }
 .day {
   width:100% ;
+  max-width:100% ;
   padding: 10px;
   height: 15rem;
   cursor: pointer;
@@ -100,22 +107,49 @@ button {
   .dayValue{
     display:flex ;
     justify-content:space-between ;
-
+    align-items:center;
+    
   }
+  .Deleteicon {
+      color:#842029;
+      z-index:10 ;
+      cursor: pointer;
+      pointer-events: auto;
+    }
   .record {
     display:flex ;
     flex-direction:column ;
     overflow: visible;
+    justify-content:space-between ;
+    height:12rem ;
+    span {
+        display:flex ;
+        justify-content:center ;
+        align-items:center ;
+        flex-direction:row ;
+        gap:10px
+      }
     .recordHeader {
       display: flex ;
       justify-content:space-between ;
       width:100% ;
       align-items:center ;
-      color : green ;
-      .recordTitly {
+      .presence{
+        color:#0f5132;
+      }
+      .vacation{
+        color:#ff9800;
+      }
+      .absence{
+        color:#842029;
+      }
+      .recordTitel {
         display:flex ;
         align-items:center ;
         gap:2px ;
+        text-transform:capitalize ;
+        font-weight:bold;
+        letter-spacing:1px ;
       }
     }
     .recordDetails{
@@ -127,14 +161,29 @@ button {
       p{
         margin:0 ;
       }
-      span {
-        display:flex ;
-        justify-content:center ;
-        align-items:center ;
-        flex-direction:row ;
-        gap:10px
+      
+    }
+    .border {
+      .presence{
+        width:100% ;
+        height:2rem ;
+        background-color:#b1dcc9;
+        border-radius:10px;
+      }
+      .vacation{
+        width:100% ;
+        height:2rem ;
+        background-color:#ead6b7;
+        border-radius:10px;
+      }
+      .absence{
+        width:100% ;
+        height:2rem ;
+        background-color:#f8d7da;
+        border-radius:10px;
       }
     }
+    
   }
 }
 .day:hover {
@@ -155,9 +204,6 @@ button {
     width: 20px;
     height: 20px;
   }
-    .icon:hover {
-    background-color: rgba(70,44,68,0.10)
-    }
 
 .day + .currentDay {
   background-color:#e8f4fa;
@@ -224,9 +270,21 @@ button {
   display:flex ;
   flex-direction:column ;
   #weekdays{
-    display:flex ;
-    flex-direction:row ;
-    font-size:0.8rem ;
+    width: 100%;
+  margin: auto;
+  display:grid ;
+  grid-template-columns: repeat(7 , 1fr) ;
+  justify-items: center ;
+  font-size:0.8rem ;
+  }
+  #calendar {
+    .recordTitel , .divIcon , .recordDetails , .substitute {
+      display:none ;
+    }
+    .record {
+      justify-content:center ;
+    }
+    
   }
 }
 #header {
