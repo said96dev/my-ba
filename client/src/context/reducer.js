@@ -4,7 +4,7 @@ UPDATE_USER_BEGIN , UPDATE_USER_SUCCESS , UPDATE_USER_ERROR , ADD_USER_BEGIN , A
 ADD_TASK_BEGIN , ADD_TASK_ERROR , ADD_TASK_SUCCESS , GET_TASK_BEGIN ,GET_TASK_ERROR , GET_TASK_SUCCESS , EDIT_TASK_BEGIN
 ,DELETE_TASK_BEGIN ,GET_ALL_RECORDS_BEGIN , GET_ALL_RECORDS_SUCCESS, 
 ADD_RECORD_BEGIN, ADD_RECORD_SUCCESS , ADD_RECORD_ERROR, DELETE_RECORD_BEGIN ,GET_ALL_CLIENTS_BEGIN , GET_ALL_CLIENTS_SUCCESS , ADD_CLIENT_BEGIN , ADD_CLIENT_SUCCESS , ADD_CLIENT_ERROR, GET_ALL_EMPLOYE_SUCCESS , GET_ALL_EMPLOYE_BEGIN, ADD_PROJECT_BEGIN , ADD_PROJECT_SUCCESS , ADD_PROJECT_ERROR , 
-GET_ALL_PROJECT_BEGIN , GET_ALL_PROJECT_SUCCESS
+GET_ALL_PROJECT_BEGIN , GET_ALL_PROJECT_SUCCESS , DELETE_CLIENT_BEGIN ,EDIT_CLIENT_BEGIN
 
 } from './action'
 function AlertReducer(state , action) {
@@ -359,6 +359,18 @@ function AlertReducer(state , action) {
       isLoading:false ,
       projects : action.payload.project ,
       totalProjects : action.payload.totalProject, 
+      }
+    }
+    if(action.type === DELETE_CLIENT_BEGIN){
+      return{
+        ...state , 
+        isLoading:true
+      }
+    }
+    if(action.type === EDIT_CLIENT_BEGIN){
+      return{
+        ...state , 
+        isLoading:true
       }
     }
 }

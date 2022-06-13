@@ -2,7 +2,6 @@ import { FormControl, InputLabel, Select as MuiSelect, MenuItem } from '@materia
 
 
 const SelectUser = ({ labelText, name, value, handleChange, list  , className}) => {
-
   return (
     <>
       <FormControl variant="outlined" className={className}>

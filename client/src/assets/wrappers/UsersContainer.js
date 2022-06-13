@@ -16,10 +16,7 @@ const Wrapper = styled.section`
     row-gap: 2rem;
   }
   .clients {
-      display:grid ;
-      grid-template-columns:repeat(3 , 1fr) ;
-      column-gap:1.2rem ;
-      row-gap:1.2rem ;
+      width:100% ;
     }
     .card {
       text-transform:capitalize ;
@@ -64,11 +61,25 @@ const Wrapper = styled.section`
     }
     
   }
-  @media (max-width: 692px) {
-    
-  .clients {
+ 
+  @media (max-width: 1500px) {
+  .project-container {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 2rem;
+  }
+  }
+  @media (max-width: 1200px) {
+    .project-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 2rem;
+  }
+  }
+  @media (max-width: 650px) {
+    .project-container {
+    display: grid;
+    grid-template-columns:  1fr;
     row-gap: 2rem;
   }
   }

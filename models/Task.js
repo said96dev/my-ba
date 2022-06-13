@@ -21,7 +21,7 @@ const TaskSchema = new mongoose.Schema({
     },
     taskStatus:{
         type : String ,
-        enum: ['in process ', 'paused' ,"closed" , "fresh" , "cancelled" ],
+        enum: ['inprogress', 'paused' ,"completed" , "fresh" , "cancelled"],
         default: 'fresh',
     },
     title: {
@@ -33,7 +33,7 @@ const TaskSchema = new mongoose.Schema({
     },
     taskType : {
         type : String ,
-        enum: ['internal ', 'external' ,"other"],
+        enum: ['internal', 'external' ,"other"],
         default: 'external',
     },
     taskPriority:{
@@ -52,6 +52,9 @@ TaskSchema.virtual('comment', {
     foreignField: 'taskId',
     justOne: false,
 });
+TaskSchema.pre('remove', async function (next) {
+    await this.model('Comment').deleteMany({ taskId: this._id });
+  });
 
 
 export default mongoose.model('Task', TaskSchema)

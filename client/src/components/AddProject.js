@@ -158,7 +158,7 @@ function AddProject() {
     teamOptionen: ['T1 ', 'T2' ,"T3" , "T4" , "T5" ],
     projectStatusOptionen: [ 'new' ,"open" ],
   }
-    const { alertText , showAlert , isLoading , getEmployee , getClients , employeeOptionen , clients , addProject } = useContext(AppContext)
+    const { alertText , showAlert ,addProject } = useContext(AppContext)
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(0);
     const [skippedSteps, setSkippedSteps] = useState([]);
@@ -209,6 +209,7 @@ function AddProject() {
         setValues(initialState)
       }
       const handleChange = (e) => {
+        
         setValues({...values , [e.target.name] : e.target.value})
       }
     return (

@@ -1,8 +1,16 @@
 import React from 'react'
-import {Card , CardHeader  , CardContent , CardActions , Collapse , Avatar , Typography} from '@mui/material';
+import {Card , CardHeader  , CardContent , Typography} from '@mui/material';
 import {LinearProgressWithLabe , Date} from "./index"
-
+import {FiMoreVertical} from "react-icons/fi"
+import { makeStyles } from '@material-ui/core/styles';
 function ProjectCard(props) {
+  const useStyles = makeStyles((theme) => ({
+    icon: {
+      cursor:"pointer" 
+    }
+  }))
+  const classes = useStyles();
+
   return (
     <div className='project-card'>
       <Card sx={{ maxWidth: 345 }}>
@@ -13,6 +21,8 @@ function ProjectCard(props) {
               }}
               title= {props.name} 
               subheader = "1 open tasks,9 tasks completed"
+              action={
+                <FiMoreVertical className={classes.icon} size={20} />}
           />
           <CardContent>
             {

@@ -48,6 +48,15 @@ const ProjectSchema = new mongoose.Schema({
         default: 0
     }
 
+},{ timestamps: true , toJSON: { virtuals: true }, toObject: { virtuals: true } })
+ProjectSchema.virtual("task" , {
+    ref : "Task" ,
+    localField:"_id", 
+    foreignField:"project",
+    justOne: false
+})
+ProjectSchema.pre("remove" , async function (next) {
+    await this.model("Task").deleteMany({projeck:this._id}) ; 
 })
 
 export default mongoose.model('Project', ProjectSchema);

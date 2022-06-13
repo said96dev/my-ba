@@ -1,9 +1,9 @@
 import Task from "../models/Task.js";
 import User from "../models/User.js"
+import Project from "../models/Project.js";
 import { StatusCodes } from "http-status-codes";
 import {NotFoundError, UnauthenticatedError} from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js"
-import Project from "../models/Project.js"
 
 const createTask = async (req , res ) => {
     req.body.createdBy = req.user.userId
@@ -15,7 +15,6 @@ const createTask = async (req , res ) => {
     res.status(StatusCodes.CREATED).json({task})
 }
 const deleteTask = async (req  , res ) => {
-    console.log(req.params)
     const {id: taskId} = req.params ; 
     const task = await Task.findOne({_id: taskId})
     if(!task) {

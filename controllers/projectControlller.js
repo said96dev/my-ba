@@ -74,10 +74,22 @@ const createProject = async (req , res) => {
     const project = await Project.create(req.body)
     res.status(StatusCodes.CREATED).json(project)
 }
+const deleteProject = async (req , res) => {
+    const {id : projectId} = req.params ; 
+    const project = await Project.findOne({_id : projectId})
+    if(project) {
+        throw new NotFoundError (`No Task with id : ${projectId}`)
+    }
+    await project.remove() ; 
+    res.status(StatusCodes.OK).json({
+        msg : "Success! Project removed"
+    })
+}
 
 export {
     createProject , 
     getAllProjects , 
     getSingleProject , 
-    updateProject
+    updateProject ,
+    deleteProject , 
 }

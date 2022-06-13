@@ -1,11 +1,11 @@
-import React from 'react'
+import React , {useContext , useState} from 'react'
 import Wrapper from '../assets/wrappers/ProjectPage'
-import {  FormRow, Alert  , FormRowSelect, SelectUser ,DatePicker } from "../components"
+import {  FormRow, FormRowSelect, SelectUser ,DatePicker } from "../components"
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Button,
+import {Button } from "@material-ui/core";
+import { AppContext } from '../context/appContext';
+import Slider from '@mui/material/Slider';
 
-  } from "@material-ui/core";
   const useStyles = makeStyles((theme) => ({
     button: {
         backgroundColor: "#2196f3" ,
@@ -30,70 +30,122 @@ import {
     },
   }));
 function EditProject() {
+  const initialState = {
+    name : "" , 
+    client:  "",
+    projectStatus: "",
+    projectLeader : "" ,
+    team : "active" , 
+    dueDate : Date.now() , 
+    description : "" ,
+    priority: "" ,
+    progress : 0 ,
+    priorityOptionen:['low', 'medium' ,"high"],
+    teamOptionen: ['T1 ', 'T2' ,"T3" , "T4" , "T5" ],
+    projectStatusOptionen: [ 'new' ,"open" ],
+  }
+  const [values , setValues] = useState(initialState)
+  const handleChange = (e) => {
+    setValues({...values , [e.target.name] : e.target.value})
+  }
   const classes = useStyles();
+  const { projects  } = useContext(AppContext)
   return (
     <Wrapper>
       <div className="form">
         <h3 className= 'page-center'> Project / Edit-Delete Project</h3>
-        <div className='edit-form'> 
-          <FormRow
-                    type='text'
+        {
+          projects.length !== 0  && 
+          <>
+            <div className='edit-form'> 
+          <SelectUser
+                    labelText='Project Name'
                     name='name'
-                    labelText='Project Name '
+                    value={values.name}
+                    handleChange={handleChange}
+                    list= {[...projects]}
                     className="full-row"
-                    //value={values.name}
-                    //handleChange={handleChange}
             />
+            {
+              values.name &&
+              <>
+               <FormRowSelect
+              labelText='Status'
+              name='projectStatus'
+              value={values.projectStatus === "" ?values.name.projectStatus : values.projectStatus}
+              handleChange={handleChange}
+              list={[...values.projectStatusOptionen]}
+              
+            />
+           <FormRowSelect
+              labelText='Priority'
+              name='priority'
+              value={ values.priority === "" ? values.name.priority : values.priority}
+              handleChange={handleChange}
+              list={[...values.priorityOptionen]}
+              
+            />
+           <DatePicker
+            labelText='Due Date'
+            name='dueDate'
+            value={values.dueDate === Date.now()  ? values.name.dueDate : values.dueDate}
+            className="full-row"
+            handleChange={handleChange}
+            disablePast = {true}
+        />
+        <Slider
+        aria-label="Temperature"
+        valueLabelDisplay="auto"
+        value={values.progress === "" ? values.name.progress : values.progress}
+        step={10}
+        marks
+        min={10}
+        max={110}
+        className = "full-row"
+        onChange={handleChange}
+        name='progress'     
+              />
+        
             <FormRow
                     type='text'
-                    name='name'
-                    labelText='Project Name '
-                    //value={values.name}
-                    //handleChange={handleChange}
-            />
-            <FormRow
-                    type='text'
-                    name='name'
-                    labelText='Project Name '
-                    //value={values.name}
-                    //handleChange={handleChange}
-            />
-            <FormRow
-                    type='text'
-                    name='name'
-                    labelText='Project Name '
+                    name='description'
+                    labelText='Description'
                     className="full-row"
-                    //value={values.name}
-                    //handleChange={handleChange}
-            />
-            <FormRow
-                    type='text'
-                    name='name'
-                    labelText='Project Name '
-                    className="full-row"
-                    //value={values.name}
-                    //handleChange={handleChange}
+                    value={values.name=== "" ?  values.name.description: 
+                  values.description
+                  }
+                    handleChange={handleChange}
                     rows={5}
                     rowsMax={10}
                     multiline={true}
             />
+              </>
+            }
           </div>
+         {
+          values.name && 
           <div className='edit-button-container'>
-              <Button
-              variant="contained"
-              className={classes.secondary}
-              >
-              Clear
-              </Button>
-              <Button
-              variant="contained"
-              type="submit"
-              className={classes.button}
-              >
-              Save
-              </Button>
-            
-          </div>
+         <Button
+         variant="contained"
+         className={classes.secondary}
+         >
+         Clear
+         </Button>
+         <Button
+         variant="contained"
+         type="submit"
+         className={classes.button}
+         >
+         Save
+        </Button>
+    </div>
+
+         }
+         
+        
+          
+          </>
+        }
         </div>
     </Wrapper>
   )

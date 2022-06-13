@@ -57,9 +57,19 @@ const getSingleClient = async (req , res) => {
 const updateClient = async (req , res) => {
     res.send("update Client")
 }
+const deleteClient = async (req , res) => {
+    const {id: clientId} = req.params ;
+    const client = await Client.findOne({id:clientId})
+    if(!client) {
+        throw new NotFoundError(`No Client with id: ${clientId}`)
+    } 
+    await client.remove();
+    res.status(StatusCodes.OK).json({msg : "Success! Client removed"})
+}
 export {
     createClient , 
     getAllClinet , 
     getSingleClient ,
-    updateClient
+    updateClient,
+    deleteClient
 }

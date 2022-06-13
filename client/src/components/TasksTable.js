@@ -1,5 +1,5 @@
 import React , {useEffect , useState, useContext} from 'react'
-import {Paper ,TableRow ,TableHead,TableContainer,TableCell ,TableBody,Table , TableSortLabel} from "@mui/material"
+import {Paper ,TableRow ,TableHead,TableContainer,TableCell , Typography,TableBody,Table , TableSortLabel , TablePagination} from "@mui/material"
 import SearchBar from "material-ui-search-bar";
 import {MdEdit} from "react-icons/md"
 
@@ -7,15 +7,30 @@ import {RiDeleteBin5Fill } from "react-icons/ri"
 import Wrapper from '../assets/wrappers/TasksTable';
 import { AppContext } from '../context/appContext';
 import {Loading , Date , Popup  , DeletePopup , EditPopup} from './index';
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles((theme) => ({
+    status: {
+        fontWeight: 'bold',
+        fontSize: '0.75rem',
+        color: 'white',
+        borderRadius: 8,
+        padding: '3px 10px',
+        display: 'inline-block'
+    },
+  }));
 function TasksTable() {
+  const classes = useStyles();
+
     const {tasks , getTasks , isLoading  , deleteTask ,singleTask } = useContext(AppContext)
     const [openDeletePopup, setOpenDeletePopup] = useState(false)
     const [openEditPopup, setOpenEditPopup] = useState(false)
     const [taskId , setTaskId] = useState("")
     const [rows , setRows] = useState(tasks)
     const [searched, setSearched] = useState("");
-
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    
     // when i use one UseEffect , will the tasks not display , becouse the funktion getTask will invoked in loop 
     useEffect(() => {
       getTasks()
@@ -58,6 +73,13 @@ function TasksTable() {
   const handleSortRequest = (e) => {
     console.log("date filter")
   }
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
 
     if (isLoading) {
         return <Loading center />;
@@ -77,9 +99,9 @@ function TasksTable() {
           rows.length === 0 ?
             <h2>No tasks to display...</h2> :
           
-        
-    <TableContainer component={Paper} className="taskTable">
-    <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <Paper  className="taskTable">
+    <TableContainer>
+    <Table sx={{ minWidth: 650 }}>
       <TableHead>
         <TableRow>
           <TableCell>Task Title</TableCell>
@@ -94,10 +116,10 @@ function TasksTable() {
         </TableRow>
       </TableHead>
       <TableBody>
-        {rows.map((task) => (
+      {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((task) => (
           <TableRow
             key={task._id}
-            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            className={task.taskStatus === "completed" ? "done" : ""}
           >
             <TableCell component="th" scope="row">
               {task.title}
@@ -108,8 +130,45 @@ function TasksTable() {
             <TableCell align="left"><Date date={task.createdAt}/></TableCell>
             <TableCell align="left">
               <Date date={task.deadline}/></TableCell>
-            <TableCell align="left" className={`status operating ${task.taskStatus}`}>{task.taskStatus}</TableCell>
-            <TableCell align="left">{task.taskPriority}</TableCell>
+            <TableCell align="left" >
+            <Typography className={`${classes.status} + ${task.taskStatus === "completed" && "done"}` }
+            style={{
+              backgroundColor: 
+              ((task.taskStatus === 'fresh' && '#b9f6ca60') ||
+              (task.taskStatus === 'cancelled' && '#fbe9e780') ||
+              (task.taskStatus === "paused" && "#fff8e1") || 
+              (task.taskStatus === "completed" && "#b9f6ca60") ||
+              (task.taskStatus === "inprogress" && "#e3f2fd") 
+              ), 
+              color : ((task.taskStatus === 'fresh' && '#00c853') ||
+              (task.taskStatus === 'cancelled' && '#963434') ||
+              (task.taskStatus === "paused" && "#ffc107") ||
+              (task.taskStatus === "completed" && "#00c853") || 
+              (task.taskStatus === "inprogress" && "#1565c0") 
+              )
+            
+          }}>
+            {task.taskStatus}
+            </Typography>
+            </TableCell>
+            <TableCell align="left">
+              <Typography className={`${classes.status} + ${task.taskStatus === "completed" && "done"}`}
+              style={{
+                backgroundColor: 
+                (
+                (task.taskPriority === "low" && "#fff8e1") || 
+                (task.taskPriority === "high" && "#fbe9e7") ||
+                (task.taskPriority === "medium" && "#e3f2fd") 
+                ), 
+                color : (
+                (task.taskPriority === "low" && "#ffc107") ||
+                (task.taskPriority === "high" && "#c62828") || 
+                (task.taskPriority === "medium" && "#1565c0") 
+                )
+            }}>
+              {task.taskPriority}
+              </Typography>
+            </TableCell>
             <TableCell align="center" >
               <div  className='action'>
                 <div onClick={() => editPopup(task._id)}  className = "divIcon divIcon-Edit" >
@@ -128,6 +187,16 @@ function TasksTable() {
       </TableBody>
     </Table>
   </TableContainer>
+  <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+  </Paper>
   }
     <Popup
       openPopup={openEditPopup}

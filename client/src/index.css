@@ -59,7 +59,7 @@ html {
 --secondary800: #4527a0;
 
 /* // success Colors */
---successLight: #b9f6ca;
+--successLight: #bbf6cc;
 --success200: #69f0ae;
 --successMain: #00e676;
 --successDark: #00c853;
@@ -112,10 +112,11 @@ body {
   font-weight: 400;
   line-height: 1.75;
   color: var(--textColor);
+
 }
 
 p {
-  margin-bottom: 1.5rem;
+
   max-width: 40em;
 }
 
@@ -152,6 +153,7 @@ h4 {
 
 h5 {
   font-size: 1.25rem;
+  font-weight: 700;
 }
 
 small,
@@ -364,6 +366,15 @@ ul {
   opacity: 1;
   transform: scale(0.8);
   box-shadow: 0 0 0 3px #ae7219;
+}
+.divIcon-View:hover:after {
+  opacity: 1;
+  transform: scale(0.8);
+  box-shadow: 0 0 0 3px var(--secondaryDark);
+}
+.divIcon-View {
+  background-color: var(--secondaryLight);
+  color:var(--secondaryDark);
 }
 .divIcon-Delete {
   background-color: #c70f0f1a;

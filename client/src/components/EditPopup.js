@@ -4,14 +4,14 @@ import Wrapper from '../assets/wrappers/EditPopup'
 import { AppContext } from '../context/appContext'
 import { FormRow, DatePicker, FormRowSelect} from "./index"
 import { Divider, Avatar, Grid , Typography} from "@material-ui/core";
-import {FiSend} from "react-icons/fi"
+
 
 function EditPopup({ taskId ,setOpenEditPopup }) {
   const { deleteComment , oneTask, totalComments, employeeOptionen, taskStatusOptionen, taskTypeOptionen, createComment , taskPriorityOptionen , editTask } = useContext(AppContext)
   
   const convertDate = (createdAt) => {
     let date = moment(createdAt);
-    date = date.format("dddd ,HH:mm ");
+    date = date.format("MMMM Do dddd, HH:mm ");
     return date
   }
 
@@ -153,7 +153,7 @@ function EditPopup({ taskId ,setOpenEditPopup }) {
                   let index = employeeOptionen.find((item) => item._id === comment.createdBy)
                   return(
                     <div key={comment._id} >
-                    <Grid    container wrap="nowrap" spacing={2}>
+                    <Grid  container wrap="nowrap" spacing={2}>
                       <Grid item>
                         <Avatar alt="S" src="" />
                       </Grid>
@@ -161,7 +161,7 @@ function EditPopup({ taskId ,setOpenEditPopup }) {
                       <Typography  variant="h5" style={{ margin: 0, textAlign: "left" ,color:"#0f6380"}} >{index.name}</Typography>
                       <p style={{ textAlign: "left" , fontSize:"1.4rem" ,  margin:"0px"}} >{comment.comment}</p>
                       <p style={{ textAlign: "left", color: "gray" , margin:"0px" }} > posted 
-                      <span> </span>
+                      <span>, </span>
                         {
                           convertDate(comment.createdAt)
                         }

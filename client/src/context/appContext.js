@@ -6,7 +6,7 @@ import { LOGOUT_USER ,TOGGLE_SIDEBAR,DISPLAY_ALERT , CLEAR_ALERT ,  LOGIN_USER_B
   ADD_RECORD_BEGIN, ADD_RECORD_SUCCESS , ADD_RECORD_ERROR, GET_ALL_CLIENTS_BEGIN , GET_ALL_CLIENTS_SUCCESS,
   GET_TASK_BEGIN ,GET_TASK_ERROR , GET_TASK_SUCCESS , DELETE_RECORD_BEGIN, 
   GET_ALL_EMPLOYE_SUCCESS , GET_ALL_EMPLOYE_BEGIN , 
-ADD_PROJECT_BEGIN , ADD_PROJECT_SUCCESS , ADD_PROJECT_ERROR,
+ADD_PROJECT_BEGIN , ADD_PROJECT_SUCCESS , ADD_PROJECT_ERROR,DELETE_CLIENT_BEGIN , EDIT_CLIENT_BEGIN,
 GET_ALL_PROJECT_BEGIN , GET_ALL_PROJECT_SUCCESS} from "./action";
 import AlertReducer from "./reducer";
 import axios from "axios";
@@ -44,8 +44,8 @@ export const initialState = {
     departmentOptions: ["development" , "design" , "accounting", "secretariat" , "administration"],
     tasks:[],
     projects:[] ,
-    taskStatusOptionen:['in process ', 'paused' ,"closed" , "fresh" , "cancelled" ],
-    taskTypeOptionen:['internal ', 'external' ,"other"],
+    taskStatusOptionen:['inprogress', 'paused' ,"completed" , "fresh" , "cancelled"],
+    taskTypeOptionen:['internal', 'external' ,"other"],
     taskPriorityOptionen:['low', 'medium' ,"high"],
     taskType: "external" , 
     title: "" , 
@@ -285,10 +285,11 @@ const AppProvider = ({children}) => {
       clearAlert()
     }
     // Add New Task
-    const addTask = async () => {
+    const addTask = async (task) => {
+      console.log(task)
       dispatch({type: ADD_TASK_BEGIN})
       try {
-        const {assignedTo , description , taskPriority , taskStatus , taskType , remark , title , deadline } = state
+        const {assignedTo , description , taskPriority , taskStatus , taskType , remark , title , deadline , project } = task
         const newTask = {assignedTo , description , taskPriority , taskStatus , taskType , remark , title , deadline }
         
         await authFetch.post("tasks/addtask" , newTask)
@@ -489,6 +490,29 @@ const AppProvider = ({children}) => {
       }
       clearAlert()
     }
+
+    //delete Client 
+    const deleteClient = async (clientId) => {
+      dispatch({type: DELETE_CLIENT_BEGIN})
+      try {
+        await authFetch.delete(`clients/${clientId}`)
+        getClients()
+      } catch (error) {
+        //logoutUser();
+      }
+    }
+
+    //edit Client 
+    const editClient = async (clientId , currentClient ) => {
+      dispatch({type: EDIT_CLIENT_BEGIN})
+      try{
+        await authFetch.patch(`clients/${clientId}` , currentClient)
+        getClients()
+      }
+      catch (error){
+        //logoutUser()
+      }
+    }
     return (
         <AppContext.Provider value={{...state ,
         displayAlert,
@@ -517,7 +541,9 @@ const AppProvider = ({children}) => {
         addClient,
         getEmployee , 
         addProject ,
-        getProjects
+        getProjects,
+        editClient,
+        deleteClient
         }}>
             {children}
         </AppContext.Provider>

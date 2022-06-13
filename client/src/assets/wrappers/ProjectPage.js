@@ -38,6 +38,9 @@ const Wrapper = styled.section`
     .full-row {
       grid-column:1/3 ;
     }
+    .MuiSlider-thumb {
+      margin-top:0 ;
+    }
   }
   .edit-button-container {
     display:flex ;

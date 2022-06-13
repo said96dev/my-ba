@@ -5,24 +5,31 @@ import {FormRow , FormRowSelect , Alert,DatePicker, SelectUser  } from "./index"
 
 
 function AddTask() {
-  const {taskStatusOptionen, taskTypeOptionen , isLoading , showAlert , handleChange , clearValues ,taskType,taskPriority ,title,description,taskStatus,deadline  , taskPriorityOptionen , employeeOptionen , addTask
+  const initialState = {
+    taskPriorityOptionen:['low', 'medium' ,"high"], 
+    taskStatusOptionen: ['inprogress', 'paused' ,"completed" , "fresh" , "cancelled"],
+    taskTypeOptionen : ['internal', 'external' ,"other"] ,
+    title : "" , 
+    taskType : "" ,
+    taskPriority :"" ,
+    taskStatus :"" ,
+    deadline : Date.now(),
+    project : "" , 
+    description : "" ,
+    assignedTo : ""
+  }
+  const {isLoading , showAlert  , clearValues  , taskPriorityOptionen  , projects , employeeOptionen , addTask
   } = useContext(AppContext)
-  const [assigend , setAssigend] = useState(" ")
+
   const handleSubmit =(e) => {
     e.preventDefault()
-    addTask()
+    addTask(values)
   }
-  const handleCreateTaskInput = (e) => {
-    const name = e.target.name
-    const value = e.target.value
-    handleChange({ name, value })
+  const [values , setValues] = useState(initialState)
+  const handleChange = (e) => {
+    setValues({...values , [e.target.name] : e.target.value})
   }
-  const assignedToIdHandle = (e) => {
-    setAssigend(e.target.value)
-    const name = e.target.name
-    const value = e.target.value._id
-    handleChange({ name, value })
-  }
+
   return (
     <Wrapper>
             {showAlert && <Alert />}
@@ -32,59 +39,60 @@ function AddTask() {
             type='text'
             name='title'
             labelText='Task Title'
-            value={title}
-            handleChange={handleCreateTaskInput}
+            value={values.title}
+            handleChange={handleChange}
           />
           <FormRowSelect
             labelText='Priority'
             name='taskPriority'
-            value={taskPriority}            h
-            andleChange={handleCreateTaskInput}
+            value={values.taskPriority}            h
+            handleChange={handleChange}
             list={[...taskPriorityOptionen]}
           />
           <FormRowSelect
             labelText='Type'
             name='taskType'
-            value={taskType}
-            handleChange={handleCreateTaskInput}
-            list={[...taskTypeOptionen]}
+            value={values.taskType}
+            handleChange={handleChange}
+            list={[...values.taskTypeOptionen]}
           />
           <FormRowSelect
             labelText='Status'
             name='taskStatus'
-            value={taskStatus}
-            handleChange={handleCreateTaskInput}
-            list={[...taskStatusOptionen]}
+            value={values.taskStatus}
+            handleChange={handleChange}
+            list={[...values.taskStatusOptionen]}
           />
       <SelectUser
       labelText='Assigned To'
       name='assignedTo'
-      value={assigend}
-      handleChange={assignedToIdHandle}
+      value={values.assignedTo}
+      handleChange={handleChange}
       list= {[...employeeOptionen]}
       />
+       <SelectUser
+      labelText='Project Name'
+      name='project'
+      value={values.project}
+      handleChange={handleChange}
+      list= {[...projects]}
+      className="full-row"
+            />
       <DatePicker
       labelText='Deadline'
       name='deadline'
-      value={deadline}
-      handleChange={handleCreateTaskInput}
+      value={values.deadline}
+      handleChange={handleChange}
       disablePast = {true}
       />
       </div>
       <div className='description'>
-      <FormRowSelect
-            labelText='Priority'
-            name='taskPriority'
-            value={taskPriority}            h
-            andleChange={handleCreateTaskInput}
-            list={[...taskPriorityOptionen]}
-          />
       <FormRow
             type='text'
             name='description'
             labelText='description'
-            value={description}
-            handleChange={handleCreateTaskInput}
+            value={values.description}
+            handleChange={handleChange}
             multiline = {true}
             rows={15}
             rowsMax={15}

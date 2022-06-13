@@ -27,7 +27,6 @@ import CalendarHeader from "./CalendarHeader"
 import RecordPopup from "./RecordPopup"
 import TimePicker from "./TimePicker"
 import VacationPopup from "./VacationPopup"
-import ClientSearchContainer from "./ClientSearchContainer"
 import ClientContainer from "./ClientContainer" 
 import Client from "../pages/dashboard/Client"
 import AddProject from "./AddProject"
@@ -35,4 +34,4 @@ import EditProject from "./EditProject"
 import ProjectContainer from "./ProjectContainer"
 import ProjectCard from "./ProjectCard"
 import LinearProgressWithLabe from "./LinearProgressWithLabe"
-export {Logo , FormRow , Alert , Navbar, SmallSidebar,SearchContainer, BigSidebar,FormRowSelect , UsersContainer , PageBtnContainer , PageHeader , TasksTable, Date , Loading , Popup , SelectUser , Checkbox , RadioGroup ,AddTask , DatePicker , CalendarHeader, ActionButton , DeletePopup , EditPopup , AvatarImg , Day , RecordPopup, TimePicker ,VacationPopup ,ClientSearchContainer , ClientContainer , Client , AddProject , ProjectContainer , EditProject , ProjectCard , LinearProgressWithLabe}
+export {Logo , FormRow , Alert , Navbar, SmallSidebar,SearchContainer, BigSidebar,FormRowSelect , UsersContainer , PageBtnContainer , PageHeader , TasksTable, Date , Loading , Popup , SelectUser , Checkbox , RadioGroup ,AddTask , DatePicker , CalendarHeader, ActionButton , DeletePopup , EditPopup , AvatarImg , Day , RecordPopup, TimePicker ,VacationPopup  , ClientContainer , Client , AddProject , ProjectContainer , EditProject , ProjectCard , LinearProgressWithLabe}
