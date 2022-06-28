@@ -3,19 +3,13 @@ import styled from 'styled-components'
 const Wrapper = styled.section`
   border-radius: var(--borderRadius);
   width: 100%;
-  background: var(--white);
-  box-shadow: var(--shadow-2);
   
   h3 {
     margin-top: 0;
   }
   .form {
-    margin: 3rem auto;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 2rem 2.5rem;
-    max-width: 100%;
-    width: 100%;
+    width:100% ;
+    
     hr {
     border:none;
     height: 3px;
@@ -42,6 +36,12 @@ const Wrapper = styled.section`
       margin-top: 0;
     }
   }
+  .form-center {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    .form-center button {
+      margin-top: 0;
+    }
   .form-center button {
     align-self: end;
     height: 35px;
@@ -66,7 +66,148 @@ const Wrapper = styled.section`
   .section-title {
     color: var(--primary-600);
   }
-  @media (min-width: 992px) {
+  //Client classes 
+
+  .client-profile {
+    display:grid ;
+    grid-template-columns:.5fr 1fr ;
+    column-gap:2rem ;
+    .client-card {
+      grid-row-end:1 ;
+    }
+    .client-details{
+      grid-column:2/3 ;
+      grid-row :span 2;
+    }
+    .card {
+      display : flex ;
+      flex-direction: column ;
+      justify-content : start ;
+      align-items:start;
+      padding : 0;
+      .MuiCardContent-root {
+        padding : 0
+      }
+      .MuiCardActions-root {
+        padding : 0;
+        margin-top : 1rem
+      }
+    }
+    .client-details {
+      .edit-container{
+        display:grid ;
+        row-gap:2rem ;
+        grid-template-columns:1fr 1fr 1fr ;
+        column-gap:1rem
+      }
+      .full-row {
+        grid-column:1/-1 ;
+      }
+      .btn {
+        grid-column-start:3 ;
+        justify-self:end ;
+      }
+    }
+  }
+    .MuiTabs-flexContainerVertical{
+    height:100% !important;
+    justify-content:space-between !important;
+  }
+  .user-profile-form {
+    width:100 ;
+    display:grid;
+    grid-template-columns:repeat(2 , 1fr) ;
+    column-gap:1rem ;
+    row-gap:2rem ;
+    .bigAvatar{
+      background-color:var(--primaryLight) ;
+      color : var(--primaryMain); 
+      width : 80px;
+      font-size: 50px;
+      height: 80px;
+      text-transform:capitalize ;
+    }
+  }
+  .user-client-form {
+    .card {
+      padding:2rem ;
+      background: var(--white);
+      border-radius: var(--borderRadius);
+      box-shadow: 0 20px 25px -5px rgb(25 45 255 / 20%),
+    0 10px 10px -5px rgb(25 45 255 / 20%);
+      padding: 2rem 2rem;
+      margin: 3rem auto ;
+      margin-top: 0;
+      
+      padding-bottom:0 ;
+      transition: var(--transition);
+    }
+    .btn-View {
+      background-color: var(--secondaryLight);
+      color:var(--secondaryDark);
+      padding:.8rem 1.5rem ;
+  &:hover {
+    }
+  }
+}
+.form-user {
+  max-height:60vh ;
+}
+.form-user-prject{
+ overflow-y:auto ;
+ overflow-x:hidden ;
+ max-height:50vh;
+ display:flex ;
+ justify-content:flex-start ;
+ align-items:center ;
+ row-gap:2rem ;
+ flex-direction:column ;
+ margin:1rem 0 ;
+ padding: 0 ;
+ flex:1 1 0 ;
+ overflow-y:auto;
+ .new {
+  .MuiLinearProgress-barColorPrimary  {
+          background-color:var(--primary-500) ;
+        }
+ }
+ .inprogress {
+  .MuiLinearProgress-barColorPrimary  {
+          background-color:var(--successMain) ;
+        }
+ }
+ .closed {
+  .MuiLinearProgress-barColorPrimary  {
+          background-color:var(--errorMain) ;
+        }
+ }
+ .paused {
+  .MuiLinearProgress-barColorPrimary  {
+          background-color:var(--warningMain) ;
+        }
+ }
+ .cancelled {
+  .MuiLinearProgress-barColorPrimary  {
+          background-color:var(--orangeDark) ;
+        }
+ }
+ .open{
+  .MuiLinearProgress-barColorPrimary  {
+          background-color:var(--primary-500) ;
+        }
+ }
+ .project-user-card {
+  border-radius: var(--borderRadius);
+  box-shadow: var(--shadow-2);
+  padding:1rem
+ }
+}
+
+.full-row {
+  grid-column:1 / -1  ;
+}
+
+  @media (max-width: 900px) {
     .form-center {
       grid-template-columns: 1fr 1fr;
       align-items: center;
@@ -75,14 +216,31 @@ const Wrapper = styled.section`
     .btn-container {
       margin-top: 0;
     }
-  }
-  @media (min-width: 1120px) {
+    .client-profile {
+    display:grid ;
+    grid-template-columns: 1fr ;
+    column-gap:2rem ;
+    .client-details{
+      grid-column:1 /-1 ;
+    }
+    .client-card {
+      grid-column:1 /-1 ;
+    }
+    .edit-container {
+      display:flex ;
+      flex-direction:column ;
+      }
+    }
     .form-center {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr ;
     }
     .form-center button {
       margin-top: 0;
     }
+    
+  }
+  @media (min-width: 1120px) {
+    
   }
   
 `

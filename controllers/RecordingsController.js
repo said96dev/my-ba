@@ -5,7 +5,9 @@ import Recordings from "../models/Recordings.js";
 import checkPermissions from "../utils/checkPermissions.js"
 import User from "../models/User.js";
 import calDuration from "../utils/duration.js"
-import moment from "moment";
+import mongoose from "mongoose";
+import moment from "moment"
+
 const getAllRecording = async (req , res) => {
     const users = await User.find({}).select("name , lastName").sort("+ name ")
     const {userId} = req.user
@@ -26,7 +28,6 @@ const createRecording = async (req , res  ) => {
     }
     if(req.body.recordType === "presence"){
         req.body.substitute = req.user.userId
-        console.log(req.body)
         const workingTimeDuration = calDuration(startRecord , endRecord) 
         if(workingTimeDuration === "0:0") {
             throw new BadRequestError("Please provide a valid Values")
@@ -47,15 +48,39 @@ const createRecording = async (req , res  ) => {
 const getSingleUserRecording = async (req , res) => {
 
     const {id : userId} = req.params
-    const userRecord = await Recordings.findOne({createdBy : userId}).populate({
-        path:"createdBy" ,
-        select: "name lastName"})
-    if(!userRecord){
-        throw new NotFoundError (`No user with id : ${req.params.id}`)
+    const user = await User.findOne({_id:userId})
+    let userRecord = await Recordings.aggregate([ {
+        $match : {createdBy : mongoose.Types.ObjectId(userId) ,recordType: "presence" }
+    },
+    {
+        $group : {
+            _id: {
+                month: { $month: '$startRecord' } , 
+               day: { $dayOfMonth: '$startRecord' } , workingTimeDuration: "$workingTimeDuration" ,breakTimeDuration:"$breakTimeDuration"
+            },
+        }
+    },{ $sort: { '_id.month': 1 , '_id.day': 1 } },
+    { $limit: 6 }
+])
+userRecord = userRecord.map ((item) =>  {
+    const {_id:{ month, day , workingTimeDuration, breakTimeDuration }} = item ;
+    const date = moment().month(month - 1).date(day).utc()
+    .format("MMM D")
+    return {date , workingTimeDuration , breakTimeDuration}
+})
+/* userRecord = userRecord.reduce(function (r, a) {
+    r[a.date] = r[a.date] || [];
+    r[a.date].push(a);
+    return r;
+}, Object.create(null)) */
+
+    if(!user){
+        throw new NotFoundError (`No User with Id ${userId}`)
     }
-    checkPermissions(req.user, userRecord.createdBy);
+    checkPermissions(req.user, user._id);
     res.status(StatusCodes.OK).json({userRecord})
 }
+
 const deleteRecording = async (req  , res ) => {
     const {id: recordId} = req.params ; 
     const record = await Recordings.findOne({_id: recordId})

@@ -4,6 +4,7 @@ import { FaTasks   , FaProjectDiagram} from "react-icons/fa";
 import { ImProfile  } from "react-icons/im";
 import {RiUserAddFill} from "react-icons/ri"
 import {HiUserGroup , HiOutlineUserCircle} from "react-icons/hi"
+import {VscGitPullRequestClosed} from "react-icons/vsc"
 const links = [
     {
       id: 1,
@@ -22,7 +23,7 @@ const links = [
     },
     {
       id: 3,
-      text: "Employee List  ",
+      text: "Employee List",
       path: "all-users",
       icon: <HiOutlineUserCircle />,
       accessByUser: true
@@ -44,21 +45,28 @@ const links = [
       accessByUser: true
     },
     {
-      id: 7,
+      id: 6,
       text: "client",
       path: "client",
       icon: <HiUserGroup />,
       accessByUser: true
     },
     {
-      id: 8,
+      id: 7,
       text: "project",
       path: "project",
       icon: <FaProjectDiagram />,
       accessByUser: true
     },
     {
-      id: 6,
+      id: 8,
+      text: "Requests",
+      path: "requests",
+      icon: <VscGitPullRequestClosed />,
+      accessByUser: false
+    },
+    {
+      id: 9,
       text: "profile",
       path: "profile",
       icon: <ImProfile />,

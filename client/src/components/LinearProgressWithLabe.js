@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import Button from "@material-ui/core/Button";
 function LinearProgressWithLabel(props) {
   return (
     <Box display="flex" alignItems="center" p={3} sx={{ flexDirection: 'column-reverse' }}>
       <Box width="100%" mr={3}>
-        <LinearProgress variant="determinate" {...props} />
+        <LinearProgress variant="determinate" value={props.value} />
       </Box>
       <Box width="100%" display="flex" sx={{ flexDirection: 'row' , justifyContent: 'space-between' ,  alignItems: 'center' }} className="mb-1">
         <Typography>Progress</Typography>
@@ -33,17 +32,15 @@ LinearProgressWithLabel.propTypes = {
 const useStyles = makeStyles({
   root: {
     width: "100%",
-    
   }
 });
 
-export default function LinearWithValueLabel() {
-  const [bar, setBar] = useState(50);
+export default function LinearWithValueLabel({value}) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <LinearProgressWithLabel value={bar} />
+      <LinearProgressWithLabel value={value} className="barColorPrimary" />
     </div>
   );
 }

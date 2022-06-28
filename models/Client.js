@@ -22,7 +22,7 @@ const ClientSchema = new mongoose.Schema({
     },
     },
     responsible : {
-        type: mongoose.Types.ObjectId,
+        type: [mongoose.Types.ObjectId],
         ref: 'User',
         required: [true, 'Please provide Employee']
     },
@@ -40,9 +40,37 @@ const ClientSchema = new mongoose.Schema({
         type : String ,
     },
     company : {
-      type : String
+      type : String , 
+      default : "Company"
     },
     position : {
+      type:String,
+      default : "Position"
+    },
+    city : {
+      type : String,
+      maxlength: 15,
+      default : "city"
+    },
+    street : {
+      type : String,
+      maxlength: 25,
+      default : "street"
+    },
+    state : {
+      type : String,
+      maxlength: 25,
+      default : "state"
+    },
+    zipCode :{
+      type: String,
+      default : "Zip Code"
+    },
+    houseN: {
+      type: String,
+      maxlength: 5,
+    },
+    description : {
       type:String
     }
   },{ timestamps: true , toJSON: { virtuals: true }, toObject: { virtuals: true } }
@@ -51,13 +79,13 @@ const ClientSchema = new mongoose.Schema({
 ClientSchema.virtual('project', {
     ref: 'Project',
     localField: '_id',
-    foreignField: 'clientId',
+    foreignField: 'client',
     justOne: false,
 });
 
 ClientSchema.pre('remove', async function (next) {
-    await this.model('Project').deleteMany({ clientId: this._id });
-  });
+    await this.model('Project').deleteMany({ client: this._id });
+  }); 
 
 
   export default mongoose.model('Client', ClientSchema);

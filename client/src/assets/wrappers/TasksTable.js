@@ -2,9 +2,13 @@ import styled from 'styled-components'
 
 const Wrapper = styled.section`
 margin: 3rem auto ;
+
 .taskTable {
    padding: 2rem 2.5rem 0 2.5rem;
 };
+.css-rorn0c-MuiTableContainer-root{
+   overflow:hidden ;
+}
 .action{
    display: flex;
    align-items: center;
@@ -26,6 +30,10 @@ margin: 3rem auto ;
    align-items:center ;
    row-gap:1rem ;
    flex-direction:row ;
+}
+.MuiAvatar-root{
+  background-color: var(--primaryLight) ; 
+  color: var(--primaryMain)
 }
 `
 

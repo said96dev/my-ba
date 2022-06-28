@@ -26,6 +26,7 @@ const Wrapper = styled.nav`
     cursor: pointer;
     display: flex;
     align-items: center;
+
   }
   background: var(--white);
   .btn-container {
@@ -34,7 +35,9 @@ const Wrapper = styled.nav`
     grid-template-columns:auto auto ;
     font-size:1.75rem ;
     align-items:center ;
-    gap: 1rem ;
+    width:20% ;
+    justify-content:end ;
+    gap:1rem ;
   }
   .btn {
     display: flex;
@@ -44,20 +47,23 @@ const Wrapper = styled.nav`
     position: relative;
     box-shadow: var(--shadow-2);
     border-radius:1rem ;
-
+    background-color: var(--primaryLight);
+    color : var(--primaryMain);
   }
 
   .dropdown {
     position: absolute;
-    top: 40px;
+    top: 50px;
     left: 0;
     width: 100%;
-    background: var(--primary-100);
+    background: var(--primaryLight);
     box-shadow: var(--shadow-2);
     padding: 0.5rem;
     text-align: center;
     visibility: hidden;
     border-radius: var(--borderRadius);
+    font-size:1.5rem ;
+
   }
   .show-dropdown {
     visibility: visible;
@@ -69,6 +75,11 @@ const Wrapper = styled.nav`
     letter-spacing: var(--letterSpacing);
     text-transform: capitalize;
     cursor: pointer;
+    display:flex ;
+    align-items:center ;
+    width:100% ;
+    padding:10px ;
+    
   }
   .logo-text {
     display: none;

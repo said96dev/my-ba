@@ -70,8 +70,8 @@ const Wrapper = styled.article`
     height: 30px;
   }
   .details-btn {
-    color: var(--green-dark);
-    background: var(--green-light);
+    color: #ede7f6;
+    background: var(--secondaryMain);
     margin-right: 0.5rem;
   }
   .icon {

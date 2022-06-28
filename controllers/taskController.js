@@ -2,11 +2,17 @@ import Task from "../models/Task.js";
 import User from "../models/User.js"
 import Project from "../models/Project.js";
 import { StatusCodes } from "http-status-codes";
-import {NotFoundError, UnauthenticatedError} from "../errors/index.js";
+import {BadRequestError, NotFoundError, UnauthenticatedError} from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js"
 
 const createTask = async (req , res ) => {
     req.body.createdBy = req.user.userId
+    if(req.body.project === "" ){
+        delete req.body.project 
+    }
+    if(req.body.assignedTo.length === 0 ) {
+        throw new BadRequestError("Plesae provide all values")
+    }
     const user = await User.findOne({_id : req.body.assignedTo})
     if(!user) {
         throw new NotFoundError (`No user with id : ${req.body.assignedTo}`)
@@ -43,7 +49,7 @@ const getSingleTask = async (req , res) =>{
     if(!task){
         throw new NotFoundError(`No Task with id : ${taskId}`)
     }
-    checkPermissions(req.user , task.assignedTo._id)
+    checkPermissions(req.user , task.assignedTo)
     const totalComments = task.comment.length 
     res.status(StatusCodes.OK).json({totalComments , task })
 }
@@ -61,20 +67,18 @@ const updateTask = async (req , res ) => {
         throw new NotFoundError (`No Task with id ${taskId}`)
     }
     res.status(StatusCodes.OK).json({task})
-
-
 }
 
 const getAllTasks = async (req , res) => {
     const users = await User.find({}).select("name , lastName").sort("+ name ")
     const projects = await Project.find({}).select("name").sort("+ name ")
-    if(req.user.userRole === "admin"){
+    if(req.user.userRole === "admin" || req.user.userRole === "team leader"){
         const task = await Task.find({}).populate({
             path:"createdBy" ,
-            select: "name lastName -_id"
+            select: "name lastName"
         }).populate({
             path:"assignedTo" ,
-            select: "name lastName -_id"
+            select: "name lastName"
         }).populate({
             path:"project" ,
             select: "name"
@@ -85,10 +89,10 @@ const getAllTasks = async (req , res) => {
     if(req.user.userRole === "user"){
         const task = await Task.find({assignedTo:req.user.userId}).populate({
             path:"createdBy" ,
-            select: "name lastName -_id"
+            select: "name lastName"
         }).populate({
             path:"assignedTo" ,
-            select: "name lastName -_id"
+            select: "name lastName"
         }).populate({
             path:"project" ,
             select: "name"

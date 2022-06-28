@@ -1,5 +1,5 @@
 import React  , {useContext , useEffect, useState} from  'react'
-import {  FormRow, Alert , PageHeader , FormRowSelect, SelectUser } from "."
+import {  FormRow, Alert , FormRowSelect, SelectUser } from "."
 import Wrapper from '../assets/wrappers/SearchContainer'
 import { AppContext } from '../context/appContext'
 
@@ -10,16 +10,22 @@ function AddClient() {
         email:  "",
         lastName:   "",
         position: "",
-        responsible : "" ,
+        responsible : [] ,
         clientStatus : "active" , 
         phone : "" , 
         company : "" ,
+        city : "" , 
+        state : "" , 
+        street:"" , 
+        zipCode:"",
+        houseN:""
       }
       useEffect (() => {
         
         if(alertText === "New Client Created!"){
           clearValues()
         }
+        // eslint-disable-next-line 
       } , [alertText])
       const [values , setValues] = useState(initialState)
       const handleSubmit =(e) => {
@@ -27,7 +33,7 @@ function AddClient() {
         addClient(values)
         
       }
-      const handleAddUserInput = (e) => {
+      const handleChange = (e) => {
         setValues({...values , [e.target.name] : e.target.value})
       }
       const clearValues = () => {
@@ -47,27 +53,27 @@ function AddClient() {
                     name='name'
                     labelText='Name'
                     value={values.name}
-                    handleChange={handleAddUserInput}
+                    handleChange={handleChange}
             />
                 <FormRow
                     type='text'
                     name='lastName'
                     labelText='Last Name'
                     value={values.lastName}
-                    handleChange={handleAddUserInput}
+                    handleChange={handleChange}
                 />
                 <FormRow
             type='email'
             name='email'
             labelText='Email'
             value={values.email}
-            handleChange={handleAddUserInput}
+            handleChange={handleChange}
           />
           <FormRowSelect
             labelText='Status'
             name='clientStatus'
             value={values.clientStatus}
-            handleChange={handleAddUserInput}
+            handleChange={handleChange}
             list={["active" , "inactive"]}
           />
           <SelectUser
@@ -75,29 +81,65 @@ function AddClient() {
       Responsible Employee'
       name='responsible'
       value={values.responsible}
-      handleChange={handleAddUserInput}
+      handleChange={handleChange}
       list= {[...employeeOptionen]}
+      multiple = {true}
       />
           <FormRow
             type='text'
             name='company'
             labelText='Company'
             value={values.company}
-            handleChange={handleAddUserInput}
+            handleChange={handleChange}
           />
           <FormRow
             type='text'
             name='position'
             labelText='Position'
             value={values.position}
-            handleChange={handleAddUserInput}
+            handleChange={handleChange}
           />
           <FormRow
             type="number"
             name='phone'
             labelText='Phone'
             value={values.phone}
-            handleChange={handleAddUserInput}
+            handleChange={handleChange}
+          />
+          <FormRow
+            type='text'
+            name='street'
+            value={values.street}
+            handleChange={handleChange}
+            labelText='Street'
+          />
+          <FormRow
+            type='text'
+            labelText='City'
+            name='city'
+            value={values.city}
+            handleChange={handleChange}
+          />
+          <FormRow
+            type='text'
+            name='state'
+            labelText='State'
+            value={values.state}
+            handleChange={handleChange}
+          />
+          <FormRow
+            type='number'
+            name='zipCode'
+            labelText='Zip-Code'
+            value={values.zipCode}
+            handleChange={handleChange}
+          />
+          <FormRow
+            type='number'
+            name='houseN'
+            labelText='House Number'
+            value={values.houseN}
+            handleChange={handleChange}
           />
           <div className="btn-container">
               <button disabled={isLoading} className="btn btn-block submit-btn" type='submit' onClick={handleSubmit}>{isLoading ? 'Please Wait...' : 'submit'}

@@ -1,7 +1,7 @@
 import Comment from "../models/Comment.js";
 import Task from "../models/Task.js"
 import {StatusCodes} from "http-status-codes"
-import {BadRequestError , NotFoundError , UnauthenticatedError } from "../errors/index.js"
+import { NotFoundError } from "../errors/index.js"
 import checkPermissions from "../utils/checkPermissions.js"
 
 const deleteComment = async (req , res) => {

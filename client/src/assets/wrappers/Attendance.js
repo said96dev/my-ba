@@ -19,7 +19,7 @@ button {
   align-items:center ;
   padding:0 2rem ;
   button {
-    color: var(--primary-600);
+    color: var(--secondaryMain);
     transition: all 0.2s linear;
   }
   button:hover {
@@ -32,32 +32,37 @@ button {
     justify-content:center ;
     align-items:center ;
     gap:1rem ;
+    color : var(--secondaryMain);
     button {
     width:100% ;
     text-align:center ;
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    color: var(--primary-600);
+    color: var(--secondaryMain);
     display:flex ;
     flex-direction:row ;
     justify-content:center ;
     align-items:center ;
   }
     button:hover {
-    background-color: rgba(70,44,68,0.10)
+    background-color: var(--secondaryLight);
+    
     }
   }
   .day-btn {
-    border: 1px solid var(--primary-600);;
+    border: 1px solid var(--secondaryMain);
     padding:.3rem 1rem ;
     font-weight:lighter ;
     font-size:1.4rem ;
     border-radius:10px ;
     transition: all 0.2s linear;
+    color : var(--secondaryMain);
+
     cursor: pointer;
     &:hover {
-      background-color: #43334219
+      background-color: var(--secondaryDark);
+      color : #fff
     }
   }
 
@@ -187,7 +192,7 @@ button {
   }
 }
 .day:hover {
-  background-color: #e8faed;
+  background-color: var(--secondaryLight);
 }
 .recordingsTypes {
   display:flex ;

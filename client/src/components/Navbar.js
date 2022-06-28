@@ -4,7 +4,11 @@ import { FaAlignLeft, FaUserCircle} from "react-icons/fa";
 import {FiSettings} from "react-icons/fi"
 import { AppContext } from '../context/appContext';
 import Logo from "./Logo";
-import {IoIosNotifications} from "react-icons/io"
+import {IoIosNotifications } from "react-icons/io"
+import {MdUpdate} from "react-icons/md"
+import {IoLogOut} from "react-icons/io5"
+import { Link } from "react-router-dom";
+
 function Navbar() {
   const { toggleSidebar,logoutUser} = useContext(AppContext)
   const [showLogout, setShowLogout] = useState(false)
@@ -28,8 +32,14 @@ function Navbar() {
         <FiSettings />
       </button>
       <div className={showLogout? "dropdown show-dropdown" : "dropdown"}>
+        <Link to={"/profile"} className="dropdown-btn" onClick={() =>setShowLogout(!showLogout)}>
+        <FaUserCircle  className='mr-2' />  Profile 
+        </Link>
+        <Link  to={"/my-attendance"} onClick={() =>setShowLogout(!showLogout)} className="dropdown-btn">
+        <MdUpdate className='mr-2'/>Log Time 
+        </Link>
         <button onClick={logoutUser} className="dropdown-btn">
-          logout
+          <IoLogOut className='mr-2'/>logout
         </button>
       </div>
     </div>

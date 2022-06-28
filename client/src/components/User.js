@@ -7,7 +7,6 @@ import Wrapper from "../assets/wrappers/User";
 import UserInfo from "./UserInfon";
 import React , {useContext} from 'react'
 import { AppContext } from "../context/appContext";
-
 const User = ({
   _id,
   name,
@@ -20,7 +19,7 @@ const User = ({
 }) => {
   let date = moment(createdAt);
   date = date.format("MMM Do, YYYY");
-  const {user} = useContext(AppContext)
+  const {user , singleUser} = useContext(AppContext)
 
   return (
     <Wrapper>
@@ -46,8 +45,8 @@ const User = ({
           
           <div className="actions">
             <Link
-              to="/add-job"
-              onClick={() => console.log("edit")}
+              to="/employee-profile"
+              onClick={ () => singleUser(_id)}
               className="btn details-btn"
             >
               details

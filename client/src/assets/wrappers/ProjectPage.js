@@ -6,19 +6,24 @@ const Wrapper = styled.section`
   background: var(--white);
   box-shadow: var(--shadow-2);
   .form {
-    margin: 3rem auto;
+    margin: 3rem auto 0 auto;
     border-radius: 0;
     box-shadow: none;
     padding: 2rem 2.5rem;
     max-width: 100%;
     width: 100%;
+    height:100% ;
     padding-top:0 ;
+    &:hover {
+  box-shadow: var(--shadow-4);
+}
   }
   .MuiStepIcon-root , .MuiStepIcon-root.MuiStepIcon-active , .MuiStepIcon-root.MuiStepIcon-completed {
     color:#2196f3 ;
   }
   .project-form {
     padding:24px  ;
+   
   }
   .stepper-btn-container  {
     display:flex ;
@@ -42,13 +47,25 @@ const Wrapper = styled.section`
       margin-top:0 ;
     }
   }
+  .project-card {
+    transition : 0.3s ease-in-out all;
+    &:hover {
+      box-shadow: var(--shadow-4);
+      transform: scale(1.1);
+    }
+    h5{
+      font-size:1rem ;
+    }
+  }
   .edit-button-container {
     display:flex ;
     justify-content:end ;
-    padding-top:1rem ;
+    grid-column-start: 2;
   }
-  @media (min-width: 992px) {
-    
+  @media (max-width:600px) {
+    .nodisplay {
+      display:none ;
+    }
   }
   @media (min-width: 1120px) {
     

@@ -24,6 +24,8 @@ const Wrapper = styled.section`
     .project-container {
       display:grid ;
       grid-template-columns:1fr 1fr 1fr 1fr ;
+      height: auto;
+      align-items: flex-start; 
       gap:1.5rem ;
       .css-46bh2p-MuiCardContent-root {
 
@@ -31,7 +33,7 @@ const Wrapper = styled.section`
       .project-card {
         .MuiLinearProgress-barColorPrimary  {
           background-color:var(--primary-500) ;
-                }
+        }
         .MuiBox-root{
         padding:0px;
         margin-right: 0px

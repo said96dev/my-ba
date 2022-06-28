@@ -19,6 +19,7 @@ import commentRouter from "./routes/commentRouter.js"
 import recordRouter from "./routes/recordingsRouter.js"
 import clientRouter from "./routes/clientRouter.js"
 import projectRouter from "./routes/projectRouter.js"
+import statsRouter from "./routes/statsRouter.js"
 
 //authentication
 import { authentication } from "./middleware/authentication.js";
@@ -37,6 +38,7 @@ app.use("/api/v1/comments" ,authentication ,commentRouter)
 app.use("/api/v1/records",authentication, recordRouter)
 app.use("/api/v1/clients" , authentication , clientRouter)
 app.use("/api/v1/projects" , authentication , projectRouter)
+app.use("/api/v1/stats"  , statsRouter)
 app.get("/" , (req , res ) => {
     res.send("Welcome")
 })

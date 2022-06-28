@@ -2,10 +2,12 @@ import User from "../models/User.js"
 import {BadRequestError , NotFoundError, UnauthenticatedError} from "../errors/index.js"
 import { StatusCodes } from "http-status-codes"
 import createTokenUser from "../utils/createTokenUser.js"
-import checkPermissions from "../utils/checkPermissions.js"
-
+import Project from "../models/Project.js"
+import Client from "../models/Client.js"
+import Task from "../models/Task.js"
+import Recordings from "../models/Recordings.js"
 const createUser = async (req , res ) => {
-    const {position,name , email , password , role} = req.body 
+    const { email  , role} = req.body 
     /* if( !email || !password || !name || !position){
         throw new BadRequestError("Please proivde  values")
     } */
@@ -42,10 +44,10 @@ const getAllUsers = async (req , res ) => {
     result = result.sort("createdAt");
     }
     if (sort === "a-z") {
-    result = result.sort("position");
+    result = result.sort("name");
     }
     if (sort === "z-a") {
-    result = result.sort("-position");
+    result = result.sort("-name");
     }
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
@@ -93,9 +95,19 @@ const getSingleUser = async (req ,res ) => {
     if(!user) {
         throw new NotFoundError (`No user with id : ${req.params.id}`);
     }
-    checkPermissions(req.user, user._id);
-    res.status(StatusCodes.OK).json({user})
+    const userClient = await Client.find({responsible:req.params.id})
+
+    const userProject = await Project.find({projectLeader:req.params.id}).select("name lastName projectStatus progress").populate({
+        path:"client",
+        select : "name lastName"})
+
+    const userTask = await Task.find({assignedTo:req.params.id}).select("-description")
+
+
+    res.status(StatusCodes.OK).json({user , userClient , userProject ,userTask })
 }
+
+
 const updatePassword = async (req , res ) => {
     const {oldPassword , newPassword} = req.body; 
     if(!oldPassword || !newPassword) {
@@ -110,17 +122,30 @@ const updatePassword = async (req , res ) => {
     await user.save();
     res.status(StatusCodes.OK).json({ msg: 'Success! Password Updated.' });
 }
+
+
+
 const getEmployee = async (req , res) => {
     const users = await User.find({}).select("name , lastName").sort("+ name ")
     res.status(StatusCodes.OK).json({users})
 
 }
 
+const deleteUser = async (req,res ) => {
+    const {id : userId} = req.params
+    const user = await User.findOne({_id : userId})
+    if(!user){
+        throw new NotFoundError (`No user with id : ${req.params.id}`);
+    }
+    await user.remove();
+        res.status(StatusCodes.OK).json({ msg : "Success! User removed"})
+}
 export {
     getAllUsers,
     createUser,
     updateUser,
     getSingleUser , 
     updatePassword,
-    getEmployee
+    getEmployee,
+    deleteUser 
 }

@@ -34,4 +34,7 @@ import EditProject from "./EditProject"
 import ProjectContainer from "./ProjectContainer"
 import ProjectCard from "./ProjectCard"
 import LinearProgressWithLabe from "./LinearProgressWithLabe"
-export {Logo , FormRow , Alert , Navbar, SmallSidebar,SearchContainer, BigSidebar,FormRowSelect , UsersContainer , PageBtnContainer , PageHeader , TasksTable, Date , Loading , Popup , SelectUser , Checkbox , RadioGroup ,AddTask , DatePicker , CalendarHeader, ActionButton , DeletePopup , EditPopup , AvatarImg , Day , RecordPopup, TimePicker ,VacationPopup  , ClientContainer , Client , AddProject , ProjectContainer , EditProject , ProjectCard , LinearProgressWithLabe}
+import ClientDetails from "./ClientDetails"
+import ClientCard from "./ClientCard"
+import StatsContainer from "./StatsContainer"
+export {Logo , FormRow , Alert , Navbar, SmallSidebar,SearchContainer, BigSidebar,FormRowSelect , UsersContainer , PageBtnContainer , PageHeader , TasksTable, Date , Loading , Popup , SelectUser , Checkbox , RadioGroup ,AddTask , DatePicker , CalendarHeader, ActionButton , DeletePopup , EditPopup , AvatarImg , Day , RecordPopup, TimePicker ,VacationPopup  , ClientContainer , Client , AddProject , ProjectContainer , EditProject , ProjectCard ,ClientDetails ,LinearProgressWithLabe, ClientCard , StatsContainer}

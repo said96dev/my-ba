@@ -7,7 +7,7 @@ import checkPermissions from "../utils/checkPermissions.js"
 
 const getAllProjects = async (req , res) => {
 
-    if(req.user.userRole === "admin") {
+    if(req.user.userRole === "admin" || req.user.userRole === "team leader") {
         const project = await Project.find({}).populate({
             path:"createdBy" , 
             select : "name lastName"
@@ -22,7 +22,7 @@ const getAllProjects = async (req , res) => {
         res.status(StatusCodes.OK).json({totalProject , project})
     }
     if(req.user.userRole === "user"){
-        const project = await Project.find({responsible:req.user.userId}).populate({
+        const project = await Project.find({projectLeader:req.user.userId}).populate({
             path:"createdBy" , 
             select : "name lastName _id"
         }).populate ({
@@ -75,11 +75,13 @@ const createProject = async (req , res) => {
     res.status(StatusCodes.CREATED).json(project)
 }
 const deleteProject = async (req , res) => {
+
     const {id : projectId} = req.params ; 
     const project = await Project.findOne({_id : projectId})
-    if(project) {
-        throw new NotFoundError (`No Task with id : ${projectId}`)
+    if(!project) {
+        throw new NotFoundError (`No Project with id : ${projectId}`)
     }
+    checkPermissions(req.user , project.projectLeader)
     await project.remove() ; 
     res.status(StatusCodes.OK).json({
         msg : "Success! Project removed"

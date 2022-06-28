@@ -15,7 +15,9 @@ const Profile = () => {
     state : user.state || "",
     zipCode:user.zipCode || "",
     city:user.city || "",
-    password : ""
+    password : "",
+    houseN:user.houseN || "" , 
+    team : user.team || ""
   }
   const [values , setValues] = useState(initialState)
   
@@ -86,6 +88,13 @@ const Profile = () => {
             handleChange={handleChange}
             labelText='password'
           />
+           <FormRow
+            type='text'
+            name='team'
+            value={values.team}
+            readOnly={true}
+            labelText='Team'
+          />
         </div>
         <hr />
         <h5 className='section-title'>Address</h5>
@@ -118,10 +127,18 @@ const Profile = () => {
             value={values.zipCode}
             handleChange={handleChange}
           />
-          <button className='btn submit-btn' type='submit' disabled={isLoading}>
+          <FormRow
+            type='number'
+            name='houseN'
+            labelText='House Number'
+            value={values.houseN}
+            handleChange={handleChange}
+          />
+        </div>
+        <hr />
+        <button className='btn' type='submit' disabled={isLoading}>
             {isLoading ? 'Please Wait...' : 'save changes'}
           </button>
-        </div>
       </form>
     </Wrapper>
     </>

@@ -5,8 +5,6 @@ import {FormRow , FormRowSelect} from "./index"
 function SearchContainer() {
     const {
         handleChange,
-        roleOptions ,
-        positionOptions, 
         isLoading , 
         search ,
         sort,
@@ -41,7 +39,7 @@ function SearchContainer() {
           name="role"
           value={role}
           handleChange={handleSearch}
-          list={["all", ...roleOptions]}
+          list={["all",'admin', 'user' , "team leader"]}
         />
         {/* search by position */}
 
@@ -50,7 +48,7 @@ function SearchContainer() {
           name="position"
           value={position }
           handleChange={handleSearch}
-          list={["all", ...positionOptions]}
+          list={["all", "Security Engineer" , "Product Owner","Backend Developer","Full Stack Developer", "Frontend Developer"]}
         />
         {/* sort */}
 

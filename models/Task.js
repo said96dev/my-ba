@@ -7,13 +7,14 @@ const TaskSchema = new mongoose.Schema({
         required: [true, 'Please provide Employee'],
     },
     assignedTo: {
-        type: mongoose.Types.ObjectId,
+        type: [mongoose.Types.ObjectId],
         ref: 'User',
         required: [true, 'Please provide Employee']
     },
     project: {
         type: mongoose.Types.ObjectId,
         ref: 'Project',
+
     },
     deadline:{
         type:Date,
@@ -21,7 +22,7 @@ const TaskSchema = new mongoose.Schema({
     },
     taskStatus:{
         type : String ,
-        enum: ['inprogress', 'paused' ,"completed" , "fresh" , "cancelled"],
+        enum:['inprogress', 'paused' ,"completed" , "fresh" , "cancelled"],
         default: 'fresh',
     },
     title: {

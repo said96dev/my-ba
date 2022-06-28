@@ -17,7 +17,7 @@ const Day = ({ day, onClick, records }) => {
     setState(record)
   }, [records , day])
   const getTimeHandler = (date) => {
-    return moment(date).utc().format("HH:mm")
+    return moment(date).format("HH:mm")
   }
   return (
     <div onClick={ state ?() => deleteRecord(state._id) : onClick}  className={`${className}${state? "disable":""}`}>

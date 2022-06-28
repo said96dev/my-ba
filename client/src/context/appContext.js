@@ -6,14 +6,16 @@ import { LOGOUT_USER ,TOGGLE_SIDEBAR,DISPLAY_ALERT , CLEAR_ALERT ,  LOGIN_USER_B
   ADD_RECORD_BEGIN, ADD_RECORD_SUCCESS , ADD_RECORD_ERROR, GET_ALL_CLIENTS_BEGIN , GET_ALL_CLIENTS_SUCCESS,
   GET_TASK_BEGIN ,GET_TASK_ERROR , GET_TASK_SUCCESS , DELETE_RECORD_BEGIN, 
   GET_ALL_EMPLOYE_SUCCESS , GET_ALL_EMPLOYE_BEGIN , 
-ADD_PROJECT_BEGIN , ADD_PROJECT_SUCCESS , ADD_PROJECT_ERROR,DELETE_CLIENT_BEGIN , EDIT_CLIENT_BEGIN,
+ADD_PROJECT_BEGIN , ADD_PROJECT_SUCCESS , ADD_PROJECT_ERROR,DELETE_CLIENT_BEGIN , EDIT_CLIENT_BEGIN, EDIT_PROJECT_BEGIN ,
+GET_CLIENT_BEGIN , GET_CLIENT_SUCCESS , DELETE_PROJECT_BEGIN ,SHOW_STATS_BEGIN , SHOW_STATS_SUCCESS, GET_USER_BEGIN , GET_USER_SUCCESS , GET_USER_RECORDING_BEGIN , GET_USER_RECORDING_SUCCESS , 
 GET_ALL_PROJECT_BEGIN , GET_ALL_PROJECT_SUCCESS} from "./action";
 import AlertReducer from "./reducer";
 import axios from "axios";
 
 const token = localStorage.getItem("token");
 const user = localStorage.getItem("user");
-
+const client = localStorage.getItem("client");
+const employeeId = localStorage.getItem("employee")
 export const initialState = {
     isLoading : false , 
     showAlert : false , 
@@ -25,8 +27,7 @@ export const initialState = {
     name : "" , 
     email:  "",
     lastName:  "",
-    positionOptions: ["Security Engineer" , "Product Owner","Backend Developer","Full Stack Developer", "Frontend Developer"],
-    roleOptions: ["user" , "admin"],
+    team : "" ,
     password: "" , 
     search : "",
     sort: "oldest",
@@ -39,15 +40,9 @@ export const initialState = {
     gender: "",
     users: [],
     type:"",
-    typeOptions: ["Internship" , "full-time" , "part-time" , "remote"],
     department: "",
-    departmentOptions: ["development" , "design" , "accounting", "secretariat" , "administration"],
     tasks:[],
     projects:[] ,
-    taskStatusOptionen:['inprogress', 'paused' ,"completed" , "fresh" , "cancelled"],
-    taskTypeOptionen:['internal', 'external' ,"other"],
-    taskPriorityOptionen:['low', 'medium' ,"high"],
-    taskType: "external" , 
     title: "" , 
     taskPriority : "high" , 
     description: "", 
@@ -58,8 +53,11 @@ export const initialState = {
     oneTask : {} , 
     totalComments : 0 ,
     records : [] ,
-    clients: []
-
+    clients: [],
+    client : client ? JSON.parse(client) : null,
+    employeeId: employeeId ? JSON.parse(employeeId) : null,
+    projectsOverview:[],
+    userRecord : []
 
 };
 
@@ -92,7 +90,7 @@ const AppProvider = ({children}) => {
         // console.log(error.response)
         if (error.response.status === 401) {
           //logoutUser()
-          console.log("error")
+         
         }
         return Promise.reject(error)
       }
@@ -109,7 +107,23 @@ const AppProvider = ({children}) => {
      const removeUserFromLocalStorage = () => {
       localStorage.removeItem("token")
       localStorage.removeItem("user")
+      localStorage.removeItem("client")
     }
+
+    // Add Client Login Info to Local Storage
+    const addClientToLocalStorage = (client) => {
+      localStorage.setItem("client" , JSON.stringify(client))
+    } 
+
+    const addEmployeeToLocalStorage = (user) => {
+      localStorage.setItem("employee" , JSON.stringify(user))
+    }
+
+     /* //Remove User From Local Storage 
+     const removeClientFromLocalStorage = () => {
+      localStorage.removeItem("client")
+    } */
+
     const changePage = (page) => {
       dispatch({ type: CHANGE_PAGE, payload: { page } })
     }
@@ -219,12 +233,10 @@ const AppProvider = ({children}) => {
     }
 
     // Add New User  
-    const addUser = async () => {
+    const addUser = async (currentUser) => {
       dispatch({type : ADD_USER_BEGIN })
       try {
-        const { position , name , email , lastName , role , password , type , department} = state
-        const newUser = { position , name , email , lastName , role , password, type , department}
-        await authFetch.post("users/adduser" , newUser)
+        await authFetch.post("users/adduser" , currentUser)
         dispatch ({
           type : ADD_USER_SUCCESS
         })
@@ -286,13 +298,9 @@ const AppProvider = ({children}) => {
     }
     // Add New Task
     const addTask = async (task) => {
-      console.log(task)
       dispatch({type: ADD_TASK_BEGIN})
       try {
-        const {assignedTo , description , taskPriority , taskStatus , taskType , remark , title , deadline , project } = task
-        const newTask = {assignedTo , description , taskPriority , taskStatus , taskType , remark , title , deadline }
-        
-        await authFetch.post("tasks/addtask" , newTask)
+        await authFetch.post("tasks/addtask" , task)
         dispatch({
           type:ADD_TASK_SUCCESS
         })
@@ -423,6 +431,7 @@ const AppProvider = ({children}) => {
       try {
         const {data} = await authFetch("clients")
         const {clients , totalClients , users} = data
+        
         dispatch({ type:GET_ALL_CLIENTS_SUCCESS,
           payload:{ 
             clients , 
@@ -472,7 +481,7 @@ const AppProvider = ({children}) => {
       clearAlert()
     }
 
-    //get ll Prjects 
+    //get all Prjects 
     const getProjects = async () => {
       dispatch({type: GET_ALL_PROJECT_BEGIN})
       try {
@@ -500,18 +509,124 @@ const AppProvider = ({children}) => {
       } catch (error) {
         //logoutUser();
       }
+      clearAlert()
     }
 
     //edit Client 
     const editClient = async (clientId , currentClient ) => {
-      dispatch({type: EDIT_CLIENT_BEGIN})
+       dispatch({type: EDIT_CLIENT_BEGIN})
+      
       try{
-        await authFetch.patch(`clients/${clientId}` , currentClient)
+        const { data } = await authFetch.patch(`clients/${clientId}` , currentClient)
+        const {client} = data
         getClients()
+        addClientToLocalStorage(client)
       }
       catch (error){
         //logoutUser()
       }
+      clearAlert()
+    }
+
+    //edit Project 
+    const editProject = async (projectId , currentProject ) => {
+      dispatch({type: EDIT_PROJECT_BEGIN})
+      try{
+        await authFetch.patch(`projects/${projectId}` , currentProject)
+        getProjects();
+      }
+      catch (error){
+        //logoutUser()
+      }
+      clearAlert()
+    }
+
+    //get single client 
+    const singleClient = async (clientId) => {
+      dispatch({type: GET_CLIENT_BEGIN})
+      try {
+        const {data}  =  await authFetch(`clients/${clientId}`)
+        const {client , totalProjects} = data
+      dispatch({type: GET_CLIENT_SUCCESS , 
+      payload:{
+        client , 
+        totalProjects , 
+      }
+      })
+      addClientToLocalStorage(client)
+      } catch (error) {
+        //logoutUser()
+      } 
+      clearAlert()
+    }
+
+    //Delete Project
+    const deleteProject = async (projectId) => {
+      dispatch({type: DELETE_PROJECT_BEGIN})
+      try {
+        await authFetch.delete(`projects/${projectId}`)
+        getProjects()
+      } catch (error) {
+        //logoutUser();
+      }
+      clearAlert()
+    }
+
+    const showStats = async () => {
+      dispatch({ type: SHOW_STATS_BEGIN })
+      try {
+        const { data } = await authFetch('/stats')
+        dispatch({
+          type: SHOW_STATS_SUCCESS,
+          payload: {
+            totalUsers: data.totalUsers,
+            totalClients: data.totalClients,
+            totalProject: data.totalProject,
+            totalTasks: data.totalTasks,
+            tasksOverview: data.tasksOverview,
+            projectsOverview : data.projectsOverview , 
+            clientsOverview : data.clientsOverview
+          },
+        })
+      } catch (error) {
+        logoutUser()
+      }
+      clearAlert()
+    }
+    //get single user 
+    const singleUser = async (userId) => {
+
+      dispatch({type: GET_USER_BEGIN})
+      try {
+        const {data}  =  await authFetch(`users/${userId}`)
+        const {user , userClient , userProject , userTask} = data
+      dispatch({type: GET_USER_SUCCESS , 
+      payload:{
+        user , userClient , userProject , userTask
+      }
+      })
+      addEmployeeToLocalStorage(userId)
+      } catch (error) {
+        //logoutUser()
+      } 
+      clearAlert()
+    }
+
+    // Single User Records 
+    const getUserRecord = async (userId) => {
+
+      dispatch({type: GET_USER_RECORDING_BEGIN})
+      try {
+        const {data}  =  await authFetch(`records/${userId}`)
+        const {userRecord} = data
+      dispatch({type: GET_USER_RECORDING_SUCCESS , 
+      payload:{
+        userRecord
+      }})
+      } catch (error) {
+        //logoutUser()
+      } 
+      clearAlert()
     }
     return (
         <AppContext.Provider value={{...state ,
@@ -543,7 +658,13 @@ const AppProvider = ({children}) => {
         addProject ,
         getProjects,
         editClient,
-        deleteClient
+        deleteClient,
+        editProject,
+        singleClient ,
+        deleteProject,
+        showStats,
+        singleUser,
+        getUserRecord
         }}>
             {children}
         </AppContext.Provider>

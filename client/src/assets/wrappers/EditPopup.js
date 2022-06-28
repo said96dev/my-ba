@@ -21,5 +21,9 @@ const Wrapper = styled.div`
     cursor: pointer;
     color: var(--primary-700); 
 }
+.MuiAvatar-root{
+  background-color: var(--secondaryLight) !important ; 
+  color: var(--secondaryMain) !important 
+}
 `
 export default Wrapper

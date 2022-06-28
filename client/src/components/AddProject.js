@@ -28,6 +28,7 @@ import {  FormRow, Alert  , FormRowSelect, SelectUser ,DatePicker } from "../com
                     value={values.client}
                     handleChange={handleChange}
                     list= {[...clients]}
+                    multiple = {false}
             />
           </div>
         </div>
@@ -95,7 +96,7 @@ import {  FormRow, Alert  , FormRowSelect, SelectUser ,DatePicker } from "../com
             name='team'
             value={values.team}
             handleChange={handleChange}
-            list={ ['T1 ', 'T2' ,"T3" , "T4" , "T5" ]}
+            list={ ['T1', 'T2' ,"T3" , "T4" , "T5" ]}
           />
           <SelectUser
             labelText='Project Leader'
@@ -149,8 +150,8 @@ function AddProject() {
     name : "" , 
     client:  "",
     projectStatus: "",
-    projectLeader : "" ,
-    team : "active" , 
+    projectLeader : "",
+    team : "" , 
     dueDate : Date.now() , 
     description : "" ,
     priority: "" ,
@@ -164,12 +165,12 @@ function AddProject() {
     const [skippedSteps, setSkippedSteps] = useState([]);
     const [values , setValues] = useState(initialState)
     useEffect (() => {
-      // eslint-disable-next-line 
+      
       if(alertText === "New Project Created!")
       {
-        console.log("New Project Created!")
         clearValues()
       }
+      // eslint-disable-next-line 
     } , [alertText])
     const steps = getSteps();
     const isStepOptional = (step) => {
@@ -182,8 +183,7 @@ function AddProject() {
     
       const handleNext = (data) => {
         data.preventDefault()
-        console.log(data);
-        if (activeStep == steps.length - 1) {
+        if (activeStep === steps.length - 1) {
             addProject(values)
             setActiveStep(activeStep - 3);
         } else {
@@ -221,7 +221,7 @@ function AddProject() {
         <h3 className= 'page-center'> Project / Add New Project
         </h3>
             <div >
-            <Stepper alternativeLabel activeStep={activeStep} className="stepper">
+            <Stepper alternativeLabel activeStep={activeStep} className="stepper nodisplay ">
         {steps.map((step, index) => {
           const labelProps = {};
           const stepProps = {};

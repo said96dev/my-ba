@@ -1,8 +1,7 @@
 import React , {useEffect , useState, useContext} from 'react'
-import {Paper ,TableRow ,TableHead,TableContainer,TableCell , Typography,TableBody,Table , TableSortLabel , TablePagination} from "@mui/material"
+import {Paper ,TableRow ,TableHead,TableContainer,TableCell , Typography,TableBody,Table , TableSortLabel , TablePagination ,Avatar , AvatarGroup} from "@mui/material"
 import SearchBar from "material-ui-search-bar";
 import {MdEdit} from "react-icons/md"
-
 import {RiDeleteBin5Fill } from "react-icons/ri"
 import Wrapper from '../assets/wrappers/TasksTable';
 import { AppContext } from '../context/appContext';
@@ -18,6 +17,10 @@ const useStyles = makeStyles((theme) => ({
         padding: '3px 10px',
         display: 'inline-block'
     },
+    bigAvatar: {
+      backgroundColor: "#e3f2fd !important",
+      color: "#1e88e5 !important ",
+      },
   }));
 function TasksTable() {
   const classes = useStyles();
@@ -102,36 +105,42 @@ function TasksTable() {
     <Paper  className="taskTable">
     <TableContainer>
     <Table sx={{ minWidth: 650 }}>
-      <TableHead>
+      <TableHead style={{whiteSpace:"nowrap"}}>
         <TableRow>
           <TableCell>Task Title</TableCell>
-          <TableCell align="left">Task Type</TableCell>
-          <TableCell align="left"> Responsible User</TableCell>
-          <TableCell align="left"> Task Owner</TableCell>
-          <TableCell id='startDate' align="left"><TableSortLabel onClick={handleSortRequest}> Start Data</TableSortLabel></TableCell>
-          <TableCell id='deadline' align="left"><TableSortLabel onClick={ handleSortRequest}> Due Date</TableSortLabel></TableCell>
-          <TableCell align="left">Status</TableCell>
-          <TableCell align="left">Prioriy</TableCell>
+          <TableCell>Task Type</TableCell>
+          <TableCell align="center"> Responsible User</TableCell>
+          <TableCell> Task Owner</TableCell>
+          <TableCell id='startDate'><TableSortLabel onClick={handleSortRequest}> Start Data</TableSortLabel></TableCell>
+          <TableCell id='deadline'><TableSortLabel onClick={ handleSortRequest}> Due Date</TableSortLabel></TableCell>
+          <TableCell>Status</TableCell>
+          <TableCell>Prioriy</TableCell>
           <TableCell align="center">Actions</TableCell>
         </TableRow>
       </TableHead>
-      <TableBody>
+      <TableBody >
       {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((task) => (
-          <TableRow
-            key={task._id}
-            className={task.taskStatus === "completed" ? "done" : ""}
-          >
-            <TableCell component="th" scope="row">
+          <TableRow key={task._id}>
+            <TableCell className={task.taskStatus === "completed" ? "done" : ""} component="th" scope="row">
               {task.title}
             </TableCell>
-            <TableCell align="left">{task.taskType}</TableCell>
-            <TableCell align="left">{task.assignedTo.name} {task.assignedTo.lastName}</TableCell>
-            <TableCell align="left">{task.createdBy.name} {task.createdBy.lastName}</TableCell>
-            <TableCell align="left"><Date date={task.createdAt}/></TableCell>
-            <TableCell align="left">
+            <TableCell className={task.taskStatus === "completed" ? "done" : ""}>{task.taskType}</TableCell>
+
+            <TableCell align='center'>
+            <AvatarGroup sx={{ justifyContent: 'center' }} max={3} >
+              {
+                task.assignedTo.map((item) => {
+                  return <Avatar key={item._id} alt={item.name} src='.'  className={classes.bigAvatar}  />
+                } )
+              }
+          </AvatarGroup>
+            </TableCell>
+            <TableCell className={task.taskStatus === "completed" ? "done" : ""} >{task.createdBy.name} {task.createdBy.lastName}</TableCell>
+            <TableCell className={task.taskStatus === "completed" ? "done" : ""}><Date date={task.createdAt}/></TableCell>
+            <TableCell className={task.taskStatus === "completed" ? "done" : ""}>
               <Date date={task.deadline}/></TableCell>
-            <TableCell align="left" >
-            <Typography className={`${classes.status} + ${task.taskStatus === "completed" && "done"}` }
+            <TableCell >
+            <Typography className={`${classes.status} ` }
             style={{
               backgroundColor: 
               ((task.taskStatus === 'fresh' && '#b9f6ca60') ||
@@ -152,7 +161,7 @@ function TasksTable() {
             </Typography>
             </TableCell>
             <TableCell align="left">
-              <Typography className={`${classes.status} + ${task.taskStatus === "completed" && "done"}`}
+              <Typography className={`${classes.status}`}
               style={{
                 backgroundColor: 
                 (
@@ -210,7 +219,7 @@ function TasksTable() {
       openPopup={openDeletePopup}
       setOpenPopup={setOpenDeletePopup}
       title="Delete Task">
-        <DeletePopup Id={taskId} deleteHandle={deleteHandle} setOpenDeletePopu={setOpenDeletePopup} />
+        <DeletePopup Id={taskId} deleteHandle={deleteHandle} setOpenDeletePopup={setOpenDeletePopup} />
     </Popup>
     
   </Wrapper>

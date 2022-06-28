@@ -25,6 +25,11 @@ const UserSchema = new mongoose.Schema({
       minlength: 6,
       select: false,
     },
+    team: {
+      type : String,
+      enum: ['T1', 'T2' ,"T3" , "T4" , "T5" ],
+      default: 'T1',
+  },
     lastName: {
       type: String,
       trim: true,
@@ -32,7 +37,7 @@ const UserSchema = new mongoose.Schema({
     },
     role: {
       type: String,
-      enum: ['admin', 'user'],
+      enum:['admin', 'user' , "team leader"],
       default: 'user',
     },
     position : {
@@ -50,9 +55,13 @@ const UserSchema = new mongoose.Schema({
     },
     state : {
       type : String,
-      maxlength: 15,
+      maxlength: 25,
     },
     zipCode :{
+      type: String,
+      maxlength: 5,
+    },
+    houseN: {
       type: String,
       maxlength: 5,
     },
@@ -93,5 +102,12 @@ const UserSchema = new mongoose.Schema({
     const isMatch = await bcrypt.compare(candidatePassword, this.password)
     return isMatch
   }
+  UserSchema.pre('remove', async function (next) {
+    await this.model('Comment').deleteMany({ createdBy: this._id });
+    await this.model('Task').deleteMany({ assignedTo: this._id });
+    await this.model('Recordings').deleteMany({ substitute: this._id });
+    await this.model('Project').deleteMany({ projectLeader: this._id });
+    await this.model('Client').deleteMany({ responsible: this._id });
+  });
   
   export default mongoose.model('User', UserSchema)

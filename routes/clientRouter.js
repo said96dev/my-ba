@@ -7,8 +7,8 @@ import {authorizePermissions } from "../middleware/authentication.js";
 
 const router = express.Router()
 
-router.route("/").get(getAllClinet).post(authorizePermissions ("admin") , createClient)
-router.route("/:id").get(getSingleClient).patch(updateClient).delete(authorizePermissions ("admin") ,deleteClient)
+router.route("/").get(getAllClinet).post(createClient)
+router.route("/:id").get(getSingleClient).patch(updateClient).delete(authorizePermissions ("admin" , "team leader") ,deleteClient)
 
 
 export default router

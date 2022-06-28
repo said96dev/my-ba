@@ -8,7 +8,11 @@ import Profile from "./Profile"
 import Client from "./Client"
 import Project from "./Project"
 import AddClient from "../../components/AddClient"
+import SingleClientPage from "./SingleClientPage"
+import EmployeeProfile from "./EmployeeProfile"
+import Requests from "./Requests"
 export {
+    Requests,
     AddUser,
     AllTasks,
     AllUsers,
@@ -19,4 +23,6 @@ export {
     Client , 
     Project,
     AddClient ,
+    SingleClientPage,
+    EmployeeProfile
 }

@@ -1,4 +1,4 @@
-import React , {useContext , useState } from 'react'
+import React , {useContext , useEffect, useState } from 'react'
 import { AppContext } from '../context/appContext'
 import Wrapper from '../assets/wrappers/AddTaskForm'
 import {FormRow , FormRowSelect , Alert,DatePicker, SelectUser  } from "./index"
@@ -6,9 +6,7 @@ import {FormRow , FormRowSelect , Alert,DatePicker, SelectUser  } from "./index"
 
 function AddTask() {
   const initialState = {
-    taskPriorityOptionen:['low', 'medium' ,"high"], 
-    taskStatusOptionen: ['inprogress', 'paused' ,"completed" , "fresh" , "cancelled"],
-    taskTypeOptionen : ['internal', 'external' ,"other"] ,
+
     title : "" , 
     taskType : "" ,
     taskPriority :"" ,
@@ -16,10 +14,17 @@ function AddTask() {
     deadline : Date.now(),
     project : "" , 
     description : "" ,
-    assignedTo : ""
+    assignedTo : []
   }
-  const {isLoading , showAlert  , clearValues  , taskPriorityOptionen  , projects , employeeOptionen , addTask
+  const {isLoading , showAlert  , projects , employeeOptionen , addTask, alertText
   } = useContext(AppContext)
+
+  useEffect (() => {
+    if(alertText === "New Task Created!") {
+      setValues(initialState)
+    }
+    // eslint-disable-next-line 
+  },[alertText]) 
 
   const handleSubmit =(e) => {
     e.preventDefault()
@@ -29,11 +34,14 @@ function AddTask() {
   const handleChange = (e) => {
     setValues({...values , [e.target.name] : e.target.value})
   }
-
+  const clearValues = (e) => {
+    e.preventDefault()
+    setValues(initialState)
+  }
   return (
     <Wrapper>
-            {showAlert && <Alert />}
-      <form className='add-Task-form'  onSubmit={handleSubmit}>
+      {showAlert && <Alert />}
+      <form className='add-Task-form' >
         <div className="add-task-inputs">
           <FormRow
             type='text'
@@ -47,21 +55,21 @@ function AddTask() {
             name='taskPriority'
             value={values.taskPriority}            h
             handleChange={handleChange}
-            list={[...taskPriorityOptionen]}
+            list={['low', 'medium' ,"high"]}
           />
           <FormRowSelect
             labelText='Type'
             name='taskType'
             value={values.taskType}
             handleChange={handleChange}
-            list={[...values.taskTypeOptionen]}
+            list={ ['internal', 'external' ,"other"] }
           />
           <FormRowSelect
             labelText='Status'
             name='taskStatus'
             value={values.taskStatus}
             handleChange={handleChange}
-            list={[...values.taskStatusOptionen]}
+            list={['inprogress', 'paused' ,"completed" , "fresh" , "cancelled"]}
           />
       <SelectUser
       labelText='Assigned To'
@@ -69,6 +77,7 @@ function AddTask() {
       value={values.assignedTo}
       handleChange={handleChange}
       list= {[...employeeOptionen]}
+      multiple = {true}
       />
        <SelectUser
       labelText='Project Name'
@@ -100,11 +109,10 @@ function AddTask() {
           />
       </div>
       <div className="btn-container">
-          <button disabled={isLoading} className="btn btn-block " type='submit' onClick={handleSubmit}>{isLoading ? 'Please Wait...' : 'submit'}
+          <button disabled={isLoading} className="btn" type='submit' onClick={handleSubmit}>{isLoading ? 'Please Wait...' : 'submit'}
           </button>
-          <button className="btn btn-block btn-danger" onClick={(e) => {
-          e.preventDefault();
-          clearValues();}}>clear</button>
+          <button className="btn btn-danger" onClick={ 
+          clearValues}>clear</button>
       </div>
       </form>  
     </Wrapper>

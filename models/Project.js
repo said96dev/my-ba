@@ -17,7 +17,7 @@ const ProjectSchema = new mongoose.Schema({
     },
     projectStatus : {
         type : String,
-        enum: ['in process ', 'paused' ,"closed" , "new" , "cancelled" , "open" ],
+        enum: ['inprogress', 'paused' ,"closed" , "new" , "cancelled" , "open" ],
         default: 'new',
     },
     projectLeader: 
@@ -56,7 +56,7 @@ ProjectSchema.virtual("task" , {
     justOne: false
 })
 ProjectSchema.pre("remove" , async function (next) {
-    await this.model("Task").deleteMany({projeck:this._id}) ; 
+    await this.model("Task").deleteMany({project:this._id}) ; 
 })
 
 export default mongoose.model('Project', ProjectSchema);

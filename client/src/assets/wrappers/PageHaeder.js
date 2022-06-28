@@ -42,6 +42,5 @@ const Wrapper = styled.section`
       font-size:1.3rem ;
     }
   }
-
   `
 export default Wrapper

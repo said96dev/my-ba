@@ -36,10 +36,11 @@ const RecordingsSchema = new mongoose.Schema({
         required: [true, 'Please provide Type']  
     },
     workingTimeDuration:{
-        type: String
+        type: String,
     },
     breakTimeDuration:{
-        type:String
+        type:String,
+        default:0
     }
 
 },

@@ -5,7 +5,7 @@ import { AppContext } from "../context/appContext";
 const NavLinks = ({ toggleSidebar }) => {
   const {user} = useContext(AppContext)
   return (
-      user.role === "user" ? 
+      user.role === "user" || user.role === "team leader" ? 
       <div className="nav-links">
       {links.map((link) => {
         const { text, path, id, icon , accessByUser } = link;

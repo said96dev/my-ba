@@ -15,13 +15,14 @@ import {
     Grid,
     Typography,
     TablePagination,
-    IconButton
+    IconButton,
     
  } from '@material-ui/core';
  import {RiDeleteBin5Fill , RiEyeLine } from "react-icons/ri"
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-
+import { NavLink } from "react-router-dom";
+import { AvatarGroup} from "@mui/material"
 const ExpandableTableRow = ({ children, expandComponent}) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
 
@@ -60,9 +61,13 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold',
     },
     avatar: {
-        backgroundColor: "#ede7f6",
-        color: "#5e35b1"
+        backgroundColor: "#ede7f6 !important",
+        color: "#5e35b1 !important "
     },
+    userAvatar: {
+      backgroundColor: "#e3f2fd !important",
+      color: "#1e88e5 !important "
+  },
     name: {
         fontWeight: '500',
         textTransform:"capitalize",
@@ -78,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 function ClientContainer() {
-    const {isLoading , getClients, clients,  totalClients , deleteClient , editClient} = useContext(AppContext)
+    const {isLoading , getClients, clients,  totalClients , deleteClient , singleClient} = useContext(AppContext)
     const classes = useStyles();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -112,13 +117,13 @@ function ClientContainer() {
         <Paper className={classes.paper}>
         <TableContainer className={`taskTable`}>
       <Table className={classes.table}>
-        <TableHead>
+        <TableHead style={{whiteSpace:"nowrap"}} >
           <TableRow>
             <TableCell padding="checkbox" />
             <TableCell className={classes.tableHeaderCell}>Client Info</TableCell>
             <TableCell className={classes.tableHeaderCell}>Company</TableCell>
             <TableCell className={classes.tableHeaderCell}>Position</TableCell>
-            <TableCell className={classes.tableHeaderCell}>responsible</TableCell>
+            <TableCell className={classes.tableHeaderCell}  align="center">responsible</TableCell>
             <TableCell className={classes.tableHeaderCell}>Status</TableCell>
             <TableCell className={classes.tableHeaderCell}>Action</TableCell>
           </TableRow>
@@ -126,7 +131,7 @@ function ClientContainer() {
         <TableBody>
           {clients.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
             <ExpandableTableRow
-            key={row.name}
+            key={row._id}
             expandComponent={<TableCell colSpan="6">
               <div className='pb-1'>
                 Email: {row.email} 
@@ -149,7 +154,15 @@ function ClientContainer() {
                 {row.company}
                 </TableCell>
               <TableCell>{row.position}</TableCell>
-              <TableCell>{row.responsible.name} {row.responsible.lastName}</TableCell>
+              <TableCell>
+              <AvatarGroup sx={{ justifyContent: 'center' }} max={4}  >
+              {
+                row.responsible.map((item) => {
+                  return <Avatar key={item._id} alt={item.name} src='.'  className={classes.userAvatar}/>
+                } )
+              }
+          </AvatarGroup>
+              </TableCell>
               <TableCell>
                   <Typography 
                     className={classes.status}
@@ -164,9 +177,9 @@ function ClientContainer() {
                 </TableCell>
                 <TableCell align="center" >
               <div  className='action'>
-                <div   className = "divIcon divIcon-view" >
-                <RiEyeLine onClick={() => console.log("edit")}/>
-                </div>
+                <NavLink   className = "divIcon divIcon-View" to = "/client-profile"  onClick={() =>singleClient(row._id)}>
+                <RiEyeLine/>
+                </NavLink>
                 <div 
                 color="secondary"
                 className = "divIcon divIcon-Delete" 

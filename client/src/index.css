@@ -51,7 +51,7 @@ html {
 --primary200: #90caf9;
 --primary800: #1565c0;
 
-/* secondary */
+/* secondary 161 44 */
 --secondaryLight: #ede7f6;
 --secondaryMain: #673ab7;
 --secondaryDark: #5e35b1;
@@ -86,7 +86,7 @@ html {
   --small-text: 0.875rem;
   --extra-small-text: 0.7em;
   /* rest of the vars */
-  --backgroundColor: var(--grey-50);
+  --backgroundColor: var(--primaryLight);
   --textColor: var(--grey-900);
   --borderRadius: 0.25rem;
   --letterSpacing: 1px;
@@ -115,10 +115,6 @@ body {
 
 }
 
-p {
-
-  max-width: 40em;
-}
 
 h1,
 h2,
@@ -182,6 +178,7 @@ ul {
   display: block;
   object-fit: cover;
 }
+
 /* buttons */
 
 .btn {
@@ -274,7 +271,6 @@ ul {
 
 .form {
   width: 90vw;
-  max-width: var(--fixed-width);
   background: var(--white);
   border-radius: var(--borderRadius);
   box-shadow: var(--shadow-2);
@@ -294,12 +290,15 @@ ul {
 }
 .form-input,
 .form-textarea,
-.form-select {
+.form-select  {
   width: 100%;
   padding: 0.375rem 0.75rem;
   border-radius: var(--borderRadius);
-  background: var(--backgroundColor);
-  border: 1px solid var(--grey-200);
+  background: var(--grey-50);
+}
+.select-input {
+  border-radius: var(--borderRadius);
+  background: var(--grey-50);
 }
 
 .form-select,

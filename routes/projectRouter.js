@@ -4,7 +4,7 @@ import {createProject  , updateProject, getAllProjects , getSingleProject , dele
 import {authorizePermissions } from "../middleware/authentication.js";
 const Router = express.Router() 
 
-Router.route("/").get(getAllProjects).post( authorizePermissions("admin") , createProject)
-Router.route("/:id").get(getSingleProject).patch(updateProject).delete( authorizePermissions("admin"), deleteProject)
+Router.route("/").get(getAllProjects).post( authorizePermissions("admin" , "team leader") , createProject)
+Router.route("/:id").get(getSingleProject).patch(updateProject).delete(deleteProject)
 
 export default Router

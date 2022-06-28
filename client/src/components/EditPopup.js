@@ -7,7 +7,7 @@ import { Divider, Avatar, Grid , Typography} from "@material-ui/core";
 
 
 function EditPopup({ taskId ,setOpenEditPopup }) {
-  const { deleteComment , oneTask, totalComments, employeeOptionen, taskStatusOptionen, taskTypeOptionen, createComment , taskPriorityOptionen , editTask } = useContext(AppContext)
+  const { deleteComment , oneTask, totalComments, employeeOptionen, createComment  , editTask } = useContext(AppContext)
   
   const convertDate = (createdAt) => {
     let date = moment(createdAt);
@@ -71,7 +71,7 @@ function EditPopup({ taskId ,setOpenEditPopup }) {
           type='text'
           name='assignedTo'
           labelText='Responsible User'
-          value={`${values.assignedTo.name} ${values.assignedTo.lastName}`}
+          value={values.assignedTo}
           readOnly={true}
           className="full-row"
         />
@@ -104,7 +104,7 @@ function EditPopup({ taskId ,setOpenEditPopup }) {
           name='taskStatus'
           value={values.taskStatus}
           handleChange={handleChange}
-          list={[...taskStatusOptionen]}
+          list={['inprogress', 'paused' ,"completed" , "fresh" , "cancelled"]}
           className="new-row "
         />
         <FormRowSelect
@@ -112,14 +112,14 @@ function EditPopup({ taskId ,setOpenEditPopup }) {
           name='taskType'
           value={values.taskType}
           handleChange={handleChange}
-          list={[...taskTypeOptionen]}
+          list={['internal', 'external' ,"other"]}
         />
         <FormRowSelect
           labelText='Priority'
           name='taskPriority'
           value={values.taskPriority}
           handleChange={handleChange}
-          list={[...taskPriorityOptionen]}
+          list={['low', 'medium' ,"high"]}
         />
         <FormRow
           type='text'

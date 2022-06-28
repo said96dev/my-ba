@@ -4,8 +4,10 @@ UPDATE_USER_BEGIN , UPDATE_USER_SUCCESS , UPDATE_USER_ERROR , ADD_USER_BEGIN , A
 ADD_TASK_BEGIN , ADD_TASK_ERROR , ADD_TASK_SUCCESS , GET_TASK_BEGIN ,GET_TASK_ERROR , GET_TASK_SUCCESS , EDIT_TASK_BEGIN
 ,DELETE_TASK_BEGIN ,GET_ALL_RECORDS_BEGIN , GET_ALL_RECORDS_SUCCESS, 
 ADD_RECORD_BEGIN, ADD_RECORD_SUCCESS , ADD_RECORD_ERROR, DELETE_RECORD_BEGIN ,GET_ALL_CLIENTS_BEGIN , GET_ALL_CLIENTS_SUCCESS , ADD_CLIENT_BEGIN , ADD_CLIENT_SUCCESS , ADD_CLIENT_ERROR, GET_ALL_EMPLOYE_SUCCESS , GET_ALL_EMPLOYE_BEGIN, ADD_PROJECT_BEGIN , ADD_PROJECT_SUCCESS , ADD_PROJECT_ERROR , 
-GET_ALL_PROJECT_BEGIN , GET_ALL_PROJECT_SUCCESS , DELETE_CLIENT_BEGIN ,EDIT_CLIENT_BEGIN
-
+GET_ALL_PROJECT_BEGIN , GET_ALL_PROJECT_SUCCESS , DELETE_CLIENT_BEGIN ,EDIT_CLIENT_BEGIN ,
+EDIT_PROJECT_BEGIN , DELETE_PROJECT_BEGIN , 
+GET_CLIENT_BEGIN  , GET_CLIENT_SUCCESS, SHOW_STATS_BEGIN , SHOW_STATS_SUCCESS ,GET_USER_BEGIN , GET_USER_SUCCESS,
+GET_USER_RECORDING_BEGIN , GET_USER_RECORDING_SUCCESS
 } from './action'
 function AlertReducer(state , action) {
  if(action.type === DISPLAY_ALERT ){
@@ -370,7 +372,83 @@ function AlertReducer(state , action) {
     if(action.type === EDIT_CLIENT_BEGIN){
       return{
         ...state , 
+        isLoading:true,
+
+      }
+    }
+    if(action.type === EDIT_PROJECT_BEGIN){
+      return{
+        ...state , 
         isLoading:true
+      }
+    }
+    if(action.type === GET_CLIENT_BEGIN){
+      return{
+        ...state , 
+        isLoading:true
+      }
+    }
+    if(action.type === GET_CLIENT_SUCCESS){
+      return{
+        ...state , 
+        isLoading:false , 
+        client : action.payload.client,
+        totalProjects : action.payload.totalProjects
+      }
+    }
+    if(action.type === DELETE_PROJECT_BEGIN){
+      return{
+        ...state , 
+        isLoading:true
+      }
+    }
+    if (action.type === SHOW_STATS_BEGIN) {
+      return {
+        ...state,
+        isLoading: true,
+        showAlert: false,
+      }
+    }
+    if (action.type === SHOW_STATS_SUCCESS) {
+      return {
+        ...state,
+        isLoading: false,
+        totalProject: action.payload.totalProject,
+        totalUsers: action.payload.totalUsers,
+        totalClients: action.payload.totalClients,
+        totalTasks: action.payload.totalTasks,
+        tasksOverview:action.payload.tasksOverview,
+        projectsOverview: action.payload.projectsOverview ,
+        clientsOverview : action.payload.clientsOverview
+      }
+    }
+    if(action.type === GET_USER_BEGIN){
+      return{
+        ...state , 
+        isLoading:true
+      }
+    }
+    if(action.type === GET_USER_SUCCESS){
+      return{
+        ...state , 
+        isLoading:false , 
+        employee: action.payload.user,
+        userClient: action.payload.userClient , 
+        userProject : action.payload.userProject , 
+        userTask : action.payload.userTask , 
+      }
+    }
+    if(action.type === GET_USER_RECORDING_BEGIN){
+      return{
+        ...state , 
+        isLoading:true , 
+      }
+    }
+    if(action.type === GET_USER_RECORDING_SUCCESS){
+      return{
+        ...state , 
+        isLoading:false , 
+        userRecord : action.payload.userRecord , 
       }
     }
 }

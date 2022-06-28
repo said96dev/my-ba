@@ -16,6 +16,10 @@ function UsersContainer() {
     role,
     page
   ] )
+  useEffect(() => {
+    localStorage.removeItem("employee")
+  
+  } , [])
   if (isLoading) {
     return <Loading center />;
   }
